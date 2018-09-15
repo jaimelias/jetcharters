@@ -1188,7 +1188,12 @@ class Jetcharters_Public {
 			}
 			
 			$table .= '<th>'.esc_html($origin_label).'</th>';	
-			$table .= '<th>'.esc_html(__('Duration', 'jetcharters')).'</th>';
+			
+			if(!wp_is_mobile())
+			{
+				$table .= '<th>'.esc_html(__('Duration', 'jetcharters')).'</th>';
+			}
+			
 			$table .= '<th>'.esc_html(__('One Way', 'jetcharters')).'</th>';
 			$table .= '</tr></thead><tbody>';
 			$table .= $table_row;
