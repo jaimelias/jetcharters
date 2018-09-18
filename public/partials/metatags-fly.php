@@ -58,7 +58,7 @@ $ld_json['@type'] = 'Product';
 $ld_json['category'] = esc_html(__('Charter Flights', 'jetcharters'));
 $ld_json['name'] = esc_html(__('Private Charter Flight', 'jetcharters').' '.$airport);
 $ld_json['description'] = esc_html(__('Private Charter Flight', 'jetcharters').' '.$address.'. '.__('Airplanes and helicopter rides in', 'jetcharters').' '.$airport.', '.$city);
-$ld_json['image'] = esc_url(Jetcharters_Public::airport_img_url());
+$ld_json['image'] = esc_url(Jetcharters_Public::airport_img_url($json, true));
 $ld_json['brand'] = esc_html(get_bloginfo('name'));
 
 if(get_theme_mod('minimalizr_large_icon'))

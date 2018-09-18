@@ -1,9 +1,5 @@
 <?php
 
-//map token	
-$mapbox_token = get_option('mapbox_token');
-$mapbox_token = esc_html($mapbox_token['text_field_jetcharters_0']);
-
 //pre_get_post
 global $airport_array;
 $json = $airport_array;
@@ -12,29 +8,19 @@ $icao = $json['icao'];
 $city = $json['city'];
 $utc = $json['utc'];
 $_geoloc = $json['_geoloc'];
+$airport = $json['airport'];
+$country_name = $json['country_names'];
 
-//map position
-$mapbox_width = 600;
-$mapbox_height = 400;
-$mapbox_zoom = 12;
-$mapbox_marker = 'pin-l-airport+dd3333('.$_geoloc['lng'].','.$_geoloc['lat'].')';
+//image redirect
+$static_map = Jetcharters_Public::airport_img_url($json, false);
 
-//map id
-$mapbox_map_id = get_option('mapbox_map_id');
-$mapbox_map_id = esc_html($mapbox_map_id['text_field_jetcharters_1']);
-
-$airport = $json['airport'];;
+$lang = substr(get_locale(), 0, -3);
 
 if($iata != null && $icao != null)
 {
 	$airport .= " ".__('Airport', 'jetcharters');
 }
 
-
-$static_map = Jetcharters_Public::airport_img_url();
-
-$country_name = $json['country_names'];
-$lang = substr(get_locale(), 0, -3);
 if($lang)
 {
 	if(array_key_exists($lang, $country_name))

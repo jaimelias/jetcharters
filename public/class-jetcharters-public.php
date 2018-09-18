@@ -442,44 +442,57 @@ class Jetcharters_Public {
 			}
 		}
 	}
-	public static function airport_img_url()
+	public static function airport_img_url($json, $redirect_mobile)
 	{
-		global  $airport_array;
-		return home_url('cacheimg/'.Jetcharters_Public::cleanURL($airport_array['airport']).'.jpg');
+		//$json, $redirect_mobile
+		$airport = $json['airport'];
+		$url = home_url('cacheimg/'.Jetcharters_Public::cleanURL($airport).'.jpg');
+		
+		if(wp_is_mobile() && $redirect_mobile === false)
+		{
+			$url = Jetcharters_Public::airport_url_string($json);
+		}
+		
+		return $url;
+		
 	}
+	
+	public static function airport_url_string($json)
+	{
+		//json
+		$_geoloc = $json['_geoloc'];
+		
+		//mapbox options
+		$mapbox_token = get_option('mapbox_token');
+		$mapbox_token = esc_html($mapbox_token['text_field_jetcharters_0']);	
+		$mapbox_map_id = get_option('mapbox_map_id');
+		$mapbox_map_id = esc_html($mapbox_map_id['text_field_jetcharters_1']);		
+		
+		//map position
+		$mapbox_zoom = 8;
+		$mapbox_marker = 'pin-l-airport+dd3333('.$_geoloc['lng'].','.$_geoloc['lat'].')';
+		$image_resolution = 'png256';
+		$mapbox_width = 800;
+		$mapbox_height = 450;
+		$mapbox_mobile = null;
+		
+		if(wp_is_mobile())
+		{
+			$image_resolution = 'jpg';
+			$mapbox_width = 600;
+			$mapbox_height = 300;
+			$mapbox_mobile = '&is_mobile=true';
+		}
+
+		return 'https://api.mapbox.com/v4/'.$mapbox_map_id.'/'.$mapbox_marker.'/'.$_geoloc['lng'].','.$_geoloc['lat'].','.$mapbox_zoom.'/'.$mapbox_width.'x'.$mapbox_height.'.'.$image_resolution.'?access_token='.$mapbox_token.$mapbox_mobile;				
+	}
+	
 	public static function redirect_cacheimg()
 	{
 		if(get_query_var( 'cacheimg' ) && !in_the_loop())
 		{
-			//map token	
-			$mapbox_token = get_option('mapbox_token');
-			$mapbox_token = esc_html($mapbox_token['text_field_jetcharters_0']);
-
-			//json vars
 			$json = json_decode(Jetcharters_Public::return_json(), true);
-			$_geoloc = $json['_geoloc'];
-
-			//map position
-
-			$mapbox_zoom = 8;
-			$mapbox_marker = 'pin-l-airport+dd3333('.$_geoloc['lng'].','.$_geoloc['lat'].')';
-			$image_resolution = 'png256';
-			$mapbox_width = 800;
-			$mapbox_height = 450;
-			$mapbox_mobile = null;
-
-			if(wp_is_mobile())
-			{
-				$image_resolution = 'jpg';
-				$mapbox_width = 600;
-				$mapbox_height = 300;
-				$mapbox_mobile = '&is_mobile=true';
-			}
-
-			//map id
-			$mapbox_map_id = get_option('mapbox_map_id');
-			$mapbox_map_id = esc_html($mapbox_map_id['text_field_jetcharters_1']);
-			$static_map = 'https://api.mapbox.com/v4/'.$mapbox_map_id.'/'.$mapbox_marker.'/'.$_geoloc['lng'].','.$_geoloc['lat'].','.$mapbox_zoom.'/'.$mapbox_width.'x'.$mapbox_height.'.'.$image_resolution.'?access_token='.$mapbox_token.$mapbox_mobile;
+			$static_map = Jetcharters_Public::airport_url_string($json);
 			wp_redirect(esc_url($static_map));
 			exit;
 		}
@@ -694,11 +707,11 @@ class Jetcharters_Public {
 		
 		if(is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'mapbox_airports') && !wp_is_mobile() && !isset($_GET['fl_builder']))
 			{
-				wp_enqueue_style('mapbox', 'https://api.mapbox.com/mapbox.js/v3.1.0/mapbox.css', array(), $this->version, 'all' );
+				wp_enqueue_style('mapbox', 'https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css', array(), $this->version, 'all' );
 				
-				wp_enqueue_style('markercluster', 'https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.css', array(), $this->version, 'all' );
+				wp_enqueue_style('markercluster', 'https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.css', array('mapbox'), $this->version, 'all' );
 				
-				wp_enqueue_style('markercluster_def', 'https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.Default.css', array(), $this->version, 'all' );
+				wp_enqueue_style('markercluster_def', 'https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.Default.css', array('mapbox'), $this->version, 'all' );
 			}
 	}
 
@@ -740,7 +753,7 @@ class Jetcharters_Public {
 			
 			if(is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'mapbox_airports') && !wp_is_mobile() && !isset($_GET['fl_builder']))
 			{							
-					wp_enqueue_script( 'mapbox', 'https://api.mapbox.com/mapbox.js/v3.1.0/mapbox.js', array( 'jquery', 'algolia' ), $this->version, true );
+					wp_enqueue_script( 'mapbox', 'https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.js', array( 'jquery', 'algolia' ), $this->version, true );
 					
 					wp_enqueue_script( 'markercluster', 'https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/leaflet.markercluster.js', array( 'jquery', 'mapbox' ), $this->version, true );
 					
@@ -1130,13 +1143,9 @@ class Jetcharters_Public {
 						
 						$table_row .= '<td><small class="text-muted">('.esc_html($origin_iata).')</small> <strong>'.esc_html($origin_city.', '.$origin_country_code).'</strong><br/><a href="'.esc_url(home_lang()).'fly/'.Jetcharters_Public::cleanURL($origin_airport).'/">'.esc_html($origin_airport).'</a></td>';
 						
-						if(!wp_is_mobile())
-						{
-							$table_row .= '<td><i class="fas fa-clock" ></i> '.esc_html(Jetcharters_Public::convertTime($table_price[$x][2])).'</td>';
-						}
 						
 
-						$table_row .= '<td><strong>'.esc_html('$'.number_format($table_price[$x][3], 2, '.', ',')).'</strong><br/><span class="small text-muted">';
+						$table_row .= '<td><strong>'.esc_html('$'.number_format($table_price[$x][3], 2, '.', ',')).'</strong><br/><span class="text-muted">';
 
 						if(Jetcharters_Public::is_commercial())
 						{
@@ -1148,7 +1157,9 @@ class Jetcharters_Public {
 						}
 						
 						
-						$table_row .= '</span></td></tr>';
+						$table_row .= '</span>';
+						$table_row .= '<br/><span class="small text-muted"><i class="fas fa-clock" ></i> '.esc_html(Jetcharters_Public::convertTime($table_price[$x][2])).'</span>';
+						$table_row .= '</td></tr>';
 						$aircraft_count++;	
 					}
 				}
@@ -1187,13 +1198,7 @@ class Jetcharters_Public {
 				$table .= '<th>'.esc_html(__('Flights', 'jetcharters')).'</th>';
 			}
 			
-			$table .= '<th>'.esc_html($origin_label).'</th>';	
-			
-			if(!wp_is_mobile())
-			{
-				$table .= '<th>'.esc_html(__('Duration', 'jetcharters')).'</th>';
-			}
-			
+			$table .= '<th>'.esc_html($origin_label).'</th>';
 			$table .= '<th>'.esc_html(__('One Way', 'jetcharters')).'</th>';
 			$table .= '</tr></thead><tbody>';
 			$table .= $table_row;
