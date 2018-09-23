@@ -53,7 +53,6 @@ class Jetcharters_Public {
 		$this->version = $version;
 		add_shortcode("jc_calculator", array("Jetcharters_Public", "jet_calculator"));
 		add_shortcode( 'mapbox_airports', array('Jetcharters_Public', 'mapbox_airports') );
-		add_shortcode( 'destination_airports', array('Jetcharters_Public', 'destination_airports') );
 		add_shortcode( 'jetlist', array('Jetcharters_Public', 'jetlist') );
 		add_shortcode( 'destination', array('Jetcharters_Public', 'filter_destination_table') );
 	}
@@ -114,32 +113,12 @@ class Jetcharters_Public {
 		
 		return $content;
 	}
-	public static function destination_airports($attr, $content = "")
-	{	
-		$output = null;
-
-		$output = '<div id="stats-container"></div><input id="search-airport" type="text" /><div id="container-airport"></div><div id="pagination-container"></div>';		
-		
-		return $output;
-	}		
-	public static function destination_js()
-	{
-		global $post;
-		if( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'destination_airports') )
-		{
-			ob_start();
-			require_once(plugin_dir_path( __FILE__ ).'partials/airports_list.php');
-			$output = ob_get_contents();
-			ob_end_clean();		
-			echo $output;			
-		}
-	}	
 	public static function json_src_url()
 	{
 		global $post;
 		global $typenow;
 		
-		if('jet' == $typenow || 'destinations' == $typenow || (is_a( $post, 'WP_Post' ) && (has_shortcode( $post->post_content, 'mapbox_airports') || has_shortcode( $post->post_content, 'destination_airports') || has_shortcode( $post->post_content, 'jc_calculator') || has_shortcode( $post->post_content, 'contact-form-7')) || Jetcharters_Public::shortcode_widget('mapbox_airports') || Jetcharters_Public::shortcode_widget('destination_airports') || Jetcharters_Public::shortcode_widget('jc_calculator') || Jetcharters_Public::shortcode_widget('contact-form-7') ) )
+		if('jet' == $typenow || 'destinations' == $typenow || (is_a( $post, 'WP_Post' ) && (has_shortcode( $post->post_content, 'mapbox_airports') ||  has_shortcode( $post->post_content, 'jc_calculator') || has_shortcode( $post->post_content, 'contact-form-7')) || Jetcharters_Public::shortcode_widget('mapbox_airports') ||  Jetcharters_Public::shortcode_widget('jc_calculator') || Jetcharters_Public::shortcode_widget('contact-form-7') ) )
 		{
 			$output = 'function jsonsrc() { return "'.esc_url(plugin_dir_url( dirname(__FILE__) )).'";}';
 			
@@ -699,12 +678,6 @@ class Jetcharters_Public {
 		
 		Jetcharters_Public::datepickerCSS();
 		
-		if( is_a( $post, 'WP_Post' ) && (Jetcharters_Public::shortcode_widget('destination_airports') || has_shortcode( $post->post_content, 'destination_airports'))  )
-		{
-			wp_enqueue_style( 'instantsearchCSS', plugin_dir_url( __FILE__ ).'css/instantsearch.min.css', array(), $this->version, 'all' );			
-		}
-		
-		
 		if(is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'mapbox_airports') && !wp_is_mobile() && !isset($_GET['fl_builder']))
 			{
 				wp_enqueue_style('mapbox', 'https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css', array(), $this->version, 'all' );
@@ -739,7 +712,7 @@ class Jetcharters_Public {
 		wp_register_script('algolia_autocomplete', 'https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js', array( 'jquery' ), $this->version, true );		
 		
 		
-		if(is_a( $post, 'WP_Post' ) && (has_shortcode( $post->post_content, 'mapbox_airports') || has_shortcode( $post->post_content, 'destination_airports') || has_shortcode( $post->post_content, 'jc_calculator') || has_shortcode( $post->post_content, 'contact-form-7') || Jetcharters_Public::shortcode_widget('jc_calculator') || Jetcharters_Public::shortcode_widget('mapbox_airports') || Jetcharters_Public::shortcode_widget('contact-form-7') || Jetcharters_Public::shortcode_widget('destination_airports')) )
+		if(is_a( $post, 'WP_Post' ) && (has_shortcode( $post->post_content, 'mapbox_airports') || has_shortcode( $post->post_content, 'jc_calculator') || has_shortcode( $post->post_content, 'contact-form-7') || Jetcharters_Public::shortcode_widget('jc_calculator') || Jetcharters_Public::shortcode_widget('mapbox_airports') || Jetcharters_Public::shortcode_widget('contact-form-7')) )
 		{
 			wp_enqueue_script('algolia');
 			wp_enqueue_script('algolia_autocomplete');
@@ -764,20 +737,12 @@ class Jetcharters_Public {
 					wp_enqueue_script( 'mapbox_js', plugin_dir_url( __FILE__ ).'js/jetcharters-mapbox.js', array( 'jquery', 'mapbox', 'markercluster', 'algolia', 'algolia_autocomplete', 'jetcharters' ), $this->version, true );
 			}	
 
-			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jetcharters-public.js', $public_depen, $this->version, true );	
+			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jetcharters-public.js', $public_depen, time(), true );	
 		
 			wp_add_inline_script('jetcharters', Jetcharters_Public::json_src_url());
 			
 		}
-
-		
-		if( is_a( $post, 'WP_Post' ) && (Jetcharters_Public::shortcode_widget('destination_airports') || has_shortcode( $post->post_content, 'destination_airports'))  )
-		{
-			wp_enqueue_script('algolia');
-			wp_enqueue_script('algolia_autocomplete');
-			wp_enqueue_script('instantsearchJS', '//cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js', array( 'jquery' ), $this->version, true );
-			wp_enqueue_script('hogan', '//cdn.jsdelivr.net/hogan.js/3.0.2/hogan.min.js', array( 'jquery' ), $this->version, true );		
-		}		
+	
 
 		if(is_a( $post, 'WP_Post' ) && ( has_shortcode( $post->post_content, 'jc_calculator') || has_shortcode( $post->post_content, 'contact-form-7') || Jetcharters_Public::shortcode_widget('jc_calculator') || Jetcharters_Public::shortcode_widget('contact-form-7')) )
 		{
@@ -790,7 +755,7 @@ class Jetcharters_Public {
 			if(wp_verify_nonce(get_query_var('instant_quote'), 'instant_quote'))
 			{
 				wp_dequeue_script('google-recaptcha');
-				wp_enqueue_script('jetcharters-recaptcha', 'https://www.google.com/recaptcha/api.js', array('jquery', 'jetcharters'), $this->version, true );
+				wp_enqueue_script('invisible-recaptcha', 'https://www.google.com/recaptcha/api.js', array('jquery', 'jetcharters'), $this->version, true );
 				Jetcharters_Public::datepickerJS();
 			}
 		}		
@@ -799,9 +764,9 @@ class Jetcharters_Public {
 	
 	public static function datepickerCSS()
 	{
-		wp_enqueue_style( 'picker-css', plugin_dir_url( __FILE__ ) . 'css/picker/default.css', array(), '3.5.6', 'all' );
-		wp_enqueue_style( 'picker-date-css', plugin_dir_url( __FILE__ ) . 'css/picker/default.date.css', array('picker-css'), '3.5.6', 'all' );
-		wp_enqueue_style( 'picker-time-css', plugin_dir_url( __FILE__ ) . 'css/picker/default.time.css', array('picker-css'), '3.5.6', 'all' );		
+		wp_enqueue_style( 'picker-css', plugin_dir_url( __FILE__ ) . 'css/picker/default.css', array(), 'jetcharters', 'all' );
+		wp_enqueue_style( 'picker-date-css', plugin_dir_url( __FILE__ ) . 'css/picker/default.date.css', array('picker-css'), 'jetcharters', 'all' );
+		wp_enqueue_style( 'picker-time-css', plugin_dir_url( __FILE__ ) . 'css/picker/default.time.css', array('picker-css'), 'jetcharters', 'all' );		
 	}
 	
 	public static function datepickerJS()

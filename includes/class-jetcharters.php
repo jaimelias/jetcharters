@@ -203,7 +203,6 @@ class Jetcharters {
 		
 		//add later to admin
 		$this->loader->add_filter("wp_head", $plugin_public, 'meta_tags');
-		$this->loader->add_action("wp_footer", $plugin_public, 'destination_js', 100);
 		
 		$this->loader->add_action('pre_get_posts', $plugin_public, 'main_wp_query', 100);		
 		

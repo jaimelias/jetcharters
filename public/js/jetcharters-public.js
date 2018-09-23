@@ -1,61 +1,96 @@
 (function($) {
     'use strict';
 
-    $(document).ready(function() {
+	$(function(){
 		
-		one_way_round_trip();
-		algolia_execute();
-		validate_jet_form();
-		validate_instant_quote();
-		country_dropdown();
-		jetcharters_cookies();
 		
-		function country_dropdown()
-		{
-			if(typeof jsonsrc !== typeof undefined)
-			{
-				jet_country_dropdown(jsonsrc(), $("html").attr("lang").slice(0, -3));
-			}	
-		}
-		
-		function jetcharters_cookies()
-		{
-			var this_form = $('#jet_booking_request');
-			var landing = ['channel', 'device', 'landing_domain', 'landing_path'];
-			var warnings = 0;			
-			
-			$(this_form).each(function(){
-				
-				for(var x = 0; x < landing.length; x++)
-				{
-					
-					$(this_form).find('input.'+landing[x]).each(function(){
-						$(this).val(getCookie(landing[x]));
-					});
-					
-					if($(this_form).find('input.'+landing[x]).length == 0)
-					{
-						console.warn('input.'+landing[x]+' not found');
-						warnings++;
-					}
-					
-				}
-				
-				if(warnings > 0)
-				{
-					console.warn('You can create custom fields with Pipedrive and track metrics.');
-				}
-				else
-				{
-					console.log('Pipedrive metric fields found.');
-				}
-				
-			});			
-		}		
-		
-    });
+		$(window).on('load', function (e){
+			one_way_round_trip();
+			algolia_execute();
+			validate_jet_form();
+			validate_instant_quote();
+			country_dropdown();
+			jetcharters_cookies();
+			responsive_datepicker();
+			responsive_timepicker();
+		});		
+	});
 
 })(jQuery);
+
+	function responsive_timepicker()
+	{
+		var args = {};
+		
+		$('form.jet_calculator').find('input.timepicker').each(function(){
+			$(this).pickatime(args);
+		});
+	}
+	
+	function responsive_datepicker()
+	{
+		
+		var args = {};
+		args.format = 'yyyy-mm-dd';
+		args.min = true;
+		
+		$('form.jet_calculator').find('input.datepicker').each(function(){
+			
+			if($(this).attr('type') == 'text')
+			{
+				$(this).pickadate(args);
+			}
+			else if($(this).attr('type') == 'date')
+			{
+				$(this).attr({'type': 'text'});
+				$(this).pickadate(args);
+			}	
+		});
+	}
+	
+	function country_dropdown()
+	{
+		if(typeof jsonsrc !== typeof undefined)
+		{
+			jet_country_dropdown(jsonsrc(), $("html").attr("lang").slice(0, -3));
+		}	
+	}
+	
+	function jetcharters_cookies()
+	{
+		var this_form = $('#jet_booking_request');
+		var landing = ['channel', 'device', 'landing_domain', 'landing_path'];
+		var warnings = 0;			
+		
+		$(this_form).each(function(){
+			
+			for(var x = 0; x < landing.length; x++)
+			{
+				
+				$(this_form).find('input.'+landing[x]).each(function(){
+					$(this).val(getCookie(landing[x]));
+				});
+				
+				if($(this_form).find('input.'+landing[x]).length == 0)
+				{
+					console.warn('input.'+landing[x]+' not found');
+					warnings++;
+				}
+				
+			}
+			
+			if(warnings > 0)
+			{
+				console.warn('You can create custom fields with Pipedrive and track metrics.');
+			}
+			else
+			{
+				console.log('Pipedrive metric fields found.');
+			}
+			
+		});			
+	}		
+
 
 
 	function validate_request_quote()
@@ -137,10 +172,11 @@
 			}
 			
 			$('#jet_booking_request').attr({'data-form-ready': 'true'});
+			console.log(json_inputs);
 			
 		});
 		
-		$('#jet_booking_container').find('.modal').click(function(){
+		$('#jet_booking_container').find('.close').click(function(){
 			$('#jet_booking_container').addClass('hidden');
 			$('.instant_quote_table').removeClass('hidden');
 		});
