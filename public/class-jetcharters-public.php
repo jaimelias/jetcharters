@@ -120,7 +120,7 @@ class Jetcharters_Public {
 		
 		if('jet' == $typenow || 'destinations' == $typenow || (is_a( $post, 'WP_Post' ) && (has_shortcode( $post->post_content, 'mapbox_airports') ||  has_shortcode( $post->post_content, 'jc_calculator') || has_shortcode( $post->post_content, 'contact-form-7')) || Jetcharters_Public::shortcode_widget('mapbox_airports') ||  Jetcharters_Public::shortcode_widget('jc_calculator') || Jetcharters_Public::shortcode_widget('contact-form-7') ) )
 		{
-			$output = 'function jsonsrc() { return "'.esc_url(plugin_dir_url( dirname(__FILE__) )).'";}';
+			$output = 'function jsonsrc() { return "'.esc_url(plugin_dir_url( __FILE__ )).'";}';
 			
 			if(get_option('algolia_token'))
 			{
@@ -708,8 +708,8 @@ class Jetcharters_Public {
 		 */
 
 		global $post;
-		wp_register_script('algolia', '//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js', array( 'jquery' ), $this->version, true );
-		wp_register_script('algolia_autocomplete', 'https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js', array( 'jquery' ), $this->version, true );		
+		wp_register_script('algolia', plugin_dir_url( __FILE__ ).'js/algoliasearch.min.js', array( 'jquery' ), '3.30.0', true );
+		wp_register_script('algolia_autocomplete', plugin_dir_url( __FILE__ ).'js/autocomplete.jquery.min.js', array( 'jquery' ), '0.31.0', true );		
 		
 		
 		if(is_a( $post, 'WP_Post' ) && (has_shortcode( $post->post_content, 'mapbox_airports') || has_shortcode( $post->post_content, 'jc_calculator') || has_shortcode( $post->post_content, 'contact-form-7') || Jetcharters_Public::shortcode_widget('jc_calculator') || Jetcharters_Public::shortcode_widget('mapbox_airports') || Jetcharters_Public::shortcode_widget('contact-form-7')) )

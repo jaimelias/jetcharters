@@ -52,7 +52,10 @@
 	{
 		if(typeof jsonsrc !== typeof undefined)
 		{
-			jet_country_dropdown(jsonsrc(), $("html").attr("lang").slice(0, -3));
+			if($('form#jet_booking_request').find('.countrylist').length > 0)
+			{
+				jet_country_dropdown(jsonsrc(), $("html").attr("lang").slice(0, -3));
+			}
 		}	
 	}
 	
@@ -340,7 +343,7 @@
 						htmllang.toLowerCase();
 						var country_names = suggestion.country_names;
 						var country_flag = suggestion.country_code;
-						var flag_url = jsonsrc() + "public/img/flags/" + country_flag + '.svg';
+						var flag_url = jsonsrc() + "img/flags/" + country_flag + '.svg';
 						flag_url = flag_url.toLowerCase();
 						var result = $('<div class="algolia_airport clearfix"><div class="sflag pull-left"><img width="45" height="33.75" /></div><div class="sdata"><div class="sairport"><span class="airport"></span> <strong class="iata"></strong></div><div class="slocation"><span class="city"></span>, <span class="country"></span></div></div></div>');
 						result.find('.sairport > .airport').html(suggestion._highlightResult.airport.value);
@@ -440,14 +443,14 @@
 
 	function jet_country_dropdown(pluginurl, htmllang)
 	{
-		$.getJSON( pluginurl + 'languages/countries/'+htmllang+'.json')
+		$.getJSON( pluginurl + 'countries/'+htmllang+'.json')
 			.done(function(data) 
 			{
 				jet_country_options(data);
 			})
 			.fail(function()
 			{
-				$.getJSON(pluginurl + 'languages/countries/en.json', function(data) {
+				$.getJSON(pluginurl + 'countries/en.json', function(data) {
 
 					jet_country_options(data);
 				});				
