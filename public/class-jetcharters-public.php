@@ -283,16 +283,16 @@ class Jetcharters_Public {
 					
 					Jetcharters_Public::webhook(json_encode($data));
 					
-					return '<p class="tp_alert">'.esc_html(__('Request received. Our sales team will be in touch with you soon.', 'jetcharters')).'</p>';
+					return '<p class="minimal_success">'.esc_html(__('Request received. Our sales team will be in touch with you soon.', 'jetcharters')).'</p>';
 				}
 				else
 				{
-					return '<p class="tp_alert">'.esc_html(__('Invalid Recaptcha', 'jetcharters')).'</p>';
+					return '<p class="minimal_alert">'.esc_html(__('Invalid Recaptcha', 'jetcharters')).'</p>';
 				}
 			}
 			else
 			{
-				return '<p class="tp_alert">'.esc_html(__('Invalid Request', 'jetcharters')).'</p>';	
+				return '<p class="minimal_alert">'.esc_html(__('Invalid Request', 'jetcharters')).'</p>';	
 			}
 		}		
 		elseif(Jetcharters_Public::valid_jet_search())
@@ -307,7 +307,7 @@ class Jetcharters_Public {
 			}
 			else
 			{
-				return '<p class="tp_alert">'.esc_html(__('Invalid Request', 'jetcharters')).'</p>';
+				return '<p class="minimal_alert">'.esc_html(__('Invalid Request', 'jetcharters')).'</p>';
 			}
 		}
 		elseif(in_the_loop() && is_singular('jet'))
