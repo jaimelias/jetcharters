@@ -180,7 +180,7 @@ class Jetcharters_Public {
 		{
 			return esc_html(__("Request Submitted", "jetcharters").' | '.esc_html(get_bloginfo('name')));
 		}		
-		elseif(Jetcharters_Public::valid_jet_search())
+		elseif(Jetcharters_Validators::valid_jet_search())
 		{
 			$output = null;
 			$output .= esc_html(__("Find an Aircraft", "jetcharters")).' ';			
@@ -211,7 +211,7 @@ class Jetcharters_Public {
 					$title = '<span class="linkcolor">'.esc_html($jet_type).'</span> '.$title;
 				}				
 			}
-			elseif(in_the_loop() && Jetcharters_Public::valid_jet_search())
+			elseif(in_the_loop() && Jetcharters_Validators::valid_jet_search())
 			{
 				$title = esc_html(__("Find an Aircraft", "jetcharters"));
 			}
@@ -261,7 +261,7 @@ class Jetcharters_Public {
 		{
 			if(wp_verify_nonce(get_query_var('request_submitted'), 'request_submitted'))
 			{
-				if(Jetcharters_Public::validate_recaptcha())
+				if(Jetcharters_Validators::validate_recaptcha())
 				{
 					$data = $_POST;
 					$data['lang'] = get_locale();
@@ -295,9 +295,9 @@ class Jetcharters_Public {
 				return '<p class="minimal_alert">'.esc_html(__('Invalid Request', 'jetcharters')).'</p>';	
 			}
 		}		
-		elseif(Jetcharters_Public::valid_jet_search())
+		elseif(Jetcharters_Validators::valid_jet_search())
 		{
-			if(wp_verify_nonce(get_query_var('instant_quote'), 'instant_quote'))
+			if(Jetcharters_Validators::validate_recaptcha())
 			{
 				ob_start();
 				require_once(plugin_dir_path( __FILE__ ).'partials/jet_search.php');
@@ -331,17 +331,7 @@ class Jetcharters_Public {
 			return false;
 		}		
 	}
-	public static function valid_jet_search()
-	{
-		if(get_query_var('instant_quote') && isset($_GET['jet_origin']) && isset($_GET['jet_destination']) && isset($_GET['jet_pax']) && isset($_GET['jet_flight']) && isset($_GET['jet_departure_date']) && isset($_GET['jet_departure_hour']) && isset($_GET['jet_return_date']) && isset($_GET['jet_return_hour']))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+
 	public static function mapbox_vars()
 	{
 		$mapbox_token = get_option('mapbox_token');
@@ -412,7 +402,7 @@ class Jetcharters_Public {
 			$query->set('post_type', 'page');
 			$query->set( 'posts_per_page', 1 );
 		}
-		elseif( Jetcharters_Public::valid_jet_search() || Jetcharters_Public::valid_jet_quote())
+		elseif( Jetcharters_Validators::valid_jet_search() || Jetcharters_Public::valid_jet_quote())
 		{
 			if($query->is_main_query())
 			{
@@ -584,7 +574,7 @@ class Jetcharters_Public {
 			$new_template = locate_template( array( 'page.php' ) );
 			return $new_template;			
 		}
-		if(get_query_var( 'fly' ) || Jetcharters_Public::valid_jet_search() || is_singular('jet'))
+		if(get_query_var( 'fly' ) || Jetcharters_Validators::valid_jet_search() || is_singular('jet'))
 		{
 			$new_template = locate_template( array( 'page.php' ) );
 			return $new_template;			
@@ -721,7 +711,7 @@ class Jetcharters_Public {
 
 			if(has_shortcode( $post->post_content, 'mapbox_airports') && !wp_is_mobile() && !isset($_GET['fl_builder']))
 			{
-				array_push($public_depen, 'mapbox', 'markercluster');
+				array_push($public_depen, 'mapbox', 'markercluster', 'invisible-recaptcha');
 			}
 			
 			if(is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'mapbox_airports') && !wp_is_mobile() && !isset($_GET['fl_builder']))
@@ -736,7 +726,9 @@ class Jetcharters_Public {
 					
 					wp_enqueue_script( 'mapbox_js', plugin_dir_url( __FILE__ ).'js/jetcharters-mapbox.js', array( 'jquery', 'mapbox', 'markercluster', 'algolia', 'algolia_autocomplete', 'jetcharters' ), $this->version, true );
 			}	
-
+			wp_dequeue_script('google-recaptcha');
+			wp_enqueue_script('invisible-recaptcha', 'https://www.google.com/recaptcha/api.js', array('jquery', 'jetcharters'), 'async_defer', true );
+			
 			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jetcharters-public.js', $public_depen, time(), true );	
 		
 			wp_add_inline_script('jetcharters', Jetcharters_Public::json_src_url());
@@ -750,14 +742,11 @@ class Jetcharters_Public {
 			wp_enqueue_script('algolia_autocomplete');			
 		}
 		
-		if(Jetcharters_Public::valid_jet_search())
+		if(Jetcharters_Validators::valid_jet_search())
 		{
-			if(wp_verify_nonce(get_query_var('instant_quote'), 'instant_quote'))
-			{
-				wp_dequeue_script('google-recaptcha');
-				wp_enqueue_script('invisible-recaptcha', 'https://www.google.com/recaptcha/api.js', array('jquery', 'jetcharters'), $this->version, true );
-				Jetcharters_Public::datepickerJS();
-			}
+			wp_dequeue_script('google-recaptcha');
+			wp_enqueue_script('invisible-recaptcha', 'https://www.google.com/recaptcha/api.js', array('jquery', 'jetcharters'), 'async_defer', true );
+			Jetcharters_Public::datepickerJS();
 		}		
 		
 	}
@@ -932,37 +921,6 @@ class Jetcharters_Public {
 		}
 	}
 	
-	public  static function validate_recaptcha()
-	{
-		if(isset($_POST['g-recaptcha-response']) && get_option('captcha_secret_key'))
-		{
-			$data = array();
-			$data['secret'] = get_option('captcha_secret_key');
-			$data['remoteip'] = $_SERVER['REMOTE_ADDR'];
-			$data['response'] = sanitize_text_field($_POST['g-recaptcha-response']);
-			$url = 'https://www.google.com/recaptcha/api/siteverify';
-			$verify = curl_init();
-			curl_setopt($verify, CURLOPT_URL, $url);
-			curl_setopt($verify, CURLOPT_POST, true);
-			curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
-			curl_setopt($verify, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
-			$verify_response = json_decode(curl_exec($verify), true);						
-			if($verify_response['success'] == true)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}			
-		}
-		else
-		{
-			return false;
-		}
-	}
-	
 	public static function webhook($data)
 	{
 		
@@ -981,14 +939,20 @@ class Jetcharters_Public {
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 				curl_setopt($ch,CURLOPT_TIMEOUT, 20);
 				$result = curl_exec($ch);
+				$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 				curl_close($ch);
 				
-				if (substr($result, 0, 5) != '[200]')
+				if (intval($httpCode) === 200)
+				{
+					//do nothing
+				}
+				else
 				{
 					$admin_email = get_option( 'admin_email' );
 					$time = current_time('timestamp', $gmt = 0 );
 					$time = date_i18n(get_option('date_format'), $time);
-					wp_mail( $admin_email, 'Webhook Error - '.$time, $result);
+					write_log('Jetcharters Webhook Error - '.$time.': '.$result);
+					wp_mail( $admin_email, 'Jetcharters Webhook Error - '.$time, $result);	
 				}
 			}
 		}
@@ -1243,6 +1207,8 @@ class Jetcharters_Public {
 			return true;
 		}
 	}
+	
+
 	
 	
 }

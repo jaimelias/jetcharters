@@ -7,7 +7,6 @@
 		$(window).on('load', function (e){
 			one_way_round_trip();
 			algolia_execute();
-			validate_jet_form();
 			validate_instant_quote();
 			country_dropdown();
 			jetcharters_cookies();
@@ -186,12 +185,11 @@
 		
 		
 	}
-	function validate_jet_form()
+	function validate_jet_form(token)
 	{
 			
-		$('.jet_calculator').submit(function(event){
+		$('.jet_calculator').each(function(event){
 			
-			event.preventDefault();
 			var invalid_field = 0;
 			var this_form = $(this);
 
@@ -257,11 +255,13 @@
 				{
 					console.log('jetcharters: GA not defined');
 				}
-				$('.jet_calculator').unbind('submit').submit();
+				$(this_form).attr({'action': $(this_form).attr('action')+token});
+				$(this_form).submit();
 			}
 			else
 			{
 				console.log(invalid_field);
+				grecaptcha.reset();
 			}			
 		});
 	}

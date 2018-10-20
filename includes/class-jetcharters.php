@@ -117,13 +117,12 @@ class Jetcharters {
 		 * side of the site.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-jetcharters-public.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/validators.php';
 		
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-jetcharters-settings.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-jetcharters-post-type.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-jetcharters-meta-box.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-jetcharters-sidebar.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-jetcharters-debug.php';
-		
 		//fix yoastseo
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-jetcharters-yoastseo.php';
 		
