@@ -176,7 +176,7 @@ class Jetcharters_Public {
 				return esc_html(__('Destination Not Found', 'jetcharters'));
 			}
 		}
-		elseif(Jetcharters_Public::valid_jet_quote())
+		elseif(Jetcharters_Validators::valid_jet_quote())
 		{
 			return esc_html(__("Request Submitted", "jetcharters").' | '.esc_html(get_bloginfo('name')));
 		}		
@@ -215,7 +215,7 @@ class Jetcharters_Public {
 			{
 				$title = esc_html(__("Find an Aircraft", "jetcharters"));
 			}
-			elseif(in_the_loop() && Jetcharters_Public::valid_jet_quote())
+			elseif(in_the_loop() && Jetcharters_Validators::valid_jet_quote())
 			{
 				$title = esc_html(__("Request Submitted", "jetcharters"));
 			}			
@@ -257,42 +257,35 @@ class Jetcharters_Public {
 			
 			return $output;
 		}
-		elseif(Jetcharters_Public::valid_jet_quote())
+		elseif(Jetcharters_Validators::valid_jet_quote())
 		{
-			if(wp_verify_nonce(get_query_var('request_submitted'), 'request_submitted'))
+			if(Jetcharters_Validators::validate_recaptcha())
 			{
-				if(Jetcharters_Validators::validate_recaptcha())
+				$data = $_POST;
+				$data['lang'] = get_locale();
+				
+				$args50 = array('post_type' => 'jet','posts_per_page' => 1, 'p' => intval($data['aircraft_id']));	
+				$wp_query50 = new WP_Query( $args50 );
+				
+				if($wp_query50->have_posts())
 				{
-					$data = $_POST;
-					$data['lang'] = get_locale();
-					
-					$args50 = array('post_type' => 'jet','posts_per_page' => 1, 'p' => intval($data['aircraft_id']));	
-					$wp_query50 = new WP_Query( $args50 );
-					
-					if($wp_query50->have_posts())
+					while ($wp_query50->have_posts())
 					{
-						while ($wp_query50->have_posts())
-						{
-							$wp_query50->the_post();
-							$data['operator'] = Charterflights_Meta_Box::jet_get_meta('operator');
-							$data['operator_email'] = Charterflights_Meta_Box::jet_get_meta('operator_email');
-							$data['operator_tel'] = Charterflights_Meta_Box::jet_get_meta('operator_tel');
-							$data['operator_location'] = Charterflights_Meta_Box::jet_get_meta('operator_location');
-						}
+						$wp_query50->the_post();
+						$data['operator'] = Charterflights_Meta_Box::jet_get_meta('operator');
+						$data['operator_email'] = Charterflights_Meta_Box::jet_get_meta('operator_email');
+						$data['operator_tel'] = Charterflights_Meta_Box::jet_get_meta('operator_tel');
+						$data['operator_location'] = Charterflights_Meta_Box::jet_get_meta('operator_location');
 					}
-					
-					Jetcharters_Public::webhook(json_encode($data));
-					
-					return '<p class="minimal_success">'.esc_html(__('Request received. Our sales team will be in touch with you soon.', 'jetcharters')).'</p>';
 				}
-				else
-				{
-					return '<p class="minimal_alert">'.esc_html(__('Invalid Recaptcha', 'jetcharters')).'</p>';
-				}
+				
+				Jetcharters_Public::webhook(json_encode($data));
+				
+				return '<p class="minimal_success">'.esc_html(__('Request received. Our sales team will be in touch with you soon.', 'jetcharters')).'</p>';
 			}
 			else
 			{
-				return '<p class="minimal_alert">'.esc_html(__('Invalid Request', 'jetcharters')).'</p>';	
+				return '<p class="minimal_alert">'.esc_html(__('Invalid Recaptcha', 'jetcharters')).'</p>';
 			}
 		}		
 		elseif(Jetcharters_Validators::valid_jet_search())
@@ -320,17 +313,7 @@ class Jetcharters_Public {
 		}
 		return $content;
 	}
-	public static function valid_jet_quote()
-	{
-		if(get_query_var('request_submitted') && isset($_POST['lead_name']) && isset($_POST['lead_lastname']) && isset($_POST['lead_email']) && isset($_POST['lead_phone']) && isset($_POST['lead_country']) && isset($_POST['g-recaptcha-response']) && isset($_POST['jet_origin'])  && isset($_POST['jet_destination'])  && isset($_POST['jet_departure_date'])  && isset($_POST['jet_departure_hour'])  && isset($_POST['departure_itinerary']) && isset($_POST['jet_return_date']) && isset($_POST['jet_return_hour']) && isset($_POST['return_itinerary']))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}		
-	}
+
 
 	public static function mapbox_vars()
 	{
@@ -402,7 +385,7 @@ class Jetcharters_Public {
 			$query->set('post_type', 'page');
 			$query->set( 'posts_per_page', 1 );
 		}
-		elseif( Jetcharters_Validators::valid_jet_search() || Jetcharters_Public::valid_jet_quote())
+		elseif( Jetcharters_Validators::valid_jet_search() || Jetcharters_Validators::valid_jet_quote())
 		{
 			if($query->is_main_query())
 			{
@@ -569,7 +552,7 @@ class Jetcharters_Public {
 	}
 	public function package_template($template)
 	{
-		if(Jetcharters_Public::valid_jet_quote())
+		if(Jetcharters_Validators::valid_jet_quote())
 		{
 			$new_template = locate_template( array( 'page.php' ) );
 			return $new_template;			

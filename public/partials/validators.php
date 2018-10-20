@@ -14,6 +14,10 @@ class Jetcharters_Validators{
 			{
 				$response = get_query_var('instant_quote');
 			}
+			if(get_query_var('request_submitted'))
+			{
+				$response = get_query_var('request_submitted');
+			}
 			
 			$data = array();
 			$data['secret'] = get_option('captcha_secret_key');
@@ -56,7 +60,17 @@ class Jetcharters_Validators{
 			return false;
 		}
 	}
-	
+	public static function valid_jet_quote()
+	{
+		if(get_query_var('request_submitted') && isset($_POST['lead_name']) && isset($_POST['lead_lastname']) && isset($_POST['lead_email']) && isset($_POST['lead_phone']) && isset($_POST['lead_country']) && isset($_POST['g-recaptcha-response']) && isset($_POST['jet_origin'])  && isset($_POST['jet_destination'])  && isset($_POST['jet_departure_date'])  && isset($_POST['jet_departure_hour'])  && isset($_POST['departure_itinerary']) && isset($_POST['jet_return_date']) && isset($_POST['jet_return_hour']) && isset($_POST['return_itinerary']))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}		
+	}
 }
 
 ?>

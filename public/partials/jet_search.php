@@ -207,7 +207,7 @@ if ($wp_jet_search->have_posts())
 	
 		<div id="jet_booking_container" class="hidden animate-fade">
 
-			<form method="post" id="jet_booking_request" action="<?php echo esc_url(home_lang().'request_submitted/'.wp_create_nonce('request_submitted'));?>/">
+			<form method="post" id="jet_booking_request" action="<?php echo esc_url(home_lang().'request_submitted');?>/">
 			
 			<div class="modal-header clearfix">
 				<h3 class="pull-left inline-block text-center uppercase linkcolor"><?php echo esc_html(__('Request a Quote', 'jetcharters')); ?></h3>

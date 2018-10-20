@@ -95,11 +95,13 @@
 
 
 
-	function validate_request_quote()
+	function validate_request_quote(token)
 	{
 		var count = 0;
 		
-		$('#jet_booking_request').find('input').add('select').add('textarea').each(function(){
+		var this_form = $('#jet_booking_request');
+		
+		$(this_form).find('input').add('select').add('textarea').each(function(){
 			
 			//console.log($(this).attr('name'));
 			
@@ -142,11 +144,12 @@
 			}
 		});
 		
-		console.log( $('#jet_booking_request').serializeArray() );
+		console.log( $(this_form).serializeArray() );
 		
-		if(count == 0 && $('#jet_booking_request').attr('data-form-ready') == 'true')
+		if(count == 0 && $(this_form).attr('data-form-ready') == 'true')
 		{
-			$('#jet_booking_request').submit();
+			$(this_form).attr({'action': $(this_form).attr('action')+token});
+			$(this_form).submit();
 		}
 		else
 		{
