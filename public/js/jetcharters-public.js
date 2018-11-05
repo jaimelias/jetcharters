@@ -12,6 +12,7 @@
 			jetcharters_cookies();
 			responsive_datepicker();
 			responsive_timepicker();
+			validate_jet_form();
 		});		
 	});
 
@@ -188,84 +189,78 @@
 		
 		
 	}
-	function validate_jet_form(token)
+	function validate_jet_form()
 	{
+		$('.jet_calculator').each(function(){
 			
-		$('.jet_calculator').each(function(event){
-			
-			var invalid_field = 0;
 			var this_form = $(this);
-
-			$(this_form).find('input').each(function(){
+			
+			$(this_form).find('#jet_submit').click(function(){
 				
-				if($(this).val() == '')
-				{
-					if($('#jet_flight').val() == 0 && ($(this).attr('name') == 'jet_return_date' || $(this).attr('name') == 'jet_return_hour' || $(this).attr('name') == 'jet_return_date_submit' || $(this).attr('name') == 'jet_return_hour_submit'))
+				var invalid_field = 0;
+				
+				$(this_form).find('input').each(function(){
+					
+					if($(this).val() == '')
 					{
-						$(this).removeClass('invalid_field');
+						if($('#jet_flight').val() == 0 && ($(this).attr('name') == 'jet_return_date' || $(this).attr('name') == 'jet_return_hour' || $(this).attr('name') == 'jet_return_date_submit' || $(this).attr('name') == 'jet_return_hour_submit'))
+						{
+							$(this).removeClass('invalid_field');
+						}
+						else
+						{
+							invalid_field++;
+							$(this).addClass('invalid_field');
+						}
 					}
 					else
 					{
-						invalid_field++;
-						console.log($(this));
-						$(this).addClass('invalid_field');
-					}
-				}
-				else
-				{
-					if($(this).hasClass('jet_list'))
-					{
-						if(!$(this).hasClass('jet_selected'))
+						if($(this).hasClass('jet_list'))
 						{
-							invalid_field++;
-							console.log($(this));
-							$(this).addClass('invalid_field');
+							if(!$(this).hasClass('jet_selected'))
+							{
+								invalid_field++;
+								$(this).addClass('invalid_field');
+							}
+							else
+							{
+								$(this).removeClass('invalid_field');
+							}
 						}
 						else
 						{
 							$(this).removeClass('invalid_field');
 						}
 					}
+				});
+
+				if(invalid_field == 0)
+				{
+					var hash = sha512($(this_form).find('input[name="jet_pax"]').val()+$(this_form).find('input[name="jet_departure_date"]').val());
+					var departure = Date.parse($('input[name="jet_departure_date"]').val());
+					var today = new Date();
+					today.setDate(today.getDate() - 2);
+					today = Date.parse(today);
+					var days_between = Math.round((departure-today)/(1000*60*60*24));				
+					var eventAction = $('#jet_origin').val()+'/'+$('#jet_destination').val();
+					var eventLabel = days_between+'/'+$('#jet_departure_date').val()+'/'+$('#jet_pax').val();
+					
+					if(typeof ga !== typeof undefined)
+					{	
+						var eventArgs = {};
+						eventArgs.eventCategory = 'Flight';
+						eventArgs.eventAction = eventAction;
+						eventArgs.eventLabel = eventLabel;
+						ga('send', 'event', eventArgs);
+					}
 					else
 					{
-						$(this).removeClass('invalid_field');
+						console.log('jetcharters: GA not defined');
 					}
+					$(this_form).attr({'action': $(this_form).attr('action')+hash});
+					$(this_form).submit();
 				}
-				
-				
-			});
-
-			if(invalid_field == 0)
-			{
-				var departure = Date.parse($('input[name="jet_departure_date"]').val());
-				var today = new Date();
-				today.setDate(today.getDate() - 2);
-				today = Date.parse(today);
-				var days_between = Math.round((departure-today)/(1000*60*60*24));				
-				var eventAction = $('#jet_origin').val()+'/'+$('#jet_destination').val();
-				var eventLabel = days_between+'/'+$('#jet_departure_date').val()+'/'+$('#jet_pax').val();
-				
-				if(typeof ga !== typeof undefined)
-				{	
-					var eventArgs = {};
-					eventArgs.eventCategory = 'Flight';
-					eventArgs.eventAction = eventAction;
-					eventArgs.eventLabel = eventLabel;
-					ga('send', 'event', eventArgs);
-					console.log(eventArgs);
-				}
-				else
-				{
-					console.log('jetcharters: GA not defined');
-				}
-				$(this_form).attr({'action': $(this_form).attr('action')+token});
-				$(this_form).submit();
-			}
-			else
-			{
-				console.log(invalid_field);
-				grecaptcha.reset();
-			}			
+			});			
 		});
 	}
 	function convertToSlug(Text)

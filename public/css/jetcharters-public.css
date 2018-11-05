@@ -159,3 +159,7 @@
 	color: #262626;
 	background-color: #f7f7f7;
 }
+button#jet_submit
+{
+	margin-top: 20px;
+}

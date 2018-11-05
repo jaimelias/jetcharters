@@ -4,19 +4,11 @@ class Jetcharters_Validators{
 	
 	public static function validate_recaptcha()
 	{
-		if((isset($_REQUEST['g-recaptcha-response']) || get_query_var('instant_quote')) && get_option('captcha_secret_key'))
+		if((isset($_POST['g-recaptcha-response'])) && get_option('captcha_secret_key'))
 		{				
-			if(isset($_REQUEST['g-recaptcha-response']))
+			if(isset($_POST['g-recaptcha-response']))
 			{
-				$response = $_REQUEST['g-recaptcha-response'];
-			}
-			if(get_query_var('instant_quote'))
-			{
-				$response = get_query_var('instant_quote');
-			}
-			if(get_query_var('request_submitted'))
-			{
-				$response = get_query_var('request_submitted');
+				$response = $_POST['g-recaptcha-response'];
 			}
 			
 			$data = array();
@@ -24,7 +16,6 @@ class Jetcharters_Validators{
 			$data['remoteip'] = $_SERVER['REMOTE_ADDR'];
 			$data['response'] = sanitize_text_field($response);
 			
-			write_log(json_encode($data));
 			$url = 'https://www.google.com/recaptcha/api/siteverify';			
 			$verify = curl_init();
 			curl_setopt($verify, CURLOPT_URL, $url);
@@ -71,6 +62,21 @@ class Jetcharters_Validators{
 			return false;
 		}		
 	}
+
+	public static function validate_hash()
+	{
+		$hash = hash('sha512', $_GET['jet_pax'].$_GET['jet_departure_date']);
+
+		if($hash == get_query_var('instant_quote'))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}	
+	
 }
 
 ?>

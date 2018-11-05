@@ -55,14 +55,8 @@
 			</div>	
 		</div>
 
-<div class="text-center bottom-20"><button data-callback="validate_jet_form" data-badge="bottomleft" data-sitekey="<?php echo esc_html(get_option('captcha_site_key')); ?>" id="jet_submit" class="g-recaptcha strong uppercase pure-button pure-button-primary" type="button"><i class="fa fa-search" aria-hidden="true"></i> <?php esc_html(_e('Find Aircrafts', 'jetcharters')); ?></button></div>
+<div class="text-center bottom-20"><button id="jet_submit" class="strong uppercase pure-button pure-button-primary" type="button"><i class="fa fa-search" aria-hidden="true"></i> <?php esc_html(_e('Find Aircrafts', 'jetcharters')); ?></button></div>
 
 <div class="text-center"><small class="text-muted">Powered by</small> <img style="vertical-align: middle;" width="57" height="18" alt="algolia" src="<?php echo esc_url(plugin_dir_url(__DIR__) . 'img/algolia.svg'); ?>"/></div>
 		
-</form> 
-
-
-
-
-
-
+</form>

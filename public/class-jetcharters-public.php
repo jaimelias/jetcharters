@@ -290,7 +290,7 @@ class Jetcharters_Public {
 		}		
 		elseif(Jetcharters_Validators::valid_jet_search())
 		{
-			if(Jetcharters_Validators::validate_recaptcha())
+			if(Jetcharters_Validators::validate_hash())
 			{
 				ob_start();
 				require_once(plugin_dir_path( __FILE__ ).'partials/jet_search.php');
@@ -713,6 +713,11 @@ class Jetcharters_Public {
 			wp_enqueue_script('invisible-recaptcha', 'https://www.google.com/recaptcha/api.js', array('jquery', 'jetcharters'), 'async_defer', true );
 			
 			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jetcharters-public.js', $public_depen, time(), true );	
+			
+			if(!isset($_GET['hash']))
+			{
+				wp_enqueue_script('sha512', plugin_dir_url( __FILE__ ) . 'js/sha512.js', array('jetcharters'), time(), true );					
+			}			
 		
 			wp_add_inline_script('jetcharters', Jetcharters_Public::json_src_url());
 			
