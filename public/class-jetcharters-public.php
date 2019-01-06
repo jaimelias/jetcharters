@@ -79,29 +79,23 @@ class Jetcharters_Public {
 	
 			ob_start();
 			
-			if(!wp_is_mobile())
-			{
-				?>
-				<div class="pure-g">
-					<div class="mapbox_form pure-u-1 pure-u-sm-1-1 pure-u-md-2-5">
-				<?php
-			}
+			?>
+			<div class="pure-g">
+				<div class="mapbox_form pure-u-1 pure-u-sm-1-1 pure-u-md-2-5">
+			<?php
 			
 			require_once(dirname( __FILE__ ) . '/partials/price-calculator.php');
 					
-			if(!wp_is_mobile())
-			{
-				?>
-					</div>
-						<div class="pure-u-1 pure-u-sm-1-1 pure-u-md-3-5">
-							<div class="map-container">
-								<div class="map" id="mapbox_airports">
-								</div>
+			?>
+				</div>
+					<div class="pure-u-1 pure-u-sm-1-1 pure-u-md-3-5">
+						<div class="map-container">
+							<div class="map" id="mapbox_airports">
 							</div>
 						</div>
-				</div>
-				<?php
-			}
+					</div>
+			</div>
+			<?php
 			
 			$content = ob_get_contents();
 			ob_end_clean();		
@@ -398,13 +392,7 @@ class Jetcharters_Public {
 	{
 		//$json, $redirect_mobile
 		$airport = $json['airport'];
-		$url = home_url('cacheimg/'.Jetcharters_Public::cleanURL($airport).'.jpg');
-		
-		if(wp_is_mobile() && $redirect_mobile === false)
-		{
-			$url = Jetcharters_Public::airport_url_string($json);
-		}
-		
+		$url = home_url('cacheimg/'.Jetcharters_Public::cleanURL($airport).'.jpg');		
 		return $url;
 		
 	}
@@ -427,14 +415,6 @@ class Jetcharters_Public {
 		$mapbox_width = 800;
 		$mapbox_height = 450;
 		$mapbox_mobile = null;
-		
-		if(wp_is_mobile())
-		{
-			$image_resolution = 'jpg';
-			$mapbox_width = 600;
-			$mapbox_height = 300;
-			$mapbox_mobile = '&is_mobile=true';
-		}
 
 		return 'https://api.mapbox.com/v4/'.$mapbox_map_id.'/'.$mapbox_marker.'/'.$_geoloc['lng'].','.$_geoloc['lat'].','.$mapbox_zoom.'/'.$mapbox_width.'x'.$mapbox_height.'.'.$image_resolution.'?access_token='.$mapbox_token.$mapbox_mobile;				
 	}
@@ -647,17 +627,16 @@ class Jetcharters_Public {
 		 */
 
 		global $post;
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/jetcharters-public.css', array(), time(), 'all' );
+		wp_enqueue_style('minimalLayout', plugin_dir_url( __FILE__ ) . 'css/minimal-layout.css', array(), '', 'all' );
+		wp_add_inline_style('minimalLayout', self::get_inline_css('jetcharters-public'));
 		
 		Jetcharters_Public::datepickerCSS();
 		
-		if(is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'mapbox_airports') && !wp_is_mobile() && !isset($_GET['fl_builder']))
+		if(is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'mapbox_airports') && !isset($_GET['fl_builder']))
 			{
 				wp_enqueue_style('mapbox', 'https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css', array(), $this->version, 'all' );
-				
-				wp_enqueue_style('markercluster', 'https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.css', array('mapbox'), $this->version, 'all' );
-				
-				wp_enqueue_style('markercluster_def', 'https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.Default.css', array('mapbox'), $this->version, 'all' );
+				wp_add_inline_style('mapbox', self::get_inline_css('MarkerCluster'));
+				wp_add_inline_style('mapbox', self::get_inline_css('MarkerCluster.Default'));
 			}
 	}
 
@@ -682,8 +661,8 @@ class Jetcharters_Public {
 
 		global $post;
 		wp_register_script('algolia', plugin_dir_url( __FILE__ ).'js/algoliasearch.min.js', array( 'jquery' ), '3.30.0', true );
-		wp_register_script('algolia_autocomplete', plugin_dir_url( __FILE__ ).'js/autocomplete.jquery.min.js', array( 'jquery' ), '0.31.0', true );		
-		
+		wp_add_inline_script('algolia', Jetcharters_Public::json_src_url(), 'before');
+		wp_register_script('algolia_autocomplete', plugin_dir_url( __FILE__ ).'js/autocomplete.jquery.min.js', array( 'jquery' ), '0.31.0', true );
 		
 		if(is_a( $post, 'WP_Post' ) && (has_shortcode( $post->post_content, 'mapbox_airports') || has_shortcode( $post->post_content, 'jc_calculator') || has_shortcode( $post->post_content, 'contact-form-7') || Jetcharters_Public::shortcode_widget('jc_calculator') || Jetcharters_Public::shortcode_widget('mapbox_airports') || Jetcharters_Public::shortcode_widget('contact-form-7')) )
 		{
@@ -692,35 +671,32 @@ class Jetcharters_Public {
 			
 			$public_depen = array('jquery', 'algolia');
 
-			if(has_shortcode( $post->post_content, 'mapbox_airports') && !wp_is_mobile() && !isset($_GET['fl_builder']))
+			if(has_shortcode( $post->post_content, 'mapbox_airports') && !isset($_GET['fl_builder']))
 			{
 				array_push($public_depen, 'mapbox', 'markercluster', 'invisible-recaptcha');
 			}
 			
-			if(is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'mapbox_airports') && !wp_is_mobile() && !isset($_GET['fl_builder']))
-			{							
+			if(is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'mapbox_airports') && !isset($_GET['fl_builder']))
+			{
+				    wp_enqueue_script( 'landing-cookies', plugin_dir_url( __FILE__ ).'js/cookies.js', array( 'jquery'), $this->version, true );
 					wp_enqueue_script( 'mapbox', 'https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.js', array( 'jquery', 'algolia' ), $this->version, true );
 					
 					wp_enqueue_script( 'markercluster', 'https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/leaflet.markercluster.js', array( 'jquery', 'mapbox' ), $this->version, true );
+										
+					wp_add_inline_script('mapbox', self::get_inline_js('jetcharters-arc'), 'after');
+					wp_add_inline_script('mapbox', Jetcharters_Public::mapbox_vars(), 'after');
+					wp_add_inline_script('mapbox', self::get_inline_js('jetcharters-mapbox'), 'after');
 					
-					wp_enqueue_script( 'arc', plugin_dir_url( __FILE__ ).'js/jetcharters-arc.js', array( 'jquery', 'mapbox' ), $this->version, true );
-					
-					wp_add_inline_script('mapbox', Jetcharters_Public::mapbox_vars());				
-					
-					wp_enqueue_script( 'mapbox_js', plugin_dir_url( __FILE__ ).'js/jetcharters-mapbox.js', array( 'jquery', 'mapbox', 'markercluster', 'algolia', 'algolia_autocomplete', 'jetcharters' ), $this->version, true );
 			}	
 			wp_dequeue_script('google-recaptcha');
 			wp_enqueue_script('invisible-recaptcha', 'https://www.google.com/recaptcha/api.js', array('jquery', 'jetcharters'), 'async_defer', true );
 			
-			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jetcharters-public.js', $public_depen, time(), true );	
+			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jetcharters-public.js', $public_depen, $this->version, true );	
 			
 			if(!isset($_GET['hash']))
 			{
-				wp_enqueue_script('sha512', plugin_dir_url( __FILE__ ) . 'js/sha512.js', array('jetcharters'), time(), true );					
-			}			
-		
-			wp_add_inline_script('jetcharters', Jetcharters_Public::json_src_url());
-			
+				wp_enqueue_script('sha512', plugin_dir_url( __FILE__ ) . 'js/sha512.js', array('jetcharters'), 'async_defer', true );					
+			}	
 		}
 	
 
@@ -742,8 +718,8 @@ class Jetcharters_Public {
 	public static function datepickerCSS()
 	{
 		wp_enqueue_style( 'picker-css', plugin_dir_url( __FILE__ ) . 'css/picker/default.css', array(), 'jetcharters', 'all' );
-		wp_enqueue_style( 'picker-date-css', plugin_dir_url( __FILE__ ) . 'css/picker/default.date.css', array('picker-css'), 'jetcharters', 'all' );
-		wp_enqueue_style( 'picker-time-css', plugin_dir_url( __FILE__ ) . 'css/picker/default.time.css', array('picker-css'), 'jetcharters', 'all' );		
+		wp_add_inline_style('picker-css', self::get_inline_css('picker/default.date'));
+		wp_add_inline_style('picker-css', self::get_inline_css('picker/default.time'));		
 	}
 	
 	public static function datepickerJS()
@@ -967,22 +943,13 @@ class Jetcharters_Public {
 		$iata_list = array();
 		
 		//aircrafts
-		$args22 = array('post_type' => 'jet','posts_per_page' => 200, 'post_parent' => 0, 'meta_key' => 'jet_base_iata', 'orderby' => 'meta_value');
+		$args22 = array('post_type' => 'jet','posts_per_page' => 200, 'post_parent' => 0, 'meta_key' => 'jet_commercial', 'orderby' => 'meta_value', 'order' => 'ASC');
 		
 		if(is_singular('jet'))
 		{
 			$args22['p'] = get_the_ID();
 		}
 		
-		$args22['meta_query'] = array();
-		
-		$meta_args = array(
-			'key' => 'jet_base_iata',
-			'value' => esc_html($iata),
-			'compare' => '!='
-		);
-		
-		$args22['meta_key'] = array();
 		$wp_query22 = new WP_Query( $args22 );
 		
 		//aircraft
@@ -1052,19 +1019,31 @@ class Jetcharters_Public {
 							{
 								$table_row .= '<td><strong>'.esc_html(__('Commercial Flight', 'jetcharters')).'</strong></td>';
 							}
+							else if(Jetcharters_Public::ferry())
+							{
+								$table_row .= '<td colspan="2"><strong>'.esc_html(__('Ferry', 'jetcharters')).'</strong></td>';
+							}
+							else if(Jetcharters_Public::ground())
+							{
+								$table_row .= '<td colspan="2"><strong>'.esc_html(__('Ground Transport', 'jetcharters')).'</strong></td>';
+							}
 							else
 							{
 								$table_row .= '<td><a class="strong" href="'.esc_url($aircraft_url).'/">'.esc_html($post->post_title).'</a> - <small>'.esc_html($jet_type).'</small><br/><i class="fas fa-male" ></i> '.esc_html($seats).' <small>('.$weight_allowed.')</small></td>';
 							}
 						}
 						
-						$table_row .= '<td><small class="text-muted">('.esc_html($origin_iata).')</small> <strong>'.esc_html($origin_city.', '.$origin_country_code).'</strong><br/><a href="'.esc_url(home_lang()).'fly/'.Jetcharters_Public::cleanURL($origin_airport).'/">'.esc_html($origin_airport).'</a></td>';
+						if(!Jetcharters_Public::ferry() && !Jetcharters_Public::ground())
+						{
+							$table_row .= '<td><small class="text-muted">('.esc_html($origin_iata).')</small> <strong>'.esc_html($origin_city.', '.$origin_country_code).'</strong><br/><a href="'.esc_url(home_lang()).'fly/'.Jetcharters_Public::cleanURL($origin_airport).'/">'.esc_html($origin_airport).'</a></td>';							
+						}
+
 						
 						
 
 						$table_row .= '<td><strong>'.esc_html('$'.number_format($table_price[$x][3], 2, '.', ',')).'</strong><br/><span class="text-muted">';
 
-						if(Jetcharters_Public::is_commercial())
+						if(Jetcharters_Public::is_commercial() || Jetcharters_Public::ferry() ||Jetcharters_Public::ground())
 						{
 							$table_row .= esc_html(__('Per Person', 'jetcharters'));
 						}
@@ -1190,13 +1169,42 @@ class Jetcharters_Public {
 
 	public static function is_commercial()
 	{
-		if(!empty(Charterflights_Meta_Box::jet_get_meta( 'jet_commercial' )))
+		if(Charterflights_Meta_Box::jet_get_meta( 'jet_commercial' ) == 1)
 		{
 			return true;
 		}
 	}
-	
+	public static function ferry()
+	{
+		if(Charterflights_Meta_Box::jet_get_meta( 'jet_commercial' ) == 2)
+		{
+			return true;
+		}
+	}
+	public static function ground()
+	{
+		if(Charterflights_Meta_Box::jet_get_meta( 'jet_commercial' ) == 3)
+		{
+			return true;
+		}
+	}
 
+	public static function get_inline_js($file)
+	{
+		ob_start();
+		require_once(dirname( __FILE__ ) . '/js/'.$file.'.js');
+		$output = ob_get_contents();
+		ob_end_clean();
+		return $output;			
+	}
 	
+	public static function get_inline_css($file)
+	{
+		ob_start();
+		require_once(dirname( __FILE__ ) . '/css/'.$file.'.css');
+		$output = ob_get_contents();
+		ob_end_clean();
+		return $output;			
+	}	
 	
 }

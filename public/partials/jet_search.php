@@ -37,9 +37,12 @@ array_push($capacity_query, $capacity_args);
 $args_jet_search = array(
 	'post_type' => 'jet',
 	'posts_per_page' => 200,
-	'meta_query' => $capacity_query
+	'meta_query' => $capacity_query,
+	'meta_key' => 'jet_commercial',
+	'orderby' => 'meta_value',
+	'order' => 'ASC'
 	);
-
+	
 $wp_jet_search = new WP_Query( $args_jet_search );
 
 if ($wp_jet_search->have_posts())
@@ -106,7 +109,7 @@ if ($wp_jet_search->have_posts())
 				$duration = $table_price[$x][2];
 				$price = $table_price[$x][3];
 				
-				if(Jetcharters_Public::is_commercial())
+				if(Jetcharters_Public::is_commercial() || Jetcharters_Public::ferry() || Jetcharters_Public::ground())
 				{
 					$price = floatval($price)*floatval(sanitize_text_field($_GET['jet_pax']));
 				}
@@ -134,9 +137,21 @@ if ($wp_jet_search->have_posts())
 				
 				$flight_desc = '';
 				
-				if(Jetcharters_Public::is_commercial())
+				if(Charterflights_Meta_Box::jet_get_meta( 'jet_commercial' ) != 0)
 				{
-					$flight_desc .= '<strong>'.esc_html(__('Commercial Flight', 'jetcharters')).'</strong>';
+					if(Jetcharters_Public::is_commercial())
+					{
+						$flight_desc .= '<strong>'.esc_html(__('Commercial Flight', 'jetcharters')).'</strong>';
+					}
+					else if(Jetcharters_Public::ferry())
+					{
+						$flight_desc .= '<strong>'.esc_html(__('Ferry', 'jetcharters')).'</strong>';
+					}
+					else if(Jetcharters_Public::ground())
+					{
+						$flight_desc .= '<strong>'.esc_html(__('Ground Transport', 'jetcharters')).'</strong>';
+					}
+					
 					$price_row = '<td><small class="text-muted">USD</small><br/><strong class="large">'.esc_html('$'.number_format($price, 2, '.', ',')).'</strong><br /><span class="small text-muted">'.esc_html('$'.number_format(($price / floatval(sanitize_text_field($_GET['jet_pax']))), 2, '.', ',')).' '.esc_html(__('Per Person', 'jetcharters')).'</span></td>';
 				}
 				else
