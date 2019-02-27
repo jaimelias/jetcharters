@@ -674,7 +674,6 @@ class Jetcharters_Public {
 	
 		if(Jetcharters_Validators::valid_jet_search())
 		{
-			array_push($public_depen);
 			wp_dequeue_script('google-recaptcha');
 			wp_enqueue_script('invisible-recaptcha', 'https://www.google.com/recaptcha/api.js', array('jquery', 'jetcharters'), 'async_defer', true );
 			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jetcharters-public.js', $public_depen, $this->version, true );
