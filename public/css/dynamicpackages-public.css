@@ -1,0 +1,134 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+
+@media screen and (min-width: 1024px)	
+{
+	.tp_grid .tp_brief .tp_starting_at
+	{
+		float: right;
+	}
+	.tp_grid .tp_brief .tp_duration
+	{
+		float: left;
+	}
+
+}
+.booking_form_container
+{
+	margin-bottom: 20px;
+}
+.booking_form_container>form.booking_form
+{
+	margin-bottom: 0 !important;
+}
+ul#booking_sidebar > .widget-title,  ul#booking-sidebar > .widget-title
+ {
+	 font-weight: 800;
+ }
+ul.tp_included, ul.tp_location, ul.tp_restrictions
+ {
+	 padding: 0;
+	 list-style: none;
+ }
+fieldset.package_terms_conditions
+{
+	border: 1px solid rgba(0,0,0,0.3);
+	padding: 10px;
+	margin: 0 0 20px 0;
+}
+fieldset.package_terms_conditions > label > span
+{
+	margin: 0 4px;
+}
+#dynamic_participants, #dynamic_table
+{
+	margin: 0 0 40px 0;
+}
+
+.min_thumbnail
+{
+	position: relative;
+}
+
+.child_package > div
+{
+	background-color: rgba(0,0,0,0.2);
+	margin-bottom: 20px;
+}
+.child_package h3.child_package_title
+{
+	font-size: 15%;
+}
+.child_package_pad
+{
+	padding: 10px;
+}
+.child_package_btn
+{
+	bottom: 0;
+	right: 0;
+}
+
+/**
+ * RIBBON
+ */
+ 
+ /* The ribbons */
+
+.corner-ribbon{
+  width: 140px;
+  background: #e43;
+  position: absolute;
+  text-align: center;
+  line-height: 25px;
+  letter-spacing: 1px;
+  color: #f0f0f0;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+
+.corner-ribbon.shadow{
+  box-shadow: 0 0 3px rgba(0,0,0,.3);
+}
+
+/* Different positions */
+
+.corner-ribbon.top-left{
+  top: 25px;
+  left: -25px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+/* Colors */
+
+.corner-ribbon.white{background: #f0f0f0; color: #555;}
+.corner-ribbon.black{background: #333;}
+.corner-ribbon.grey{background: #999;}
+.corner-ribbon.blue{background: #39d;}
+.corner-ribbon.green{background: #2c7;}
+.corner-ribbon.turquoise{background: #1b9;}
+.corner-ribbon.purple{background: #95b;}
+.corner-ribbon.red{background: #e43;}
+.corner-ribbon.orange{background: #e82;}
+.corner-ribbon.yellow{background: #ec0;}
+
+ul.tax_list > li.cat-item  > ul.children
+{
+	margin-bottom: 0 !important;
+	padding-bottom: 0 !important;
+}
+
+.tax-package_terms_conditions article
+{
+	background-color: #fff;
+	padding: 40px;
+	color: #000;
+}
+.sharethis-inline-share-buttons
+{
+	height: 32px;
+}

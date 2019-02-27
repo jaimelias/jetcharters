@@ -6,7 +6,12 @@
 		
 		$(window).on('load', function (e){
 			one_way_round_trip();
-			algolia_execute();
+			
+			if(typeof algoliasearch === 'function')
+			{
+				algolia_execute();
+			}
+			
 			validate_instant_quote();
 			country_dropdown();
 			jetcharters_cookies();
@@ -263,20 +268,7 @@
 			});			
 		});
 	}
-	function convertToSlug(Text)
-	{
-		Text = Text.toLowerCase();
-		Text = Text.replace(/á/gi,"a");
-		Text = Text.replace(/é/gi,"e");
-		Text = Text.replace(/í/gi,"i");
-		Text = Text.replace(/ó/gi,"o");
-		Text = Text.replace(/ú/gi,"u");
-		Text = Text.replace(/ñ/gi,"n");		
-		Text = Text.replace(/ +/g,'-');
-		Text = Text.replace(/[`~!@#$%^&*()_|+\=?;:'",.<>\{\}\[\]\\\/]/gi, '');
-		Text = Text.replace(/\-\-/gi,"-");		
-		return Text;
-	}
+
 	
 	function country_name(lang, country_name, country_code)
 	{

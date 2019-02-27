@@ -259,7 +259,7 @@ function get_col_type(container)
 						
 						
 						var country_flag = suggestion.country_code;
-						var flag_url = jsonsrc()+"public/img/flags/"+country_flag+'.svg';
+						var flag_url = jsonsrc()+"img/flags/"+country_flag+'.svg';
 						flag_url = flag_url.toLowerCase();
 						
 						//console.log(suggestion);

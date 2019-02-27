@@ -39,7 +39,7 @@ class Charterflights_Post_Type
 			'labels'                => $labels,
 			'supports'              => array( ),
 			'hierarchical'          => false,
-			'public'                => false,
+			'public'                => true,
 			'show_ui'               => true,
 			'show_in_menu'          => true,
 			'menu_position'         => 5,

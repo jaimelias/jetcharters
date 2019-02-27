@@ -170,5 +170,20 @@
 		return { y: ll[0], x: ll[1] }; 
 	}
 	
+	function convertToSlug(Text)
+	{
+		Text = Text.toLowerCase();
+		Text = Text.replace(/á/gi,"a");
+		Text = Text.replace(/é/gi,"e");
+		Text = Text.replace(/í/gi,"i");
+		Text = Text.replace(/ó/gi,"o");
+		Text = Text.replace(/ú/gi,"u");
+		Text = Text.replace(/ñ/gi,"n");		
+		Text = Text.replace(/ +/g,'-');
+		Text = Text.replace(/[`~!@#$%^&*()_|+\=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+		Text = Text.replace(/\-\-/gi,"-");		
+		return Text;
+	}	
+	
 
 })(jQuery);
