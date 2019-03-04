@@ -2,11 +2,11 @@
 
 
 		<div class="bottom-20"><label><i class="linkcolor fas fa-map-marker"></i> <?php esc_html(_e('Origin', 'jetcharters')); ?></label>
-		<input type="text" id="jet_origin" name="jet_origin" class="jet_list" spellcheck="false" placeholder="<?php esc_html(_e('country / city / airport', 'jetcharters')); ?>" /></div>
+		<input type="text" id="jet_origin" name="jet_origin" class="jet_list" spellcheck="false" placeholder="<?php esc_html(_e('country / city / airport', 'jetcharters')); ?>" /><input type="hidden" id="jet_origin_l" name="jet_origin_l"></div>
 
 		
 		<div class="bottom-20"><label><i class="linkcolor fas fa-map-marker"></i> <?php esc_html(_e('Destination', 'jetcharters')); ?></label>	
-		<input type="text" id="jet_destination" name="jet_destination" class="jet_list" spellcheck="false" placeholder="<?php esc_html(_e('country / city / airport', 'jetcharters')); ?>" /></div>
+		<input type="text" id="jet_destination" name="jet_destination" class="jet_list" spellcheck="false" placeholder="<?php esc_html(_e('country / city / airport', 'jetcharters')); ?>" /><input type="hidden" id="jet_destination_l" name="jet_destination_l"></div>
 		
 		
 		<div class="pure-g gutters">

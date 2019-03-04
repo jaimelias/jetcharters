@@ -294,6 +294,10 @@ if ($wp_jet_search->have_posts())
 					<input type="text" value="<?php echo esc_html(sanitize_text_field($_GET['jet_return_date']));?>" name="jet_return_date"/>	
 					<input type="text" value="<?php echo esc_html(sanitize_text_field($_GET['jet_return_hour']));?>" name="jet_return_hour"/>	
 					<input type="text" value="<?php echo esc_html($return_flight);?>" name="return_itinerary"/>
+					
+					<input type="text" value="<?php echo esc_html(sanitize_text_field($_GET['jet_origin_l']));?>" name="jet_origin_l"/>
+					<input type="text" value="<?php echo esc_html(sanitize_text_field($_GET['jet_destination_l']));?>" name="jet_destination_l"/>
+					
 				</div>
 				
 			

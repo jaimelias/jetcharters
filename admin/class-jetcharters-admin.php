@@ -109,10 +109,36 @@ class Jetcharters_Admin {
 			
 			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jetcharters-admin.js', array( 'jquery', 'algolia', 'algolia_autocomplete', 'handsontableJS'), time(), false );
 
-			wp_add_inline_script('jetcharters', Jetcharters_Public::json_src_url());
+			wp_add_inline_script('jetcharters', self::json_src_url());
 		
 		}
 	}
+	
+	public static function json_src_url()
+	{
+		$output = 'function jsonsrc() { return "'.esc_url(plugin_dir_url( __FILE__ )).'";}';
+		
+		if(get_option('algolia_token'))
+		{
+			$algolia_token = get_option('algolia_token');
+			$algolia_token = $algolia_token['text_field_jetcharters_8'];
+			$output .= 'function get_algolia_token() { return "'.esc_html($algolia_token).'";}';
+		}
+		if(get_option('algolia_index'))
+		{
+			$algolia_index = get_option('algolia_index');
+			$algolia_index = $algolia_index['text_field_jetcharters_9'];
+			$output .= 'function get_algolia_index() { return "'.esc_html($algolia_index).'";}';
+		}
+		if(get_option('algolia_id'))
+		{
+			$algolia_id = get_option('algolia_id');
+			$algolia_id = $algolia_id['text_field_jetcharters_10'];
+			$output .= 'function get_algolia_id() { return "'.esc_html($algolia_id).'";}';
+		}
+
+		return $output;
+	}	
 	public static function custom_rewrite_basic()
 	{
 

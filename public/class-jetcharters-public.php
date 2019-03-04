@@ -254,7 +254,7 @@ class Jetcharters_Public {
 			if(Jetcharters_Validators::validate_recaptcha())
 			{
 				$data = $_POST;
-				$data['lang'] = get_locale();
+				$data['lang'] = substr( get_locale(), 0, 2 );
 				
 				$args50 = array('post_type' => 'jet','posts_per_page' => 1, 'p' => intval($data['aircraft_id']));	
 				$wp_query50 = new WP_Query( $args50 );

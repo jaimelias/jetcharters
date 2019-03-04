@@ -364,6 +364,9 @@
 						 var selected_airport = 'IATA missing... '+suggestion.airport;
 					}
 				}
+				
+				$(this_form).find('#'+$(this_field).attr('id')+'_l').val(suggestion.airport+' ('+suggestion.iata+'), '+suggestion.city+' ('+suggestion.country_code+')');
+				
 
 				$(this_field).attr({
 					'data-iata': suggestion.iata,

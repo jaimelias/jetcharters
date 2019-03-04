@@ -42,7 +42,7 @@ class Jetcharters_Validators{
 
 	public static function valid_jet_search()
 	{
-		if(get_query_var('instant_quote') && isset($_GET['jet_origin']) && isset($_GET['jet_destination']) && isset($_GET['jet_pax']) && isset($_GET['jet_flight']) && isset($_GET['jet_departure_date']) && isset($_GET['jet_departure_hour']) && isset($_GET['jet_return_date']) && isset($_GET['jet_return_hour']))
+		if(get_query_var('instant_quote') && isset($_GET['jet_origin']) && isset($_GET['jet_destination']) && isset($_GET['jet_pax']) && isset($_GET['jet_flight']) && isset($_GET['jet_departure_date']) && isset($_GET['jet_departure_hour']) && isset($_GET['jet_return_date']) && isset($_GET['jet_return_hour']) && isset($_GET['jet_origin_l']) && isset($_GET['jet_destination_l']))
 		{
 			return true;
 		}
@@ -53,7 +53,7 @@ class Jetcharters_Validators{
 	}
 	public static function valid_jet_quote()
 	{
-		if(get_query_var('request_submitted') && isset($_POST['lead_name']) && isset($_POST['lead_lastname']) && isset($_POST['lead_email']) && isset($_POST['lead_phone']) && isset($_POST['lead_country']) && isset($_POST['g-recaptcha-response']) && isset($_POST['jet_origin'])  && isset($_POST['jet_destination'])  && isset($_POST['jet_departure_date'])  && isset($_POST['jet_departure_hour'])  && isset($_POST['departure_itinerary']) && isset($_POST['jet_return_date']) && isset($_POST['jet_return_hour']) && isset($_POST['return_itinerary']))
+		if(get_query_var('request_submitted') && isset($_POST['jet_origin_l']) && isset($_POST['jet_destination_l']) && isset($_POST['lead_name']) && isset($_POST['lead_lastname']) && isset($_POST['lead_email']) && isset($_POST['lead_phone']) && isset($_POST['lead_country']) && isset($_POST['g-recaptcha-response']) && isset($_POST['jet_origin'])  && isset($_POST['jet_destination'])  && isset($_POST['jet_departure_date'])  && isset($_POST['jet_departure_hour']) && isset($_POST['departure_itinerary']) && isset($_POST['jet_return_date']) && isset($_POST['jet_return_hour']) && isset($_POST['return_itinerary']))
 		{
 			return true;
 		}
