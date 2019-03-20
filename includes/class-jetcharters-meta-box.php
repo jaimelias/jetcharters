@@ -90,7 +90,7 @@ class Charterflights_Meta_Box
 		<p>
 			<label for="jet_rates"><?php _e( 'Prices Per Flight', 'jetcharters' ); ?></label><br>
 			<textarea class="hidden" type="text" name="jet_rates" id="jet_rates"><?php echo Charterflights_Meta_Box::jet_get_meta( 'jet_rates' ); ?></textarea>
-			<div class="jet_rates_table_container"><div id="jet_rates_table" data-sensei-headers="origin,destination,duration,price,is commercial?, stops,seats,max weight" data-sensei-type="text,text,currency,currency,checkbox,numeric,numeric,numeric"></div></div>
+			<div class="jet_rates_table_container"><div id="jet_rates_table" data-sensei-headers="origin,destination,duration,price,fee per person, stops,seats,max weight" data-sensei-type="text,text,currency,currency,currency,numeric,numeric,numeric"></div></div>
 		</p>	
 
 	<?php

@@ -108,33 +108,29 @@ class Jetcharters_Public {
 	}
 	public static function json_src_url()
 	{
-		global $post;
+		global $post;	
+		$output = 'function jsonsrc() { return "'.esc_url(plugin_dir_url( __FILE__ )).'";}';
 		
-		if(Jetcharters_Validators::valid_jet_search() || (is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'mapbox_airports')))
+		if(get_option('algolia_token'))
 		{
-			$output = 'function jsonsrc() { return "'.esc_url(plugin_dir_url( __FILE__ )).'";}';
-			
-			if(get_option('algolia_token'))
-			{
-				$algolia_token = get_option('algolia_token');
-				$algolia_token = $algolia_token['text_field_jetcharters_8'];
-				$output .= 'function get_algolia_token() { return "'.esc_html($algolia_token).'";}';
-			}
-			if(get_option('algolia_index'))
-			{
-				$algolia_index = get_option('algolia_index');
-				$algolia_index = $algolia_index['text_field_jetcharters_9'];
-				$output .= 'function get_algolia_index() { return "'.esc_html($algolia_index).'";}';
-			}
-			if(get_option('algolia_id'))
-			{
-				$algolia_id = get_option('algolia_id');
-				$algolia_id = $algolia_id['text_field_jetcharters_10'];
-				$output .= 'function get_algolia_id() { return "'.esc_html($algolia_id).'";}';
-			}
-
-			return $output;
+			$algolia_token = get_option('algolia_token');
+			$algolia_token = $algolia_token['text_field_jetcharters_8'];
+			$output .= 'function get_algolia_token() { return "'.esc_html($algolia_token).'";}';
 		}
+		if(get_option('algolia_index'))
+		{
+			$algolia_index = get_option('algolia_index');
+			$algolia_index = $algolia_index['text_field_jetcharters_9'];
+			$output .= 'function get_algolia_index() { return "'.esc_html($algolia_index).'";}';
+		}
+		if(get_option('algolia_id'))
+		{
+			$algolia_id = get_option('algolia_id');
+			$algolia_id = $algolia_id['text_field_jetcharters_10'];
+			$output .= 'function get_algolia_id() { return "'.esc_html($algolia_id).'";}';
+		}
+
+		return $output;
 	}
 
 	public static function jet_calculator()
@@ -731,10 +727,10 @@ class Jetcharters_Public {
 		wp_enqueue_script( 'picker-legacy', plugin_dir_url( __FILE__ ) . 'js/picker/legacy.js', array('jquery', 'picker-js'), '3.5.6', true);
 
 		$picker_translation = 'js/picker/translations/'.substr(get_locale(), 0, -3).'.js';
-
-		if(file_exists(get_template_directory().$picker_translation))
+				
+		if(file_exists(dirname( __FILE__ ).'/'.$picker_translation))
 		{
-			wp_enqueue_script( 'picker-time-translation', plugin_dir_url( __FILE__ ). $picker_translation, array('jquery', 'picker-js'), '3.5.6', true);
+			wp_enqueue_script( 'picker-time-translation', plugin_dir_url( __FILE__ ).$picker_translation, array('jquery', 'picker-js'), '3.5.6', true);
 		}		
 	}
 	
@@ -972,6 +968,7 @@ class Jetcharters_Public {
 							}
 						}
 
+						$fees = $table_price[$x][4];
 						$seats = $table_price[$x][6];
 						$weight_pounds = $table_price[$x][7];
 						$weight_kg = intval(intval($weight_pounds)*0.453592);
@@ -1020,10 +1017,16 @@ class Jetcharters_Public {
 						{
 							$table_row .= esc_html(__('Charter Flight', 'jetcharters'));
 						}
-						
-						
 						$table_row .= '</span>';
+						
+						if(floatval($fees) > 0)
+						{
+							$table_row .= '<br/><span class="text-muted">';
+							$table_row .= esc_html(__('Fees per pers.', 'jetcharters').' '.'$'.number_format($fees, 2, '.', ','));
+							$table_row .= '</span>';
+						}						
 						$table_row .= '<br/><span class="small text-muted"><i class="fas fa-clock" ></i> '.esc_html(self::convertTime($table_price[$x][2])).'</span>';
+						
 						$table_row .= '</td></tr>';
 						$aircraft_count++;	
 					}

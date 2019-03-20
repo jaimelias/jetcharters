@@ -123,13 +123,13 @@ if ($wp_jet_search->have_posts())
 					$price = floatval($price)*2;
 				}
 				
-				
+				$fees = $table_price[$x][4];
 				$seats = $table_price[$x][6];
 				$weight_pounds = $table_price[$x][7];
 				$weight_kg = intval(intval($weight_pounds)*0.453592);
 				$weight_allowed = esc_html($weight_pounds.' '.__('pounds', 'jetcharters').' | '.$weight_kg.__('kg', 'jetcharters'));
 				
-				$flight_array['aircraft_price'] = floatval(esc_html($price));
+				$flight_array['aircraft_price'] = floatval($price) + (floatval($fees) * floatval($_GET['jet_pax']));
 				$flight_array['aircraft_name'] = esc_html($post->post_title);
 				$flight_array['aircraft_id'] = intval(esc_html($post->ID));
 				$flight_array['aircraft_seats'] = intval(esc_html($seats));
@@ -152,7 +152,14 @@ if ($wp_jet_search->have_posts())
 						$flight_desc .= '<strong>'.esc_html(__('Ground Transport', 'jetcharters')).'</strong>';
 					}
 					
-					$price_row = '<td><small class="text-muted">USD</small><br/><strong class="large">'.esc_html('$'.number_format($price, 2, '.', ',')).'</strong><br /><span class="small text-muted">'.esc_html('$'.number_format(($price / floatval(sanitize_text_field($_GET['jet_pax']))), 2, '.', ',')).' '.esc_html(__('Per Person', 'jetcharters')).'</span></td>';
+					$price_row = '<td><small class="text-muted">USD</small><br/><strong class="large">'.esc_html('$'.number_format($price, 2, '.', ',')).'</strong><br /><span class="small text-muted">'.esc_html('$'.number_format(($price / floatval(sanitize_text_field($_GET['jet_pax']))), 2, '.', ',')).' '.esc_html(__('Per Person', 'jetcharters')).'</span>';
+					
+					if(floatval($fees) > 0)
+					{
+						$price_row .= '<br/><span class="text-muted">'.__('Fees per pers.', 'jetcharters').' $'.number_format($fees, 2, '.', ',').'</span>';
+					}					
+					
+					$price_row .= '</td>';
 				}
 				else
 				{
@@ -162,8 +169,15 @@ if ($wp_jet_search->have_posts())
 					$flight_desc .= ' <strong><i class="fas fa-male" aria-hidden="true"></i> '.esc_html($seats).'</strong>';					
 					$flight_desc .= '<br/>';
 					$flight_desc .= '<small>'.esc_html('Max').' ('.$weight_allowed.')</small>';
-					$price_row = '<td><small class="text-muted">USD</small><br/><strong class="large">'.esc_html('$'.number_format($price, 2, '.', ',')).'</strong><br/><span class="text-muted small">'.esc_html(__('Charter Flight', 'jetcharters')).'</span></td>';
-				}				
+					$price_row = '<td><small class="text-muted">USD</small><br/><strong class="large">'.esc_html('$'.number_format($price, 2, '.', ',')).'</strong>';
+					
+					if(floatval($fees) > 0)
+					{
+						$price_row .= '<br/><span class="text-muted">'.__('Fees per pers.', 'jetcharters').' $'.number_format($fees, 2, '.', ',').'</span>';
+					}					
+					
+					$price_row .= '</td>';
+				}			
 				
 				$row = '<tr>';
 				$row .= '<td>'.$flight_desc.'</td>';
@@ -172,7 +186,6 @@ if ($wp_jet_search->have_posts())
 				{
 					$row .= '<td><i class="fas fa-clock" aria-hidden="true"></i> '.esc_html(Jetcharters_Public::convertTime($duration)).'</td>';
 				}
-				
 				
 				$row .= $price_row;
 				$row .= '<td>';

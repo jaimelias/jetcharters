@@ -109,45 +109,18 @@ class Jetcharters_Admin {
 			
 			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jetcharters-admin.js', array( 'jquery', 'algolia', 'algolia_autocomplete', 'handsontableJS'), time(), false );
 
-			wp_add_inline_script('jetcharters', self::json_src_url());
+			wp_add_inline_script('jetcharters', Jetcharters_Public::json_src_url());
 		
 		}
 	}
 	
-	public static function json_src_url()
-	{
-		$output = 'function jsonsrc() { return "'.esc_url(plugin_dir_url( __FILE__ )).'";}';
-		
-		if(get_option('algolia_token'))
-		{
-			$algolia_token = get_option('algolia_token');
-			$algolia_token = $algolia_token['text_field_jetcharters_8'];
-			$output .= 'function get_algolia_token() { return "'.esc_html($algolia_token).'";}';
-		}
-		if(get_option('algolia_index'))
-		{
-			$algolia_index = get_option('algolia_index');
-			$algolia_index = $algolia_index['text_field_jetcharters_9'];
-			$output .= 'function get_algolia_index() { return "'.esc_html($algolia_index).'";}';
-		}
-		if(get_option('algolia_id'))
-		{
-			$algolia_id = get_option('algolia_id');
-			$algolia_id = $algolia_id['text_field_jetcharters_10'];
-			$output .= 'function get_algolia_id() { return "'.esc_html($algolia_id).'";}';
-		}
-
-		return $output;
-	}	
 	public static function custom_rewrite_basic()
 	{
-
 		add_rewrite_rule('^fly/([^/]*)/?', 'index.php?fly=$matches[1]','top');
 		add_rewrite_rule('^cacheimg/([^/]*)/?.jpg', 'index.php?cacheimg=$matches[1]','top');
 		add_rewrite_rule('^instant_quote/([^/]*)/?', 'index.php?instant_quote=$matches[1]','top');
 		add_rewrite_rule('^request_submitted/([^/]*)/?', 'index.php?request_submitted=$matches[1]','top');
 
-	
 		global $polylang;		
 		if(isset($polylang))
 		{
@@ -170,8 +143,7 @@ class Jetcharters_Admin {
 			add_rewrite_rule('('.$language_list.')/jet/([^/]*)/?', 'index.php?jet=$matches[2]','top');
 			add_rewrite_rule('('.$language_list.')/instant_quote/([^/]*)/?', 'index.php?instant_quote=$matches[2]','top');
 			add_rewrite_rule('('.$language_list.')/request_submitted/([^/]*)/?', 'index.php?request_submitted=$matches[2]','top');
-		}
-					
+		}				
 	}
 
 	public static function custom_rewrite_tag()
