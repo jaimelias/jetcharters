@@ -167,10 +167,6 @@
 	{
 		$('button[data-aircraft]').click(function(){
 			
-			
-			$('#jet_booking_container').removeClass('hidden');
-			$('.instant_quote_table').addClass('hidden');
-						
 			var aircraft_fields = $('#jet_booking_request').find('#aircraft_fields');
 			var json_inputs = $(this).attr('data-aircraft');
 			
@@ -182,9 +178,10 @@
 				$(aircraft_fields).append($('<input>').attr({'type': 'text', 'name': k, 'value': json_inputs[k]}));
 			}
 			
+			$('#jet_booking_container').removeClass('hidden');
+			$('.instant_quote_table').addClass('hidden');			
 			$('#jet_booking_request').attr({'data-form-ready': 'true'});
-			console.log(json_inputs);
-			
+			$('#jet_booking_request').find('input[name="lead_name"]').focus();
 		});
 		
 		$('#jet_booking_container').find('.close').click(function(){

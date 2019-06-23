@@ -47,30 +47,6 @@ fieldset.package_terms_conditions > label > span
 	margin: 0 0 40px 0;
 }
 
-.min_thumbnail
-{
-	position: relative;
-}
-
-.child_package > div
-{
-	background-color: rgba(0,0,0,0.2);
-	margin-bottom: 20px;
-}
-.child_package h3.child_package_title
-{
-	font-size: 15%;
-}
-.child_package_pad
-{
-	padding: 10px;
-}
-.child_package_btn
-{
-	bottom: 0;
-	right: 0;
-}
-
 /**
  * RIBBON
  */
@@ -78,7 +54,7 @@ fieldset.package_terms_conditions > label > span
  /* The ribbons */
 
 .corner-ribbon{
-  width: 140px;
+  width: 120px;
   background: #e43;
   position: absolute;
   text-align: center;
@@ -87,23 +63,12 @@ fieldset.package_terms_conditions > label > span
   color: #f0f0f0;
   transform: rotate(-45deg);
   -webkit-transform: rotate(-45deg);
+   top: 20px;
+  right: -25px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  text-shadow: 1px 1px 1px rgba(0,0,0,.3); 
 }
-
-
-.corner-ribbon.shadow{
-  box-shadow: 0 0 3px rgba(0,0,0,.3);
-}
-
-/* Different positions */
-
-.corner-ribbon.top-left{
-  top: 25px;
-  left: -25px;
-  transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
-}
-
-/* Colors */
 
 .corner-ribbon.white{background: #f0f0f0; color: #555;}
 .corner-ribbon.black{background: #333;}
@@ -128,7 +93,41 @@ ul.tax_list > li.cat-item  > ul.children
 	padding: 40px;
 	color: #000;
 }
-.sharethis-inline-share-buttons
+.dy_pad
 {
-	height: 32px;
+	padding: 5px;
+}
+.dy_package
+{
+	padding: 10px;
+}
+.dy_package, .dy_pad
+{
+	background-color: rgba(0,0,0,0.02);
+}
+.pure-button.pure-button-paypal, .pure-button-paypal
+{
+	color: #000;
+	background-color: gold;
+}
+.grecaptcha-badge
+{
+	margin: 0 0 20px 0;
+}
+.addevent_container
+{
+	height: 42px;
+}
+.addeventatc
+{
+	visibility: hidden;
+}
+.dy_event_date
+{
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	background-color: rgba(0,0,0,0.6);
+	color: #fff;
+	text-shadow: 1px 1px 1px rgba(0,0,0,0.6);
 }

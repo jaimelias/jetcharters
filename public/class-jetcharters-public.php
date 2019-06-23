@@ -70,7 +70,15 @@ class Jetcharters_Public {
 		$content = ob_get_contents();
 		ob_end_clean();	
 		return $content;
-	}	
+	}
+	public static function price_calculator()
+	{
+		ob_start();
+		require_once(dirname( __FILE__ ) . '/partials/price-calculator.php');
+		$content = ob_get_contents();
+		ob_end_clean();
+		return $content;
+	}
 	public static function mapbox_airports($attr, $content = "")
 	{
 		if(!isset($_GET['fl_builder']))
@@ -645,12 +653,13 @@ class Jetcharters_Public {
 		 */
 
 		global $post;
-		$public_depen = array('jquery', 'landing-cookies');
+		self::cf7_dequeue_recaptcha();
+		$dep = array('jquery', 'landing-cookies');
 		wp_enqueue_script( 'landing-cookies', plugin_dir_url( __FILE__ ).'js/cookies.js', array( 'jquery'), $this->version, true );		
 		
-		if(is_a($post, 'WP_Post') && has_shortcode( $post->post_content, 'mapbox_airports') && !isset($_GET['fl_builder']))
+		if(((is_a($post, 'WP_Post') && has_shortcode( $post->post_content, 'mapbox_airports')) || is_singular('jet')) && !isset($_GET['fl_builder']))
 		{
-			array_push($public_depen, 'algolia', 'mapbox', 'markercluster', 'sha512', 'picker-date-js', 'picker-time-js');
+			array_push($dep, 'algolia', 'mapbox', 'markercluster', 'sha512', 'picker-date-js', 'picker-time-js');
 			
 			wp_enqueue_script('algolia', plugin_dir_url( __FILE__ ).'js/algoliasearch.min.js', array( 'jquery' ), '3.32.0', true );
 			wp_add_inline_script('algolia', self::json_src_url(), 'before');
@@ -664,18 +673,57 @@ class Jetcharters_Public {
 			wp_add_inline_script('mapbox', self::get_inline_js('jetcharters-mapbox'), 'after');
 			wp_enqueue_script('sha512', plugin_dir_url( __FILE__ ) . 'js/sha512.js', array(), 'async_defer', true );
 			self::datepickerJS();			
-			wp_enqueue_script($this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jetcharters-public.js', $public_depen, $this->version, true );
+			wp_enqueue_script($this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jetcharters-public.js', $dep, $this->version, true );
 		}
 		
 	
 		if(Jetcharters_Validators::valid_jet_search())
 		{
-			wp_dequeue_script('google-recaptcha');
-			wp_enqueue_script('invisible-recaptcha', 'https://www.google.com/recaptcha/api.js', array('jquery', 'jetcharters'), 'async_defer', true );
-			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jetcharters-public.js', $public_depen, $this->version, true );
+			$recap = false;
+			
+			if(!function_exists('is_booking_page'))
+			{
+				$recap = true;
+			}
+			else
+			{
+				if(!is_booking_page())
+				{
+					$recap = true;
+				}
+			}
+
+			if($recap === true)
+			{
+				//recaptcha
+				wp_enqueue_script('invisible-recaptcha', 'https://www.google.com/recaptcha/api.js', '', 'async_defer_jetcharters', true );	
+				array_push($dep, 'invisible-recaptcha');
+			}
+			
+			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jetcharters-public.js', $dep, $this->version, true );
 			wp_add_inline_script($this->plugin_name, self::json_src_url(), 'before');
 		}
 	}
+	
+	public static function cf7_dequeue_recaptcha()
+	{
+		$dequeu = true;
+		
+		if(is_singular())
+		{
+			global $post;
+			
+			if(has_shortcode($post->post_content, 'contact-form-7'))
+			{
+				$dequeu = false;
+			}
+		}
+		
+		if($dequeu === true)
+		{
+			wp_dequeue_script('google-recaptcha');
+		}
+	}	
 	
 	public static function css()
 	{
@@ -1001,7 +1049,7 @@ class Jetcharters_Public {
 						
 						if(!self::ferry() && !self::ground())
 						{
-							$table_row .= '<td><small class="text-muted">('.esc_html($origin_iata).')</small> <strong>'.esc_html($origin_city.', '.$origin_country_code).'</strong><br/><a href="'.esc_url(home_lang()).'fly/'.self::cleanURL($origin_airport).'/">'.esc_html($origin_airport).'</a></td>';							
+							$table_row .= '<td><small class="text-muted">('.esc_html($origin_iata).')</small> <strong>'.esc_html($origin_city.', '.$origin_country_code).'</strong><br/>'.esc_html($origin_airport).'</td>';							
 						}
 
 						

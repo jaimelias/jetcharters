@@ -45,7 +45,7 @@ class Jetcharters {
 		$plugin_post_type = new Charterflights_Post_Type();
 		$plugin_meta_box = new Charterflights_Meta_Box();
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles', 11);
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'init', $plugin_post_type, 'fly_post_type', 0);
 		$this->loader->add_action( 'init', $plugin_post_type, 'jet_post_type', 0 );			

@@ -79,6 +79,8 @@ global $post;
 </div>
 
 <h2><?php echo esc_html(__('Instant Quotes', 'jetcharters')); ?></h2>
+<div class="bottom-20"><?php echo Jetcharters_Public::price_calculator(); ?></div>
+
 <?php echo Jetcharters_Public::get_destination_table(Charterflights_Meta_Box::jet_get_meta('jet_base_iata')); ?>
 
 

@@ -7,30 +7,15 @@ $capacity_args['value'] = intval(sanitize_text_field($_GET['jet_pax']));
 $capacity_args['type'] = 'numeric';
 $capacity_args['compare'] = '>=';
 $aircraft_count = 0;
-$not_available = '<p>'.esc_html(__('The requested quote is not available in our website yet. Please contact our sales team for an inmediate answer.', 'jetcharters'));
+$not_available = '<p class="large">'.esc_html(__('The requested quote is not available in our website yet. Please contact our sales team for an immediate answer.', 'jetcharters'));
 
-if(get_theme_mod('sales_phone') != null || get_theme_mod('sales_email') != null)
+if(get_theme_mod('min_tel') != null)
 {
-	if(get_theme_mod('sales_phone') != null)
-	{
-		$not_available .= ' '.esc_html(__('Call us at our 24/7 phone number', 'jetcharters')).' <strong><a href="tel:'.esc_html(get_theme_mod('sales_phone')).'">'.esc_html(get_theme_mod('sales_phone')).'</a></strong>';
-	}
-
-
-	if(get_theme_mod('sales_email') != null)
-	{
-		$not_available .= ' '.esc_html(__('or send us an email to ', 'jetcharters')).' <strong>'.hide_sting(array('email' => get_theme_mod('sales_email'))).'</strong> '.esc_html(__('and we will reply to you shortly', 'jetcharters'));
-	}
-
-	$not_available .= '.';	
+	$not_available .= ' '.esc_html(__('Call us at our 24/7 phone number', 'jetcharters')).' <strong><a href="tel:'.esc_html(get_theme_mod('min_tel')).'">'.esc_html(get_theme_mod('min_tel')).'</a></strong>';
+	$not_available .= '.';
 }
 
 $not_available .= '</p>';
-
-if(get_theme_mod('web_chat') != null)
-{
-	$not_available .= '<p>'.esc_html(__('We have partnered with new Chat Support System that let us stay connected 24/7. Click on the following button to chat with our team:', 'jetcharters')).'<br/><span>'.web_chat('pure-button pure-button-primary strong').'</span></p>';	
-}
  
 array_push($capacity_query, $capacity_args);
 
@@ -48,14 +33,13 @@ $wp_jet_search = new WP_Query( $args_jet_search );
 if ($wp_jet_search->have_posts())
 {
 	$output = null;
-	
 	$legs = __('One Way', 'jetcharters');
 	
 	if(intval($_GET['jet_flight']))
 	{
 		$legs = __('Round Trip', 'jetcharters');
 	}
-	
+
 	$jet_departure_date = strtotime(sanitize_text_field($_GET['jet_departure_date']));
 	$depdate_format = date_i18n(get_option( 'date_format' ), $jet_departure_date);	
 	$departure_flight = esc_html(sanitize_text_field($_GET['jet_origin']));
@@ -65,13 +49,11 @@ if ($wp_jet_search->have_posts())
 	$departure_flight .= esc_html($depdate_format);
 	$departure_flight .= ' '.esc_html(__('at', 'jetcharters')).' ';
 	$departure_flight .= esc_html(sanitize_text_field($_GET['jet_departure_hour']));
-	
 	$return_flight = null;
 	
 	if(intval($_GET['jet_flight']) == 1)
 	{
-		$retdate_format = date_i18n(get_option( 'date_format' ), strtotime(sanitize_text_field($_GET['jet_return_date'])));		
-		
+		$retdate_format = date_i18n(get_option( 'date_format' ), strtotime(sanitize_text_field($_GET['jet_return_date'])));
 		$return_flight = esc_html(sanitize_text_field($_GET['jet_destination']));
 		$return_flight .= '-';
 		$return_flight .= esc_html(sanitize_text_field($_GET['jet_origin']));
@@ -84,23 +66,23 @@ if ($wp_jet_search->have_posts())
 	$request = '<h3>'.esc_html(__('Departure', 'jetcharters')).': <span class="linkcolor">';
 	$request .= $departure_flight;
 	
-	if(intval($_GET['jet_flight']) == 1) {$request .= '</span></h3><h3>'.esc_html(__('Return', 'jetcharters')).': <span class="linkcolor"> '.$return_flight;}
+	if(intval($_GET['jet_flight']) == 1) 
+	{
+		$request .= '</span></h3><h3>'.esc_html(__('Return', 'jetcharters')).': <span class="linkcolor"> '.$return_flight;
+	}
 	
 	$request .= '</span>';	
 	$request .= '</h3>';
 	$request .= '<h3>'.esc_html(__('Passengers', 'jetcharters')).': <span class="linkcolor">'.esc_html(sanitize_text_field($_GET['jet_pax'])).'</span></h3>';
-	
 	$table = null;
 	
 	while ($wp_jet_search->have_posts())
 	{
 		$wp_jet_search->the_post();
 		global $post;
-
 		$aircraft_url = home_lang().esc_html($post->post_type).'/'.esc_html($post->post_name);
 		$table_price = Charterflights_Meta_Box::jet_get_meta( 'jet_rates' );
 		$table_price = json_decode(html_entity_decode($table_price), true);
-		
 		
 		for($x = 0; $x < count($table_price); $x++)
 		{
@@ -113,8 +95,7 @@ if ($wp_jet_search->have_posts())
 				{
 					$price = floatval($price)*floatval(sanitize_text_field($_GET['jet_pax']));
 				}
-				
-				
+
 				$flight_array = array();
 				$aircraft_count++;
 
@@ -128,7 +109,6 @@ if ($wp_jet_search->have_posts())
 				$weight_pounds = $table_price[$x][7];
 				$weight_kg = intval(intval($weight_pounds)*0.453592);
 				$weight_allowed = esc_html($weight_pounds.' '.__('pounds', 'jetcharters').' | '.$weight_kg.__('kg', 'jetcharters'));
-				
 				$flight_array['aircraft_price'] = floatval($price) + (floatval($fees) * floatval($_GET['jet_pax']));
 				$flight_array['aircraft_name'] = esc_html($post->post_title);
 				$flight_array['aircraft_id'] = intval(esc_html($post->ID));
@@ -163,7 +143,7 @@ if ($wp_jet_search->have_posts())
 				}
 				else
 				{
-					$flight_desc .= '<a class="strong" target="_blank" href="'.esc_url($aircraft_url).'">'.esc_html($post->post_title).'</a>';
+					$flight_desc .= '<a class="strong" href="'.esc_url($aircraft_url).'">'.esc_html($post->post_title).'</a>';
 					$flight_desc .= '<br/>';
 					$flight_desc .= '<small>'.esc_html(Jetcharters_Public::jet_type(Charterflights_Meta_Box::jet_get_meta( 'jet_type' ))).'</small>';
 					$flight_desc .= ' <strong><i class="fas fa-male" aria-hidden="true"></i> '.esc_html($seats).'</strong>';					
@@ -191,8 +171,7 @@ if ($wp_jet_search->have_posts())
 				$row .= '<td>';
 				
 				$select_label = __('Quote', 'jetcharters');	
-				$row .= '<button class="strong button-success pure-button" data-aircraft="'.esc_html(htmlentities(json_encode($flight_array))).'"><i class="fas fa-envelope" aria-hidden="true"></i> '.esc_html($select_label).'</button>';				
-								
+				$row .= '<button class="strong button-success pure-button" data-aircraft="'.esc_html(htmlentities(json_encode($flight_array))).'"><i class="fas fa-envelope" aria-hidden="true"></i> '.esc_html($select_label).'</button>';			
 				$row .= '</td>';
 				$row .= "</tr>";				
 				$table .= $row;
@@ -203,13 +182,10 @@ if ($wp_jet_search->have_posts())
 	}
 	wp_reset_postdata();
 	
-	
 	if($aircraft_count == 0)
 	{
 		$table .= '<tr><td colspan="5">'.$not_available.'</td></tr>';
-	}		
-
-	
+	}
 	?>
 	
 	<hr/>
@@ -243,13 +219,13 @@ if ($wp_jet_search->have_posts())
 			</div>				
 		
 					<div class="pure-g gutters">
-						<div class="pure-u-1 pure-u-sm-1-2 pure-u-md-1-2">
+						<div class="pure-u-1 pure-u-md-1-2">
 							<div class="bottom-20">
 								<label for="lead_name"><?php echo esc_html(__('Name', 'jetcharters')); ?></label>
 								<input type="text" name="lead_name" />								
 							</div>
 						</div>
-						<div class="pure-u-1 pure-u-sm-1-2 pure-u-md-1-2">
+						<div class="pure-u-1 pure-u-md-1-2">
 							<div class="bottom-20">
 								<label for="lead_lastname"><?php echo esc_html(__('Last Name', 'jetcharters')); ?></label>
 								<input type="text" name="lead_lastname" />			
@@ -257,13 +233,13 @@ if ($wp_jet_search->have_posts())
 						</div>
 					</div>
 					<div class="pure-g gutters">
-						<div class="pure-u-1 pure-u-sm-1-2 pure-u-md-1-2">
+						<div class="pure-u-1 pure-u-md-1-2">
 							<div class="bottom-20">
 								<label for="lead_email"><?php echo esc_html(__('Email', 'jetcharters')); ?></label>
 								<input type="email" name="lead_email" />								
 							</div>
 						</div>
-						<div class="pure-u-1 pure-u-sm-1-2 pure-u-md-1-2">
+						<div class="pure-u-1 pure-u-md-1-2">
 							<div class="bottom-20">
 								<label for="lead_phone"><?php echo esc_html(__('Phone', 'jetcharters')); ?></label>
 								<input type="text" name="lead_phone" />								
@@ -271,13 +247,13 @@ if ($wp_jet_search->have_posts())
 						</div>
 					</div>
 					<div class="pure-g gutters">
-						<div class="pure-u-1 pure-u-sm-1-2 pure-u-md-1-2">
+						<div class="pure-u-1 pure-u-md-1-2">
 							<div class="bottom-20">
 								<label for="country"><?php echo esc_html(__('Country', 'jetcharters')); ?></label>
 								<select name="lead_country" class="countrylist"><option>--</option></select>								
 							</div>
 						</div>
-						<div class="pure-u-1 pure-u-sm-1-2 pure-u-md-1-2">
+						<div class="pure-u-1 pure-u-md-1-2">
 							<div class="bottom-20">
 								<label for="lead_children"><?php echo esc_html(__('Traveling With Children', 'jetcharters')); ?>?</label>
 								<select name="lead_children">
