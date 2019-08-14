@@ -310,6 +310,4 @@ else
 	echo $not_available;	
 }
 
-echo wpautop(Jetcharters_Public::get_destination_content(sanitize_text_field($_GET['jet_destination'])));
-
 ?>

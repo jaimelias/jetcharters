@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Panama Jet Hub\n"
-"POT-Creation-Date: 2019-03-04 21:56+0000\n"
-"PO-Revision-Date: 2019-03-04 21:56+0000\n"
+"POT-Creation-Date: 2019-07-04 23:56+0000\n"
+"PO-Revision-Date: 2019-07-04 23:56+0000\n"
 "Last-Translator: jaimelias <jaime@aeroalbrook.com>\n"
 "Language-Team: Spanish (Spain)\n"
 "Language: es_ES\n"
@@ -16,146 +16,146 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: .\n"
 "Report-Msgid-Bugs-To: \n"
-"X-Loco-Version: 2.2.0; wp-5.1"
+"X-Loco-Version: 2.3.0; wp-5.2.2"
 
-#: public/class-jetcharters-public.php:104
+#: public/class-jetcharters-public.php:112
 msgid "Mapbox preview not available in editing mode."
 msgstr ""
 
-#: public/class-jetcharters-public.php:156
-#: public/class-jetcharters-public.php:982 public/partials/metatags-fly.php:47
+#: public/class-jetcharters-public.php:160
+#: public/class-jetcharters-public.php:1026 public/partials/metatags-fly.php:47
 #: public/partials/metatags-fly.php:59 public/partials/metatags-fly.php:60
 #: public/partials/metatags-jet.php:4
 msgid "Private Charter Flight"
 msgstr "Vuelo charter privado"
 
-#: public/class-jetcharters-public.php:168
-#: public/class-jetcharters-public.php:225
+#: public/class-jetcharters-public.php:172
+#: public/class-jetcharters-public.php:229
 msgid "Destination Not Found"
 msgstr "Destino no encontrado"
 
-#: public/class-jetcharters-public.php:173
-#: public/class-jetcharters-public.php:212
+#: public/class-jetcharters-public.php:177
+#: public/class-jetcharters-public.php:216
 msgid "Request Submitted"
 msgstr "Solicitar cotización"
 
-#: public/class-jetcharters-public.php:178
-#: public/class-jetcharters-public.php:208
+#: public/class-jetcharters-public.php:182
+#: public/class-jetcharters-public.php:212
 msgid "Find an Aircraft"
 msgstr "Aeronaves disponibles"
 
-#: public/class-jetcharters-public.php:221
-#: public/class-jetcharters-public.php:1051 public/partials/metatags-fly.php:58
+#: public/class-jetcharters-public.php:225
+#: public/class-jetcharters-public.php:1095 public/partials/metatags-fly.php:58
 msgid "Charter Flights"
 msgstr "Vuelos Privados"
 
-#: public/class-jetcharters-public.php:276
+#: public/class-jetcharters-public.php:280
 msgid "Request received. Our sales team will be in touch with you soon."
 msgstr "Solicitud recibida. Nuestro equipo de ventas en contácto muy pronto."
 
-#: public/class-jetcharters-public.php:280
+#: public/class-jetcharters-public.php:284
 msgid "Invalid Recaptcha"
 msgstr "Recaptcha inválido"
 
-#: public/class-jetcharters-public.php:295
+#: public/class-jetcharters-public.php:299
 msgid "Invalid Request"
 msgstr "Solicitud inválida"
 
-#: public/class-jetcharters-public.php:779
+#: public/class-jetcharters-public.php:823
 msgid "Turbo Prop"
 msgstr "Avioneta"
 
-#: public/class-jetcharters-public.php:783
+#: public/class-jetcharters-public.php:827
 msgid "Light Jet"
 msgstr "Jet ligero"
 
-#: public/class-jetcharters-public.php:787
+#: public/class-jetcharters-public.php:831
 msgid "Mid-size Jet"
 msgstr "Jet medio"
 
-#: public/class-jetcharters-public.php:791
+#: public/class-jetcharters-public.php:835
 msgid "Heavy Jet"
 msgstr "Jet pesado"
 
-#: public/class-jetcharters-public.php:795
+#: public/class-jetcharters-public.php:839
 msgid "Airliner"
 msgstr "Avión"
 
-#: public/class-jetcharters-public.php:799
+#: public/class-jetcharters-public.php:843
 msgid "Helicopter"
 msgstr "Helicóptero"
 
-#: public/class-jetcharters-public.php:979 public/partials/jet_search.php:130
+#: public/class-jetcharters-public.php:1023 public/partials/jet_search.php:111
 msgid "pounds"
 msgstr "libras"
 
-#: public/class-jetcharters-public.php:979 public/partials/jet_search.php:130
+#: public/class-jetcharters-public.php:1023 public/partials/jet_search.php:111
 msgid "kg"
 msgstr "kg"
 
-#: public/class-jetcharters-public.php:982
+#: public/class-jetcharters-public.php:1026
 msgid "from"
 msgstr "desde"
 
-#: public/class-jetcharters-public.php:982
+#: public/class-jetcharters-public.php:1026
 msgid "to"
 msgstr "hasta"
 
-#: public/class-jetcharters-public.php:990
+#: public/class-jetcharters-public.php:1034
 #: includes/class-jetcharters-meta-box.php:58
-#: public/partials/jet_search.php:144
+#: public/partials/jet_search.php:124
 msgid "Commercial Flight"
 msgstr "Vuelo comercial"
 
-#: public/class-jetcharters-public.php:994
+#: public/class-jetcharters-public.php:1038
 #: includes/class-jetcharters-meta-box.php:59
-#: public/partials/jet_search.php:148
+#: public/partials/jet_search.php:128
 msgid "Ferry"
 msgstr ""
 
-#: public/class-jetcharters-public.php:998
+#: public/class-jetcharters-public.php:1042
 #: includes/class-jetcharters-meta-box.php:60
-#: public/partials/jet_search.php:152
+#: public/partials/jet_search.php:132
 msgid "Ground Transport"
 msgstr "Transporte Terrestre"
 
-#: public/class-jetcharters-public.php:1018 public/partials/jet_search.php:155
+#: public/class-jetcharters-public.php:1062 public/partials/jet_search.php:135
 msgid "Per Person"
 msgstr "Por persona"
 
-#: public/class-jetcharters-public.php:1022
+#: public/class-jetcharters-public.php:1066
 #: includes/class-jetcharters-meta-box.php:57
 msgid "Charter Flight"
 msgstr "Vuelo privado"
 
-#: public/class-jetcharters-public.php:1029 public/partials/jet_search.php:159
-#: public/partials/jet_search.php:176
+#: public/class-jetcharters-public.php:1073 public/partials/jet_search.php:139
+#: public/partials/jet_search.php:156
 msgid "Fees per pers."
 msgstr "Cargos por pers."
 
-#: public/class-jetcharters-public.php:1059
+#: public/class-jetcharters-public.php:1103
 msgid "Flights to "
 msgstr "Vuelos a"
 
-#: public/class-jetcharters-public.php:1065
+#: public/class-jetcharters-public.php:1109
 #: includes/class-jetcharters-post-type.php:14
 #: includes/class-jetcharters-post-type.php:38
 #: public/partials/price-calculator.php:8
 msgid "Destination"
 msgstr "Destino"
 
-#: public/class-jetcharters-public.php:1069
+#: public/class-jetcharters-public.php:1113
 #: public/partials/price-calculator.php:4
 msgid "Origin"
 msgstr "Origen"
 
-#: public/class-jetcharters-public.php:1070
+#: public/class-jetcharters-public.php:1114
 #: includes/class-jetcharters-meta-box.php:14
-#: public/partials/jet_search.php:222
+#: public/partials/jet_search.php:198
 msgid "Flights"
 msgstr "Vuelos"
 
-#: public/class-jetcharters-public.php:1074 public/partials/jet_search.php:52
+#: public/class-jetcharters-public.php:1118 public/partials/jet_search.php:36
 msgid "One Way"
 msgstr "Una vía"
 
@@ -380,7 +380,7 @@ msgid "Type"
 msgstr "Tipo"
 
 #: includes/class-jetcharters-meta-box.php:133
-#: public/partials/jet_search.php:91 public/partials/price-calculator.php:15
+#: public/partials/jet_search.php:76 public/partials/price-calculator.php:15
 #: public/partials/jetcharters-jet-single.php:8
 msgid "Passengers"
 msgstr "Pasajeros"
@@ -461,7 +461,7 @@ msgid "days prior departure"
 msgstr "días antes de la partida"
 
 #: includes/class-jetcharters-meta-box.php:203
-#: public/partials/jet_search.php:262
+#: public/partials/jet_search.php:238
 msgid "Email"
 msgstr "Email"
 
@@ -476,95 +476,77 @@ msgstr "Ubicación"
 #: public/partials/jet_search.php:10
 msgid ""
 "The requested quote is not available in our website yet. Please contact our "
-"sales team for an inmediate answer."
+"sales team for an immediate answer."
 msgstr ""
-"Su solicitud no se encuentra disponible en este momento en nuestro sitio web."
-" Por favor contacte a nuestro departamento de ventas para una rápida "
-"respuesta."
+"Tu solicitud no está disponible en nuestro sitio web aún. Por favor contacta "
+"a nuestro equipo de ventas para una pronta respuesta."
 
-#: public/partials/jet_search.php:16
+#: public/partials/jet_search.php:14
 msgid "Call us at our 24/7 phone number"
 msgstr "Llámanos a nuestro teléfono 24 horas"
 
-#: public/partials/jet_search.php:22
-msgid "or send us an email to "
-msgstr "o escríbenos a nuestro email "
-
-#: public/partials/jet_search.php:22
-msgid "and we will reply to you shortly"
-msgstr "y te contestamos enseguida"
-
-#: public/partials/jet_search.php:32
-msgid ""
-"We have partnered with new Chat Support System that let us stay connected "
-"24/7. Click on the following button to chat with our team:"
-msgstr ""
-"Nos hemos asociado con un nuevo Sistema de Soporte por Chat que nos permite "
-"estar conectados 24 horas. Haz click en el siguiente botón para escribir a "
-"nuestro equipo:"
-
-#: public/partials/jet_search.php:56
+#: public/partials/jet_search.php:40
 msgid "Round Trip"
 msgstr "Viaje redondo"
 
-#: public/partials/jet_search.php:64 public/partials/jet_search.php:78
+#: public/partials/jet_search.php:48 public/partials/jet_search.php:60
 msgid "on"
 msgstr "el"
 
-#: public/partials/jet_search.php:66 public/partials/jet_search.php:80
+#: public/partials/jet_search.php:50 public/partials/jet_search.php:62
 msgid "at"
 msgstr "a las"
 
-#: public/partials/jet_search.php:84
+#: public/partials/jet_search.php:66
 msgid "Departure"
 msgstr "Partida"
 
-#: public/partials/jet_search.php:87
+#: public/partials/jet_search.php:71
 msgid "Return"
 msgstr "Regreso"
 
-#: public/partials/jet_search.php:193
+#: public/partials/jet_search.php:173
 msgid "Quote"
 msgstr "Cotizar"
 
-#: public/partials/jet_search.php:225
+#: public/partials/jet_search.php:201
 msgid "Duration"
 msgstr "Duración"
 
-#: public/partials/jet_search.php:241
+#: public/partials/jet_search.php:217
 msgid "Request a Quote"
 msgstr "Solicitar cotización"
 
-#: public/partials/jet_search.php:248
+#: public/partials/jet_search.php:224
 msgid "Name"
 msgstr "Nombre"
 
-#: public/partials/jet_search.php:254
+#: public/partials/jet_search.php:230
 msgid "Last Name"
 msgstr "Apellido"
 
-#: public/partials/jet_search.php:268
+#: public/partials/jet_search.php:244
 msgid "Phone"
 msgstr "Teléfono"
 
-#: public/partials/jet_search.php:276
+#: public/partials/jet_search.php:252
 #: public/partials/jetcharters-public-display.php:58
 msgid "Country"
 msgstr "País"
 
-#: public/partials/jet_search.php:282
+#: public/partials/jet_search.php:258
 msgid "Traveling With Children"
 msgstr "Viajas con niños"
 
-#: public/partials/jet_search.php:284
+#: public/partials/jet_search.php:260
 msgid "No"
 msgstr ""
 
-#: public/partials/jet_search.php:285
+#: public/partials/jet_search.php:261
 msgid "Yes"
 msgstr ""
 
-#: public/partials/jet_search.php:320
+#: public/partials/jet_search.php:296
 msgid "Send Request"
 msgstr "Enviar solicitud"
 

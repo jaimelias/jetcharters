@@ -84,6 +84,7 @@ class Jetcharters {
 		$this->loader->add_filter( 'template_include', $plugin_public, 'package_template', 10 );
 		$this->loader->add_filter('template_include', $plugin_public, 'unset_template', 1);
 		$this->loader->add_filter('template_redirect', $plugin_public, 'redirect_cacheimg', 11);
+		$this->loader->add_filter('minimal_ld_json', $plugin_public, 'ld_json', 100);
 		$this->loader->add_action('init', $plugin_yoast, 'yoast_fixes');
 	}
 

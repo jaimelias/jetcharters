@@ -63,9 +63,118 @@ class Jetcharters_Public {
 			return false;
 		}
 	}
+	public static function ld_json($arr)
+	{
+		if(get_query_var('fly'))
+		{
+			global $airport_array;
+
+
+			if(is_object($airport_array) || is_array($airport_array))
+			{
+				$iata = $airport_array['iata'];
+				$codes = '('.$iata.')';
+				$city = $airport_array['city'];
+				$airport = $airport_array['airport'];
+				$country_name = $airport_array['country_names'];
+				$lang = substr(get_locale(), 0, -3);
+				$prices = array();
+				
+				if($lang)
+				{
+					if(array_key_exists($lang, $country_name))
+					{
+						$country_lang = $country_name[$lang];
+					}
+					else
+					{
+						$country_lang = $country_name['en'];
+					}
+				}
+				
+				$addressArray = array(($airport.' '.$codes), $city, $country_lang);
+				$address = implode(', ', $addressArray);			
+				
+				$args23 = array('post_type' => 'jet','posts_per_page' => 200, 'post_parent' => 0, 'meta_key' => 'jet_base_iata', 'orderby' => 'meta_value');
+				$args23['meta_query'] = array();
+
+				$meta_args = array(
+					'key' => 'jet_base_iata',
+					'value' => esc_html($iata),
+					'compare' => '!='
+				);			
+				
+				$args23['meta_key'] = array();
+				array_push($args23['meta_query'], $meta_args);
+				$wp_query23 = new WP_Query( $args23 );
+
+				if ($wp_query23->have_posts())
+				{	
+					while ( $wp_query23->have_posts() )
+					{
+						$wp_query23->the_post();
+						$table_price = html_entity_decode(Charterflights_Meta_Box::jet_get_meta( 'jet_rates' ));
+						$table_price = json_decode($table_price, true);
+							
+						
+						for($x = 0; $x < count($table_price); $x++)
+						{
+							if(($iata == $table_price[$x][0] || $iata == $table_price[$x][1]) && ($table_price[$x][0] != '' || $table_price[$x][1] != ''))
+							{
+								array_push($prices, floatval($table_price[$x][3]));
+							}
+						}
+					}
+
+					wp_reset_postdata();				
+					
+				}
+
+				if(count($prices) > 0)
+				{
+					$arr = array();
+					$arr['@context'] = 'http://schema.org/';
+					$arr['@type'] = 'Product';
+					$arr['brand'] = array();
+					$arr['brand']['@type'] = 'Thing';
+					$arr['brand']['name'] = esc_html(get_bloginfo('name'));				
+					$arr['category'] = esc_html(__('Charter Flights', 'jetcharters'));
+					$arr['name'] = esc_html(__('Private Charter Flight', 'jetcharters').' '.$airport);
+					$arr['description'] = esc_html(__('Private Charter Flight', 'jetcharters').' '.$address.'. '.__('Airplanes and helicopter rides in', 'jetcharters').' '.$airport.', '.$city);
+					$arr['image'] = esc_url(Jetcharters_Public::airport_img_url($airport_array, true));
+					$arr['sku'] = md5($iata);
+					$arr['gtin8'] = substr(md5($iata), 0, 8);
+
+					$offers = array();
+					
+					if(count($prices) == 1)
+					{
+						$offers['@type'] = 'Offer';
+						$offers['@type'] = 'Offer';
+						$offers['price'] = number_format($prices[0], 2, '.', '');					
+					}
+					else
+					{
+						$offers['@type'] = 'AggregateOffer';
+						$offers['lowPrice'] = number_format(min($prices), 2, '.', '');
+						$offers['highPrice'] = number_format(max($prices), 2, '.', '');					
+					}
+
+					$offers['priceCurrency'] = 'USD';
+					$offers['priceValidUntil'] = esc_html(date('Y-m-d', strtotime('+1 year')));
+					$offers['availability'] = 'http://schema.org/InStock';				
+					$offers['url'] = esc_url(get_the_permalink());				
+					$arr['offers'] = $offers;				
+				}				
+			}
+		}
+		
+		return $arr;
+	}
 	public static function jetlist($attr, $content = "")
 	{
 		ob_start();
+		$GLOBALS['jet_attr'] = $attr;
 		require_once(dirname( __FILE__ ) . '/partials/jet-archive.php');
 		$content = ob_get_contents();
 		ob_end_clean();	
@@ -241,10 +350,9 @@ class Jetcharters_Public {
 
 			if(count($json) > 0)
 			{
-								
+				$output .= wpautop(self::get_destination_content(esc_html($json['iata'])));		
 				$output .= self::get_destination_table(esc_html($json['iata']));			
-				$output .= wpautop(self::get_destination_content(esc_html($json['iata'])));			
-				
+
 				ob_start();
 				require_once(plugin_dir_path( __FILE__ ).'partials/jetcharters-public-display.php');
 				$output .= ob_get_contents();
@@ -673,7 +781,7 @@ class Jetcharters_Public {
 			wp_add_inline_script('mapbox', self::get_inline_js('jetcharters-mapbox'), 'after');
 			wp_enqueue_script('sha512', plugin_dir_url( __FILE__ ) . 'js/sha512.js', array(), 'async_defer', true );
 			self::datepickerJS();			
-			wp_enqueue_script($this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jetcharters-public.js', $dep, $this->version, true );
+			wp_enqueue_script($this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jetcharters-public.js', $dep, time(), true );
 		}
 		
 	
@@ -876,19 +984,19 @@ class Jetcharters_Public {
 		{
 			while ( $wp_query21->have_posts() )
 			{
-				$wp_query21->the_post();
-				
-				if( current_user_can('editor') || current_user_can('administrator') )
-				{
-					ob_start();
-					edit_post_link('<i class="fas fa-pencil-alt" ></i> '.__('Edit Destination'), '<p class="text-right">', '</p>', '', 'pure-button' );
-					$new_content .= ob_get_contents();
-					ob_end_clean();					
-				}	
+				$wp_query21->the_post();	
 				
 				$new_content .= '<div class="dynamic-related">';
 				$new_content .= get_the_content();
 				$new_content .= '</div>';
+				
+				if( current_user_can('editor') || current_user_can('administrator') )
+				{
+					ob_start();
+					edit_post_link('<i class="fas fa-pencil-alt" ></i> '.__('Edit Destination'), '<p class="small">', '</p>', '', 'pure-button' );
+					$new_content .= ob_get_contents();
+					ob_end_clean();					
+				}				
 			}
 			wp_reset_postdata();
 		}

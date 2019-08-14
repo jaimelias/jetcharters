@@ -34,7 +34,7 @@ class Jetcharter_Settings
 		register_setting( 'jc_settings', 'mapbox_map_zoom', array('Jetcharter_Settings', 'sanitize_mapbox_map_zoom'));
 		register_setting( 'jc_settings', 'mapbox_base_lat', array('Jetcharter_Settings', 'sanitize_mapbox_base_lat'));
 		register_setting( 'jc_settings', 'mapbox_base_lon', array('Jetcharter_Settings', 'sanitize_mapbox_base_lon'));
-		register_setting( 'jc_settings', 'jet_grid_cols', array('Jetcharter_Settings', 'sanitize_jet_grid_cols'));
+		
 		//algolia
 		register_setting( 'jc_settings', 'algolia_token', array('Jetcharter_Settings', 'sanitize_algolia_token'));
 		register_setting( 'jc_settings', 'algolia_index', array('Jetcharter_Settings', 'sanitize_algolia_index'));
@@ -98,13 +98,7 @@ class Jetcharter_Settings
 			'jc_settings', 
 			'jc_settings-section' 
 		);	
-		add_settings_field( 
-			'text_field_jetcharters_7', 
-			esc_html(__( 'Jet Archive Columns', 'jetcharters' )), 
-			array('Jetcharter_Settings', 'text_field_jetcharters_7_render'), 
-			'jc_settings', 
-			'jc_settings-section' 
-		);
+
 
 		add_settings_field( 
 			'text_field_jetcharters_8', 
@@ -188,12 +182,6 @@ class Jetcharter_Settings
 		<input type='text' name='mapbox_base_lon[text_field_jetcharters_6]' value='<?php echo esc_html($options['text_field_jetcharters_6']); ?>'>
 		<?php
 	}
-	public static function text_field_jetcharters_7_render(  ) { 
-		$options = get_option( 'jet_grid_cols' );
-		?>
-		<input maxlength="3" size="3" type='number' name='jet_grid_cols[text_field_jetcharters_7]' value='<?php echo esc_html($options['text_field_jetcharters_7']); ?>'>
-		<?php
-	}	
 
 	public static function text_field_jetcharters_8_render(  ) { 
 		$options = get_option( 'algolia_token' );
@@ -256,11 +244,6 @@ class Jetcharter_Settings
 	public static function sanitize_mapbox_base_lon( $input ) {
 		$valid = array();
 		$valid['text_field_jetcharters_6'] = sanitize_text_field( $input['text_field_jetcharters_6'] );
-		return $valid;
-	}
-	public static function sanitize_jet_grid_cols( $input ) {
-		$valid = array();
-		$valid['text_field_jetcharters_7'] = sanitize_text_field( $input['text_field_jetcharters_7'] );
 		return $valid;
 	}
 

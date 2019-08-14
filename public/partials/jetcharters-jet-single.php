@@ -71,7 +71,7 @@ global $post;
 <div class="pure-g gutters">
 	<div class="pure-u-1 pure-u-md-1-2">
 		<?php if(has_post_thumbnail()): ?>
-			<?php the_post_thumbnail('medium', array('class' => 'img-responsive')); ?>
+			<p><?php the_post_thumbnail('medium', array('class' => 'img-responsive')); ?></p>
 		<?php endif;?>
 		<?php echo $content; ?>
 		</div>
