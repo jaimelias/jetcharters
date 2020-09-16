@@ -26,6 +26,10 @@ class Jetcharter_Settings
 	
 	public static function settings_init(  ) { 
 
+		//mandrill
+		register_setting('jc_settings', 'mandrill_api_key', 'sanitize_user');
+		register_setting('jc_settings', 'mandrill_username', 'sanitize_text_field');
+
 		//setting, id, sanitize
 		register_setting( 'jc_settings', 'mapbox_token', array('Jetcharter_Settings', 'sanitize_mapbox_token'));
 		register_setting( 'jc_settings', 'mapbox_map_id', array('Jetcharter_Settings', 'sanitize_mapbox_map_id'));
@@ -129,11 +133,36 @@ class Jetcharter_Settings
 			array('Jetcharter_Settings', 'text_field_jetcharters_11_render'), 
 			'jc_settings', 
 			'jc_settings-section' 
-		);			
+		);
+
+		add_settings_field( 
+			'mandrill_api_key', 
+			esc_html(__( 'Mandrill Api Key', 'jetcharters' )), 
+			array('Jetcharter_Settings', 'display_mandrill_api_key'), 
+			'jc_settings', 
+			'jc_settings-section' 
+		);
+
+		add_settings_field( 
+			'mandrill_username', 
+			esc_html(__( 'Mandrill Username', 'jetcharters' )), 
+			array('Jetcharter_Settings', 'display_mandrill_username'), 
+			'jc_settings', 
+			'jc_settings-section' 
+		);		
 
 		
 	}
 
+	public static function display_mandrill_api_key() { ?>
+		<input type="text" name="mandrill_api_key" id="mandrill_api_key" value="<?php echo esc_html(get_option('mandrill_api_key')); ?>" />
+	<?php }
+	
+	
+	public static function display_mandrill_username() { ?>
+		<input type="text" name="mandrill_username" id="mandrill_username" value="<?php echo esc_html(get_option('mandrill_username')); ?>" />
+	<?php }	
+	
 	public static function text_field_jetcharters_0_render(  ) { 
 		$options = get_option( 'mapbox_token' );
 		?>

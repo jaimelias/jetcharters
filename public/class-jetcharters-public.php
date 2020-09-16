@@ -54,7 +54,62 @@ class Jetcharters_Public {
 		add_shortcode( 'mapbox_airports', array('Jetcharters_Public', 'mapbox_airports') );
 		add_shortcode( 'jetlist', array('Jetcharters_Public', 'jetlist') );
 		add_shortcode( 'destination', array('Jetcharters_Public', 'filter_destination_table') );
+		add_action( 'parse_query', array( &$this, 'on_quote_submit' ), 1);
 	}
+	
+	public static function on_quote_submit()
+	{
+		global $VALID_JET_RECAPTCHA;
+		
+		if(!isset($VALID_JET_RECAPTCHA))
+		{
+			if(Jetcharters_Validators::valid_jet_quote())
+			{
+				if(Jetcharters_Validators::validate_recaptcha())
+				{
+					$data = $_POST;
+					$data['lang'] = substr( get_locale(), 0, 2 );
+					
+					$args50 = array('post_type' => 'jet','posts_per_page' => 1, 'p' => intval($data['aircraft_id']));	
+					$wp_query50 = new WP_Query( $args50 );
+					
+					if($wp_query50->have_posts())
+					{
+						while ($wp_query50->have_posts())
+						{
+							$wp_query50->the_post();
+							$data['operator'] = Charterflights_Meta_Box::jet_get_meta('operator');
+							$data['operator_email'] = Charterflights_Meta_Box::jet_get_meta('operator_email');
+							$data['operator_tel'] = Charterflights_Meta_Box::jet_get_meta('operator_tel');
+							$data['operator_location'] = Charterflights_Meta_Box::jet_get_meta('operator_location');
+						}
+					}
+					
+					$blog_name = get_bloginfo('name');
+					$subject = $data['lead_name'] . ', '. $blog_name . ' ' . __('Sent You an Estimate', 'jetcharters');
+					$headers = array();
+					$headers[] = 'Content-Type: text/html; charset=UTF-8';
+					$headers[] = 'BCC: ' . get_option('admin_email');
+					
+					$hello = __('Hello', 'jetcharters') . ' ' . $data['lead_name'];
+					$greeting = __('Congratulations! Your request has been sent to one of our Charter Experts!', 'jetcharters');
+					$message = __('There are some questions we will have in order to better focus our attention on the right aircraft for the mission. Please expect a call and/or email soon to discuss your preferences. Feel free to ask any question as we are here to advise our clients on aviation worldwide.', 'jetcharters');
+					$itinerary = 'Itinerary';
+					$quote = 'Quote';
+					$contact_whatsapp = __('Feel free to contact us using Whatsapp', 'jetcharters');
+					$whatsapp = get_theme_mod('whatsapp');
+					$contact_tel = __('To speak immediately to a Charter Specialist standing by, please call', 'jetcharters');
+					$tel = get_theme_mod('min_tel');
+					require_once('email_template.php');
+					
+					wp_mail(sanitize_email($_POST['lead_email']), $subject , $email_template, $headers);
+					self::webhook(json_encode($data));
+					$GLOBALS['VALID_JET_RECAPTCHA'] = true;
+				}
+			}			
+		}
+	}	
+	
 	public static function deque_jetpack()
 	{
 		if(get_query_var('fly'))
@@ -263,23 +318,31 @@ class Jetcharters_Public {
 		if(get_query_var( 'fly' ))
 		{
 			global $airport_array;
+			//jaimelias
 			
-			if(count($airport_array) > 0)
+			if(is_array($airport_array))
 			{
-				$title = __("Private Charter Flight", "jetcharters").' '.$airport_array['airport'];
-
-				if($airport_array['iata'] != null && $airport_array['icao'] != null)
+				if(count($airport_array) > 0)
 				{
-					$title .= ' ['.$airport_array['iata'].']';
+					$title = __("Private Charter Flight", "jetcharters").' '.$airport_array['airport'];
+
+					if($airport_array['iata'] != null && $airport_array['icao'] != null)
+					{
+						$title .= ' ['.$airport_array['iata'].']';
+					}
+					
+					$title .= ' '.$airport_array['city'].' | '.get_bloginfo('name');
+					$title =  esc_html($title);
 				}
-				
-				$title .= ' '.$airport_array['city'].' | '.get_bloginfo('name');
-				$title =  esc_html($title);
+				else
+				{
+					return esc_html(__('Destination Not Found', 'jetcharters'));
+				}				
 			}
 			else
 			{
 				return esc_html(__('Destination Not Found', 'jetcharters'));
-			}
+			}			
 		}
 		elseif(Jetcharters_Validators::valid_jet_quote())
 		{
@@ -327,17 +390,24 @@ class Jetcharters_Public {
 			elseif(in_the_loop() && get_query_var( 'fly' ))
 			{
 				global $airport_array;
-			
-				if(count($airport_array) > 0)
+				//jaimelias
+				
+				if(is_array($airport_array))
 				{
-					$json = $airport_array;
-					$title = '<span class="linkcolor">'.esc_html(__('Charter Flights','jetcharters')).'</span> '.esc_html($json['airport']).' <span class="linkcolor">'.esc_html($json['city']).'</span>';						
+					if(count($airport_array) > 0)
+					{
+						$json = $airport_array;
+						$title = '<span class="linkcolor">'.esc_html(__('Charter Flights','jetcharters')).'</span> '.esc_html($json['airport']).' <span class="linkcolor">'.esc_html($json['city']).'</span>';						
+					}
+					else
+					{
+						$title = esc_html(__('Destination Not Found', 'jetcharters'));
+					}				
 				}
 				else
 				{
 					$title = esc_html(__('Destination Not Found', 'jetcharters'));
-				}
-	
+				}					
 			}
 		return $title;
 	}
@@ -348,43 +418,27 @@ class Jetcharters_Public {
 			$json = $airport_array;
 			$output = null;
 
-			if(count($json) > 0)
+			if(is_array($json))
 			{
-				$output .= wpautop(self::get_destination_content(esc_html($json['iata'])));		
-				$output .= self::get_destination_table(esc_html($json['iata']));			
-
-				ob_start();
-				require_once(plugin_dir_path( __FILE__ ).'partials/jetcharters-public-display.php');
-				$output .= ob_get_contents();
-				ob_end_clean();
-			}			
+				if(count($json) > 0)
+				{
+		
+					$output .= self::get_destination_table(esc_html($json['iata']));		$output .= self::get_destination_content(esc_html($json['iata']));
+					ob_start();
+					require_once(plugin_dir_path( __FILE__ ).'partials/jetcharters-public-display.php');
+					$output .= ob_get_contents();
+					ob_end_clean();
+				}				
+			}
 			
 			return $output;
 		}
 		elseif(Jetcharters_Validators::valid_jet_quote())
 		{
-			if(Jetcharters_Validators::validate_recaptcha())
-			{
-				$data = $_POST;
-				$data['lang'] = substr( get_locale(), 0, 2 );
-				
-				$args50 = array('post_type' => 'jet','posts_per_page' => 1, 'p' => intval($data['aircraft_id']));	
-				$wp_query50 = new WP_Query( $args50 );
-				
-				if($wp_query50->have_posts())
-				{
-					while ($wp_query50->have_posts())
-					{
-						$wp_query50->the_post();
-						$data['operator'] = Charterflights_Meta_Box::jet_get_meta('operator');
-						$data['operator_email'] = Charterflights_Meta_Box::jet_get_meta('operator_email');
-						$data['operator_tel'] = Charterflights_Meta_Box::jet_get_meta('operator_tel');
-						$data['operator_location'] = Charterflights_Meta_Box::jet_get_meta('operator_location');
-					}
-				}
-				
-				self::webhook(json_encode($data));
-				
+			global $VALID_JET_RECAPTCHA;
+			
+			if(isset($VALID_JET_RECAPTCHA))
+			{				
 				return '<p class="minimal_success">'.esc_html(__('Request received. Our sales team will be in touch with you soon.', 'jetcharters')).'</p>';
 			}
 			else
@@ -449,14 +503,22 @@ class Jetcharters_Public {
 	{	if(get_query_var( 'fly' ))
 		{
 			global $airport_array;
+			//jaimelias
 			
-			if(count($airport_array) > 0)
+			if(is_array($airport_array))
 			{
-				ob_start();
-				require_once(plugin_dir_path( __FILE__ ).'partials/metatags-fly.php');
-				$output = ob_get_contents();
-				ob_end_clean();
-				echo $output;				
+				if(count($airport_array) > 0)
+				{
+					ob_start();
+					require_once(plugin_dir_path( __FILE__ ).'partials/metatags-fly.php');
+					$output = ob_get_contents();
+					ob_end_clean();
+					echo $output;				
+				}
+				else
+				{
+					$output = null;
+				}				
 			}
 			else
 			{
@@ -700,13 +762,17 @@ class Jetcharters_Public {
 		{
 			$json = $resp['hits'];
 			
-			for($x = 0; $x < count($json); $x++)
+			if(is_array($json))
 			{
-				if($new_query_var === self::cleanURL($json[$x]["airport"]))
+				for($x = 0; $x < count($json); $x++)
 				{
-					return json_encode($json[$x]);
-				}
-			}			
+					if($new_query_var === self::cleanURL($json[$x]["airport"]))
+					{
+						return json_encode($json[$x]);
+					}
+				}			
+				
+			}	
 		}
 		else
 		{
@@ -1111,7 +1177,7 @@ class Jetcharters_Public {
 						$origin_iata = $table_price[$x][0];
 					}
 					
-					if(($base_iata == $table_price[$x][0] || $base_iata == $table_price[$x][1]) &&($iata == $table_price[$x][0] || $iata == $table_price[$x][1]) && ($table_price[$x][0] != '' || $table_price[$x][1] != ''))
+					if(($iata == $table_price[$x][0] || $iata == $table_price[$x][1]) && ($table_price[$x][0] != '' || $table_price[$x][1] != ''))
 					{
 						
 						for($y = 0; $y < count($algolia_full); $y++)
@@ -1333,6 +1399,19 @@ class Jetcharters_Public {
 		$output = ob_get_contents();
 		ob_end_clean();
 		return $output;			
-	}	
+	}
+	
+	public static function remove_body_class($classes)
+	{
+		if(get_query_var('fly') || get_query_var('instant_quote') || get_query_var('request_submitted'))
+		{
+			if(in_array('blog', $classes))
+			{
+				unset($classes[array_search('blog', $classes)]);
+			}
+		}
+		
+		return $classes;
+	}
 	
 }

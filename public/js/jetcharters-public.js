@@ -1,34 +1,29 @@
-(function($) {
-    'use strict';
-
-	$(function(){
+jQuery(function(){
+	
+	
+	jQuery(window).on('load', function (e){
+		one_way_round_trip();
 		
+		if(typeof algoliasearch === 'function')
+		{
+			algolia_execute();
+		}
 		
-		$(window).on('load', function (e){
-			one_way_round_trip();
-			
-			if(typeof algoliasearch === 'function')
-			{
-				algolia_execute();
-			}
-			
-			validate_instant_quote();
-			country_dropdown();
-			jetcharters_cookies();
-			responsive_datepicker();
-			responsive_timepicker();
-			validate_jet_form();
-		});		
-	});
-
-})(jQuery);
+		validate_instant_quote();
+		country_dropdown();
+		jetcharters_cookies();
+		responsive_datepicker();
+		responsive_timepicker();
+		validate_jet_form();
+	});		
+});
 
 	function responsive_timepicker()
 	{
 		var args = {};
 		
-		$('form.jet_calculator').find('input.timepicker').each(function(){
-			$(this).pickatime(args);
+		jQuery('form.jet_calculator').find('input.timepicker').each(function(){
+			jQuery(this).pickatime(args);
 		});
 	}
 	
@@ -39,16 +34,16 @@
 		args.format = 'yyyy-mm-dd';
 		args.min = true;
 		
-		$('form.jet_calculator').find('input.datepicker').each(function(){
+		jQuery('form.jet_calculator').find('input.datepicker').each(function(){
 			
-			if($(this).attr('type') == 'text')
+			if(jQuery(this).attr('type') == 'text')
 			{
-				$(this).pickadate(args);
+				jQuery(this).pickadate(args);
 			}
-			else if($(this).attr('type') == 'date')
+			else if(jQuery(this).attr('type') == 'date')
 			{
-				$(this).attr({'type': 'text'});
-				$(this).pickadate(args);
+				jQuery(this).attr({'type': 'text'});
+				jQuery(this).pickadate(args);
 			}	
 		});
 	}
@@ -57,29 +52,29 @@
 	{
 		if(typeof jsonsrc !== typeof undefined)
 		{
-			if($('form#jet_booking_request').find('.countrylist').length > 0)
+			if(jQuery('form#jet_booking_request').find('.countrylist').length > 0)
 			{
-				jet_country_dropdown(jsonsrc(), $("html").attr("lang").slice(0, -3));
+				jet_country_dropdown(jsonsrc(), jQuery("html").attr("lang").slice(0, -3));
 			}
 		}	
 	}
 	
 	function jetcharters_cookies()
 	{
-		var this_form = $('#jet_booking_request');
+		var this_form = jQuery('#jet_booking_request');
 		var landing = ['channel', 'device', 'landing_domain', 'landing_path'];
 		var warnings = 0;			
 		
-		$(this_form).each(function(){
+		jQuery(this_form).each(function(){
 			
 			for(var x = 0; x < landing.length; x++)
 			{
 				
-				$(this_form).find('input.'+landing[x]).each(function(){
-					$(this).val(getCookie(landing[x]));
+				jQuery(this_form).find('input.'+landing[x]).each(function(){
+					jQuery(this).val(getCookie(landing[x]));
 				});
 				
-				if($(this_form).find('input.'+landing[x]).length == 0)
+				if(jQuery(this_form).find('input.'+landing[x]).length == 0)
 				{
 					console.warn('input.'+landing[x]+' not found');
 					warnings++;
@@ -105,57 +100,57 @@
 	{
 		var count = 0;
 		
-		var this_form = $('#jet_booking_request');
+		var this_form = jQuery('#jet_booking_request');
 		
-		$(this_form).find('input').add('select').add('textarea').each(function(){
+		jQuery(this_form).find('input').add('select').add('textarea').each(function(){
 			
-			//console.log($(this).attr('name'));
+			//console.log(jQuery(this).attr('name'));
 			
-			if($(this).val() == '' && $(this).attr('name') != 'g-recaptcha-response')
+			if(jQuery(this).val() == '' && jQuery(this).attr('name') != 'g-recaptcha-response')
 			{
 				if(getUrlParameter('jet_flight') == 0)
 				{
-					if($(this).attr('name') == 'jet_return_date' || $(this).attr('name') == 'jet_return_hour' || $(this).attr('name') == 'return_itinerary')
+					if(jQuery(this).attr('name') == 'jet_return_date' || jQuery(this).attr('name') == 'jet_return_hour' || jQuery(this).attr('name') == 'return_itinerary')
 					{
-						$(this).removeClass('invalid_field');
-						console.log($(this).attr('name'));
+						jQuery(this).removeClass('invalid_field');
+						console.log(jQuery(this).attr('name'));
 					}
 					else
 					{
-						$(this).addClass('invalid_field');
-						console.log($(this).attr('name'));
+						jQuery(this).addClass('invalid_field');
+						console.log(jQuery(this).attr('name'));
 						count++;
 					}
 				}
 				else
 				{
-					$(this).addClass('invalid_field');
-					console.log($(this).attr('name'));
+					jQuery(this).addClass('invalid_field');
+					console.log(jQuery(this).attr('name'));
 					count++;
 				}
 			}
 			else
 			{
-				if($(this).val() == '--')
+				if(jQuery(this).val() == '--')
 				{
-					$(this).addClass('invalid_field');
-					console.log($(this).attr('name'));
+					jQuery(this).addClass('invalid_field');
+					console.log(jQuery(this).attr('name'));
 					count++;
 				}
 				else
 				{
-					$(this).removeClass('invalid_field');
-					console.log($(this).attr('name'));
+					jQuery(this).removeClass('invalid_field');
+					console.log(jQuery(this).attr('name'));
 				}
 			}
 		});
 		
-		console.log( $(this_form).serializeArray() );
+		console.log( jQuery(this_form).serializeArray() );
 		
-		if(count == 0 && $(this_form).attr('data-form-ready') == 'true')
+		if(count == 0 && jQuery(this_form).attr('data-form-ready') == 'true')
 		{
-			$(this_form).attr({'action': $(this_form).attr('action')+token});
-			$(this_form).submit();
+			jQuery(this_form).attr({'action': jQuery(this_form).attr('action')+token});
+			jQuery(this_form).submit();
 		}
 		else
 		{
@@ -165,87 +160,87 @@
 
 	function validate_instant_quote()
 	{
-		$('button[data-aircraft]').click(function(){
+		jQuery('button[data-aircraft]').click(function(){
 			
-			var aircraft_fields = $('#jet_booking_request').find('#aircraft_fields');
-			var json_inputs = $(this).attr('data-aircraft');
+			var aircraft_fields = jQuery('#jet_booking_request').find('#aircraft_fields');
+			var json_inputs = jQuery(this).attr('data-aircraft');
 			
 			json_inputs = JSON.parse(json_inputs);
-			$(aircraft_fields).text('');
+			jQuery(aircraft_fields).text('');
 			
 			for(k in json_inputs)
 			{
-				$(aircraft_fields).append($('<input>').attr({'type': 'text', 'name': k, 'value': json_inputs[k]}));
+				jQuery(aircraft_fields).append(jQuery('<input>').attr({'type': 'text', 'name': k, 'value': json_inputs[k]}));
 			}
 			
-			$('#jet_booking_container').removeClass('hidden');
-			$('.instant_quote_table').addClass('hidden');			
-			$('#jet_booking_request').attr({'data-form-ready': 'true'});
-			$('#jet_booking_request').find('input[name="lead_name"]').focus();
+			jQuery('#jet_booking_container').removeClass('hidden');
+			jQuery('.instant_quote_table').addClass('hidden');			
+			jQuery('#jet_booking_request').attr({'data-form-ready': 'true'});
+			jQuery('#jet_booking_request').find('input[name="lead_name"]').focus();
 		});
 		
-		$('#jet_booking_container').find('.close').click(function(){
-			$('#jet_booking_container').addClass('hidden');
-			$('.instant_quote_table').removeClass('hidden');
+		jQuery('#jet_booking_container').find('.close').click(function(){
+			jQuery('#jet_booking_container').addClass('hidden');
+			jQuery('.instant_quote_table').removeClass('hidden');
 		});
 		
 		
 	}
 	function validate_jet_form()
 	{
-		$('.jet_calculator').each(function(){
+		jQuery('.jet_calculator').each(function(){
 			
-			var this_form = $(this);
+			var this_form = jQuery(this);
 			
-			$(this_form).find('#jet_submit').click(function(){
+			jQuery(this_form).find('#jet_submit').click(function(){
 				
 				var invalid_field = 0;
 				
-				$(this_form).find('input').each(function(){
+				jQuery(this_form).find('input').each(function(){
 					
-					if($(this).val() == '')
+					if(jQuery(this).val() == '')
 					{
-						if($('#jet_flight').val() == 0 && ($(this).attr('name') == 'jet_return_date' || $(this).attr('name') == 'jet_return_hour' || $(this).attr('name') == 'jet_return_date_submit' || $(this).attr('name') == 'jet_return_hour_submit'))
+						if(jQuery('#jet_flight').val() == 0 && (jQuery(this).attr('name') == 'jet_return_date' || jQuery(this).attr('name') == 'jet_return_hour' || jQuery(this).attr('name') == 'jet_return_date_submit' || jQuery(this).attr('name') == 'jet_return_hour_submit'))
 						{
-							$(this).removeClass('invalid_field');
+							jQuery(this).removeClass('invalid_field');
 						}
 						else
 						{
 							invalid_field++;
-							$(this).addClass('invalid_field');
+							jQuery(this).addClass('invalid_field');
 						}
 					}
 					else
 					{
-						if($(this).hasClass('jet_list'))
+						if(jQuery(this).hasClass('jet_list'))
 						{
-							if(!$(this).hasClass('jet_selected'))
+							if(!jQuery(this).hasClass('jet_selected'))
 							{
 								invalid_field++;
-								$(this).addClass('invalid_field');
+								jQuery(this).addClass('invalid_field');
 							}
 							else
 							{
-								$(this).removeClass('invalid_field');
+								jQuery(this).removeClass('invalid_field');
 							}
 						}
 						else
 						{
-							$(this).removeClass('invalid_field');
+							jQuery(this).removeClass('invalid_field');
 						}
 					}
 				});
 
 				if(invalid_field == 0)
 				{
-					var hash = sha512($(this_form).find('input[name="jet_pax"]').val()+$(this_form).find('input[name="jet_departure_date"]').val());
-					var departure = Date.parse($('input[name="jet_departure_date"]').val());
+					var hash = sha512(jQuery(this_form).find('input[name="jet_pax"]').val()+jQuery(this_form).find('input[name="jet_departure_date"]').val());
+					var departure = Date.parse(jQuery('input[name="jet_departure_date"]').val());
 					var today = new Date();
 					today.setDate(today.getDate() - 2);
 					today = Date.parse(today);
 					var days_between = Math.round((departure-today)/(1000*60*60*24));				
-					var eventAction = $('#jet_origin').val()+'/'+$('#jet_destination').val();
-					var eventLabel = days_between+'/'+$('#jet_departure_date').val()+'/'+$('#jet_pax').val();
+					var eventAction = jQuery('#jet_origin').val()+'/'+jQuery('#jet_destination').val();
+					var eventLabel = days_between+'/'+jQuery('#jet_departure_date').val()+'/'+jQuery('#jet_pax').val();
 					
 					if(typeof ga !== typeof undefined)
 					{	
@@ -259,8 +254,8 @@
 					{
 						console.log('jetcharters: GA not defined');
 					}
-					$(this_form).attr({'action': $(this_form).attr('action')+hash});
-					$(this_form).submit();
+					jQuery(this_form).attr({'action': jQuery(this_form).attr('action')+hash});
+					jQuery(this_form).submit();
 				}
 			});			
 		});
@@ -284,20 +279,20 @@
 	
 	function one_way_round_trip()
 	{
-		if($('#jet_flight').val() == 1)
+		if(jQuery('#jet_flight').val() == 1)
 		{
-			$('.jet_return').fadeIn();
+			jQuery('.jet_return').fadeIn();
 		}
-		$('#jet_flight').change(function(){
-			if($(this).val() == 1)
+		jQuery('#jet_flight').change(function(){
+			if(jQuery(this).val() == 1)
 			{
-				$('.jet_return').fadeIn();
+				jQuery('.jet_return').fadeIn();
 			}
 			else
 			{
-				$('.jet_return').fadeOut();
-				$('#jet_return_date').val('');
-				$('#jet_return_hour').val('');
+				jQuery('.jet_return').fadeOut();
+				jQuery('#jet_return_date').val('');
+				jQuery('#jet_return_hour').val('');
 			}
 		});		
 	}
@@ -307,15 +302,15 @@
 		var client = algoliasearch(get_algolia_id(), get_algolia_token());
 		var index = client.initIndex(get_algolia_index());
 
-	$('.jet_calculator').each(function(){
+	jQuery('.jet_calculator').each(function(){
 		
-		var this_form = $(this);
+		var this_form = jQuery(this);
 		
-		$(this).find('.jet_list').each(function(){
+		jQuery(this).find('.jet_list').each(function(){
 			
-			var this_field = $(this);
+			var this_field = jQuery(this);
 			
-			$(this_field).autocomplete({
+			jQuery(this_field).autocomplete({
 				hint: false
 			},[{
 				source: $.fn.autocomplete.sources.hits(index, {
@@ -325,14 +320,14 @@
 				templates: {
 					suggestion: function(suggestion) {
 
-						var htmllang = $("html").attr("lang");
+						var htmllang = jQuery("html").attr("lang");
 						htmllang = htmllang.slice(0, 2);
 						htmllang.toLowerCase();
 						var country_names = suggestion.country_names;
 						var country_flag = suggestion.country_code;
 						var flag_url = jsonsrc() + "img/flags/" + country_flag + '.svg';
 						flag_url = flag_url.toLowerCase();
-						var result = $('<div class="algolia_airport clearfix"><div class="sflag pull-left"><img width="45" height="33.75" /></div><div class="sdata"><div class="sairport"><span class="airport"></span> <strong class="iata"></strong></div><div class="slocation"><span class="city"></span>, <span class="country"></span></div></div></div>');
+						var result = jQuery('<div class="algolia_airport clearfix"><div class="sflag pull-left"><img width="45" height="33.75" /></div><div class="sdata"><div class="sairport"><span class="airport"></span> <strong class="iata"></strong></div><div class="slocation"><span class="city"></span>, <span class="country"></span></div></div></div>');
 						result.find('.sairport > .airport').html(suggestion._highlightResult.airport.value);
 						
 						if(suggestion._highlightResult.hasOwnProperty('iata'))
@@ -362,52 +357,52 @@
 					}
 				}
 				
-				$(this_form).find('#'+$(this_field).attr('id')+'_l').val(suggestion.airport+' ('+suggestion.iata+'), '+suggestion.city+' ('+suggestion.country_code+')');
+				jQuery(this_form).find('#'+jQuery(this_field).attr('id')+'_l').val(suggestion.airport+' ('+suggestion.iata+'), '+suggestion.city+' ('+suggestion.country_code+')');
 				
 
-				$(this_field).attr({
+				jQuery(this_field).attr({
 					'data-iata': suggestion.iata,
 					'data-lat': suggestion._geoloc.lat,
 					'data-lon': suggestion._geoloc.lng
 				}).addClass('jet_selected').val(selected_airport);	
 
-				$(this_field).blur(function()
+				jQuery(this_field).blur(function()
 				{
-					if ($(this_field).hasClass('jet_selected'))
+					if (jQuery(this_field).hasClass('jet_selected'))
 					{
-						$(this_field).val(selected_airport);
+						jQuery(this_field).val(selected_airport);
 					}
 					else
 					{
-						$(this_field).val('');
-						$(this_field).removeClass('jet_selected');
-						$(this_field).addClass('invalid_field');
-						$(this_field).removeAttr('data-iata');
-						$(this_field).removeAttr('data-lat');
-						$(this_field).removeAttr('data-lon');						
+						jQuery(this_field).val('');
+						jQuery(this_field).removeClass('jet_selected');
+						jQuery(this_field).addClass('invalid_field');
+						jQuery(this_field).removeAttr('data-iata');
+						jQuery(this_field).removeAttr('data-lat');
+						jQuery(this_field).removeAttr('data-lon');						
 					}
 				});
 					
-				$(this_field).focus(function() {
-					$(this_field).val('');
-					$(this_field).removeClass('jet_selected');
-					$(this_field).removeClass('invalid_field');
-					$(this_field).removeAttr('data-iata');
-					$(this_field).removeAttr('data-lat');
-					$(this_field).removeAttr('data-lon');
+				jQuery(this_field).focus(function() {
+					jQuery(this_field).val('');
+					jQuery(this_field).removeClass('jet_selected');
+					jQuery(this_field).removeClass('invalid_field');
+					jQuery(this_field).removeAttr('data-iata');
+					jQuery(this_field).removeAttr('data-lat');
+					jQuery(this_field).removeAttr('data-lon');
 				});					
 						
-				if($(this_form).find('.jet_selected').length == 1)
+				if(jQuery(this_form).find('.jet_selected').length == 1)
 				{
-					$('.jet_list').not('.jet_selected').focus();
+					jQuery('.jet_list').not('.jet_selected').focus();
 				}
-				if($(this_form).find('.jet_selected').length == 2)
+				if(jQuery(this_form).find('.jet_selected').length == 2)
 				{
-					$(this_form).find('input[name="jet_pax"]').focus();
+					jQuery(this_form).find('input[name="jet_pax"]').focus();
 				}
 				else
 				{
-					$(this_field).blur();
+					jQuery(this_field).blur();
 				}
 				
 			});
@@ -449,10 +444,10 @@
 
 	function jet_country_options(data)
 	{
-		$('.countrylist').each(function() {
+		jQuery('.countrylist').each(function() {
 			for (var x = 0; x < data.length; x++) 
 			{
-				$(this).append('<option value=' + data[x][0] + '>' + data[x][1] + '</option>');
+				jQuery(this).append('<option value=' + data[x][0] + '>' + data[x][1] + '</option>');
 			}
 		});		
 	}

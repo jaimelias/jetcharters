@@ -53,14 +53,22 @@ class Jetcharters_Validators{
 	}
 	public static function valid_jet_quote()
 	{
-		if(get_query_var('request_submitted') && isset($_POST['jet_origin_l']) && isset($_POST['jet_destination_l']) && isset($_POST['lead_name']) && isset($_POST['lead_lastname']) && isset($_POST['lead_email']) && isset($_POST['lead_phone']) && isset($_POST['lead_country']) && isset($_POST['g-recaptcha-response']) && isset($_POST['jet_origin'])  && isset($_POST['jet_destination'])  && isset($_POST['jet_departure_date'])  && isset($_POST['jet_departure_hour']) && isset($_POST['departure_itinerary']) && isset($_POST['jet_return_date']) && isset($_POST['jet_return_hour']) && isset($_POST['return_itinerary']))
+		global $valid_jet_quote;
+		$output = false;
+		
+		if(isset($valid_jet_quote))
 		{
-			return true;
+			$output = $valid_jet_quote;
 		}
 		else
 		{
-			return false;
-		}		
+			if(get_query_var('request_submitted') && isset($_POST['jet_origin_l']) && isset($_POST['jet_destination_l']) && isset($_POST['lead_name']) && isset($_POST['lead_lastname']) && isset($_POST['lead_email']) && isset($_POST['lead_phone']) && isset($_POST['lead_country']) && isset($_POST['g-recaptcha-response']) && isset($_POST['jet_origin'])  && isset($_POST['jet_destination'])  && isset($_POST['jet_departure_date'])  && isset($_POST['jet_departure_hour']) && isset($_POST['departure_itinerary']) && isset($_POST['jet_return_date']) && isset($_POST['jet_return_hour']) && isset($_POST['return_itinerary']))
+			{
+				$output = true;
+				$GLOBALS['valid_jet_quote'] = $output;
+			}			
+		}
+		return $output;
 	}
 
 	public static function validate_hash()

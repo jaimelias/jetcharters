@@ -98,13 +98,16 @@ if ($wp_jet_search->have_posts())
 
 				$flight_array = array();
 				$aircraft_count++;
+				$fees = floatval($table_price[$x][4]);
+
 
 				if(intval($_GET['jet_flight']) == 1)
 				{
-					$price = floatval($price)*2;
+					$price = floatval($price) * 2;
+					$fees = $fees * 2;
 				}
 				
-				$fees = $table_price[$x][4];
+				
 				$seats = $table_price[$x][6];
 				$weight_pounds = $table_price[$x][7];
 				$weight_kg = intval(intval($weight_pounds)*0.453592);
@@ -136,6 +139,9 @@ if ($wp_jet_search->have_posts())
 					
 					if(floatval($fees) > 0)
 					{
+						
+						
+						
 						$price_row .= '<br/><span class="text-muted">'.__('Fees per pers.', 'jetcharters').' $'.number_format($fees, 2, '.', ',').'</span>';
 					}					
 					
