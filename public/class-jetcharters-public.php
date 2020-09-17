@@ -829,7 +829,7 @@ class Jetcharters_Public {
 		global $post;
 		self::cf7_dequeue_recaptcha();
 		$dep = array('jquery', 'landing-cookies');
-		wp_enqueue_script( 'landing-cookies', plugin_dir_url( __FILE__ ).'js/cookies.js', array( 'jquery'), $this->version, true );		
+		wp_enqueue_script( 'landing-cookies', plugin_dir_url( __FILE__ ).'js/cookies.js', array('jquery'), $this->version, true );		
 		
 		if(((is_a($post, 'WP_Post') && has_shortcode( $post->post_content, 'mapbox_airports')) || is_singular('jet')) && !isset($_GET['fl_builder']))
 		{
@@ -839,7 +839,7 @@ class Jetcharters_Public {
 			wp_add_inline_script('algolia', self::json_src_url(), 'before');
 			wp_enqueue_script('algolia_autocomplete', plugin_dir_url( __FILE__ ).'js/autocomplete.jquery.min.js', array( 'jquery' ), '0.36.0', true );
 			
-			wp_enqueue_script( 'mapbox', 'https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.js', array( 'jquery', 'algolia' ), $this->version, true );
+			wp_enqueue_script( 'mapbox', 'https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js', array( 'jquery', 'algolia'), '3.3.1', true );
 			
 			wp_enqueue_script( 'markercluster', 'https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/leaflet.markercluster.js', array( 'jquery', 'mapbox' ), $this->version, true );		
 			wp_add_inline_script('mapbox', self::get_inline_js('jetcharters-arc'), 'after');
@@ -895,7 +895,7 @@ class Jetcharters_Public {
 		
 		if($dequeu === true)
 		{
-			wp_dequeue_script('google-recaptcha');
+			wp_dequeue_script('google-recaptcha-js');
 		}
 	}	
 	
@@ -934,7 +934,7 @@ class Jetcharters_Public {
 		
 		if(is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'mapbox_airports') && !isset($_GET['fl_builder']))
 		{
-			wp_enqueue_style('mapbox', 'https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css', array(), '3.1.1', 'all' );
+			wp_enqueue_style('mapbox', 'https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css', array(), '3.1.1', 'all' );
 			wp_add_inline_style('mapbox', self::get_inline_css('MarkerCluster'));
 			wp_add_inline_style('mapbox', self::get_inline_css('MarkerCluster.Default'));
 		}		
