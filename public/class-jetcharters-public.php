@@ -850,7 +850,6 @@ class Jetcharters_Public {
 			wp_enqueue_script($this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jetcharters-public.js', $dep, time(), true );
 		}
 		
-	
 		if(Jetcharters_Validators::valid_jet_search())
 		{
 			$recap = false;

@@ -4,25 +4,24 @@ jQuery(() => {
 	validate_instant_quote();
 	country_dropdown();
 	jetcharters_cookies();
-	responsive_datepicker();
-	responsive_timepicker();
-	validate_jet_form();		
+	jet_datepicker();
+	jet_timepicker();
+	validate_jet_form();
 });
 
-const responsive_timepicker = () =>	{
-	var args = {};
-	
+const jet_timepicker = () =>	{
 	jQuery('form.jet_calculator').find('input.timepicker').each(function(){
-		jQuery(this).pickatime(args);
+		jQuery(this).pickatime();
 	});
 }
 
-const responsive_datepicker = () =>	{
+const jet_datepicker = () =>	{
 	
-	var args = {};
-	args.format = 'yyyy-mm-dd';
-	args.min = true;
-	
+	const args = {
+		format: 'yyyy-mm-dd',
+		min: true
+	};
+
 	jQuery('form.jet_calculator').find('input.datepicker').each(function(){
 		
 		if(jQuery(this).attr('type') == 'text')
@@ -42,20 +41,20 @@ const country_dropdown = () => {
 	{
 		if(jQuery('form#jet_booking_request').find('.countrylist').length > 0)
 		{
-			jet_country_dropdown(jsonsrc(), jQuery("html").attr("lang").slice(0, -3));
+			jet_country_dropdown(jsonsrc(), jQuery('html').attr('lang').slice(0, -3));
 		}
 	}	
 }
 
 const jetcharters_cookies = () => {
-	var this_form = jQuery('#jet_booking_request');
-	var landing = ['channel', 'device', 'landing_domain', 'landing_path'];
-	var warnings = 0;
+	const thisForm = jQuery('#jet_booking_request');
+	const landing = ['channel', 'device', 'landing_domain', 'landing_path'];
+	let warnings = 0;
 	const getCookie = (cname) => {
-		var name = cname + "=";
-		var ca = document.cookie.split(';');
-		for(var i = 0; i < ca.length; i++) {
-			var c = ca[i];
+		let name = cname + '=';
+		const ca = document.cookie.split(';');
+		for(let i = 0; i < ca.length; i++) {
+			let c = ca[i];
 			while (c.charAt(0) == ' ') {
 				c = c.substring(1);
 			}
@@ -66,15 +65,15 @@ const jetcharters_cookies = () => {
 		return '';
 	};	
 	
-	jQuery(this_form).each(function(){
+	jQuery(thisForm).each(function(){
 		
-		for(var x = 0; x < landing.length; x++)
+		for(let x = 0; x < landing.length; x++)
 		{	
-			jQuery(this_form).find('input.'+landing[x]).each(function(){
+			jQuery(thisForm).find('input.'+landing[x]).each(function(){
 				jQuery(this).val(getCookie(landing[x]));
 			});
 			
-			if(jQuery(this_form).find('input.'+landing[x]).length == 0)
+			if(jQuery(thisForm).find('input.'+landing[x]).length == 0)
 			{
 				console.warn('input.'+landing[x]+' not found');
 				warnings++;
@@ -100,8 +99,8 @@ function validate_request_quote (token) {
 	
 	return new Promise((resolve, reject) => { 
 
-		var count = 0;
-		var this_form = jQuery('#jet_booking_request');
+		let count = 0;
+		const thisForm = jQuery('#jet_booking_request');
 		const getUrlParameter = (sParam) => {
 			const sPageURL = decodeURIComponent(window.location.search.substring(1));
 			const sURLVariables = sPageURL.split('&');
@@ -116,7 +115,7 @@ function validate_request_quote (token) {
 			}
 		};
 		
-		jQuery(this_form).find('input').add('select').add('textarea').each(function(){			
+		jQuery(thisForm).find('input').add('select').add('textarea').each(function(){			
 			if(jQuery(this).val() == '' && jQuery(this).attr('name') != 'g-recaptcha-response')
 			{
 				if(getUrlParameter('jet_flight') == 0)
@@ -156,13 +155,13 @@ function validate_request_quote (token) {
 			}
 		});
 		
-		console.log( jQuery(this_form).serializeArray() );
+		console.log( jQuery(thisForm).serializeArray() );
 		
-		if(count == 0 && jQuery(this_form).attr('data-form-ready') == 'true')
+		if(count == 0 && jQuery(thisForm).attr('data-form-ready') == 'true')
 		{
-			jQuery(this_form).attr({'action': jQuery(this_form).attr('action')+token});
+			jQuery(thisForm).attr({'action': jQuery(thisForm).attr('action')+token});
 			resolve();
-			jQuery(this_form).submit();
+			jQuery(thisForm).submit();
 		}
 		else
 		{
@@ -177,15 +176,16 @@ const validate_instant_quote = () =>
 {
 	jQuery('button[data-aircraft]').click(function(){
 		
-		var aircraft_fields = jQuery('#jet_booking_request').find('#aircraft_fields');
-		var json_inputs = jQuery(this).attr('data-aircraft');
+		const aircraft_fields = jQuery('#jet_booking_request').find('#aircraft_fields');
+		let inputs = jQuery(this).attr('data-aircraft');
 		
-		json_inputs = JSON.parse(json_inputs);
+
+		inputs = JSON.parse(inputs);
 		jQuery(aircraft_fields).text('');
 		
-		for(k in json_inputs)
+		for(let k in inputs)
 		{
-			jQuery(aircraft_fields).append(jQuery('<input>').attr({'type': 'text', 'name': k, 'value': json_inputs[k]}));
+			jQuery(aircraft_fields).append(jQuery('<input>').attr({'type': 'text', 'name': k, 'value': inputs[k]}));
 		}
 		
 		jQuery('#jet_booking_container').removeClass('hidden');
@@ -204,13 +204,13 @@ const validate_instant_quote = () =>
 const validate_jet_form = () => {
 	jQuery('.jet_calculator').each(function(){
 		
-		var this_form = jQuery(this);
+		const thisForm = jQuery(this);
 		
-		jQuery(this_form).find('#jet_submit').click(function(){
+		jQuery(thisForm).find('#jet_submit').click(function(){
 			
-			var invalid_field = 0;
+			let invalid_field = 0;
 			
-			jQuery(this_form).find('input').each(function(){
+			jQuery(thisForm).find('input').each(function(){
 				
 				if(jQuery(this).val() == '')
 				{
@@ -247,29 +247,30 @@ const validate_jet_form = () => {
 
 			if(invalid_field == 0)
 			{
-				var hash = sha512(jQuery(this_form).find('input[name="jet_pax"]').val()+jQuery(this_form).find('input[name="jet_departure_date"]').val());
-				var departure = Date.parse(jQuery('input[name="jet_departure_date"]').val());
-				var today = new Date();
+				const hash = sha512(jQuery(thisForm).find('input[name="jet_pax"]').val()+jQuery(thisForm).find('input[name="jet_departure_date"]').val());
+				const departure = Date.parse(jQuery('input[name="jet_departure_date"]').val());
+				let today = new Date();
 				today.setDate(today.getDate() - 2);
 				today = Date.parse(today);
-				var days_between = Math.round((departure-today)/(1000*60*60*24));				
-				var eventAction = jQuery('#jet_origin').val()+'/'+jQuery('#jet_destination').val();
-				var eventLabel = days_between+'/'+jQuery('#jet_departure_date').val()+'/'+jQuery('#jet_pax').val();
+				const days_between = Math.round((departure-today)/(1000*60*60*24));				
+				const eventAction = jQuery('#jet_origin').val()+'/'+jQuery('#jet_destination').val();
+				const eventLabel = days_between+'/'+jQuery('#jet_departure_date').val()+'/'+jQuery('#jet_pax').val();
 				
 				if(typeof ga !== typeof undefined)
 				{	
-					var eventArgs = {};
-					eventArgs.eventCategory = 'Flight';
-					eventArgs.eventAction = eventAction;
-					eventArgs.eventLabel = eventLabel;
+					const eventArgs = {
+						eventCategory: 'Flight',
+						eventAction: eventAction,
+						eventLabel: eventLabel,
+					};
 					ga('send', 'event', eventArgs);
 				}
 				else
 				{
 					console.log('jetcharters: GA not defined');
 				}
-				jQuery(this_form).attr({'action': jQuery(this_form).attr('action')+hash});
-				jQuery(this_form).submit();
+				jQuery(thisForm).attr({'action': jQuery(thisForm).attr('action')+hash});
+				jQuery(thisForm).submit();
 			}
 		});			
 	});
@@ -313,13 +314,13 @@ const algolia_execute = () => {
 
 jQuery('.jet_calculator').each(function(){
 	
-	var client = algoliasearch(get_algolia_id(), get_algolia_token());
-	var index = client.initIndex(get_algolia_index());
-	var this_form = jQuery(this);
+	const client = algoliasearch(get_algolia_id(), get_algolia_token());
+	const index = client.initIndex(get_algolia_index());
+	const thisForm = jQuery(this);
 	
 	jQuery(this).find('.jet_list').each(function(){
 		
-		var this_field = jQuery(this);
+		const this_field = jQuery(this);
 		
 		jQuery(this_field).autocomplete({
 			hint: false
@@ -331,14 +332,14 @@ jQuery('.jet_calculator').each(function(){
 			templates: {
 				suggestion: function(suggestion) {
 
-					var htmllang = jQuery("html").attr("lang");
+					let htmllang = jQuery('html').attr('lang');
 					htmllang = htmllang.slice(0, 2);
 					htmllang.toLowerCase();
-					var country_names = suggestion.country_names;
-					var country_flag = suggestion.country_code;
-					var flag_url = jsonsrc() + "img/flags/" + country_flag + '.svg';
+					const country_names = suggestion.country_names;
+					const country_flag = suggestion.country_code;
+					let flag_url = jsonsrc() + "img/flags/" + country_flag + '.svg';
 					flag_url = flag_url.toLowerCase();
-					var result = jQuery('<div class="algolia_airport clearfix"><div class="sflag pull-left"><img width="45" height="33.75" /></div><div class="sdata"><div class="sairport"><span class="airport"></span> <strong class="iata"></strong></div><div class="slocation"><span class="city"></span>, <span class="country"></span></div></div></div>');
+					const result = jQuery('<div class="algolia_airport clearfix"><div class="sflag pull-left"><img width="45" height="33.75" /></div><div class="sdata"><div class="sairport"><span class="airport"></span> <strong class="iata"></strong></div><div class="slocation"><span class="city"></span>, <span class="country"></span></div></div></div>');
 					result.find('.sairport > .airport').html(suggestion._highlightResult.airport.value);
 					
 					if(suggestion._highlightResult.hasOwnProperty('iata'))
@@ -356,32 +357,33 @@ jQuery('.jet_calculator').each(function(){
 			}
 		}]).on('autocomplete:selected', function(event, suggestion) {
 			
+			let selectedAirport = null
+			
 			if(suggestion.hasOwnProperty('iata'))
 			{
 				if(suggestion.iata != null)
 				{
-					var selected_airport = suggestion.iata;
+					selectedAirport = suggestion.iata;
 				}
 				else
 				{
-					 var selected_airport = 'IATA missing... '+suggestion.airport;
+					 selectedAirport = 'IATA missing... '+suggestion.airport;
 				}
 			}
 			
-			jQuery(this_form).find('#'+jQuery(this_field).attr('id')+'_l').val(suggestion.airport+' ('+suggestion.iata+'), '+suggestion.city+' ('+suggestion.country_code+')');
+			jQuery(thisForm).find('#'+jQuery(this_field).attr('id')+'_l').val(suggestion.airport+' ('+suggestion.iata+'), '+suggestion.city+' ('+suggestion.country_code+')');
 			
 
 			jQuery(this_field).attr({
 				'data-iata': suggestion.iata,
 				'data-lat': suggestion._geoloc.lat,
 				'data-lon': suggestion._geoloc.lng
-			}).addClass('jet_selected').val(selected_airport);	
+			}).addClass('jet_selected').val(selectedAirport);	
 
-			jQuery(this_field).blur(function()
-			{
+			jQuery(this_field).blur(() => {
 				if (jQuery(this_field).hasClass('jet_selected'))
 				{
-					jQuery(this_field).val(selected_airport);
+					jQuery(this_field).val(selectedAirport);
 				}
 				else
 				{
@@ -394,7 +396,7 @@ jQuery('.jet_calculator').each(function(){
 				}
 			});
 				
-			jQuery(this_field).focus(function() {
+			jQuery(this_field).focus(() => {
 				jQuery(this_field).val('');
 				jQuery(this_field).removeClass('jet_selected');
 				jQuery(this_field).removeClass('invalid_field');
@@ -403,13 +405,13 @@ jQuery('.jet_calculator').each(function(){
 				jQuery(this_field).removeAttr('data-lon');
 			});					
 					
-			if(jQuery(this_form).find('.jet_selected').length == 1)
+			if(jQuery(thisForm).find('.jet_selected').length == 1)
 			{
 				jQuery('.jet_list').not('.jet_selected').focus();
 			}
-			if(jQuery(this_form).find('.jet_selected').length == 2)
+			if(jQuery(thisForm).find('.jet_selected').length == 2)
 			{
-				jQuery(this_form).find('input[name="jet_pax"]').focus();
+				jQuery(thisForm).find('input[name="jet_pax"]').focus();
 			}
 			else
 			{
@@ -424,21 +426,19 @@ jQuery('.jet_calculator').each(function(){
 
 const jet_country_dropdown = (pluginurl, htmllang) => {
 	$.getJSON( pluginurl + 'countries/'+htmllang+'.json')
-		.done(function(data) 
-		{
-			jet_country_options(data);
+		.done(data => {
+			jetCountryOptions(data);
 		})
-		.fail(function()
-		{
+		.fail(() => {
 			$.getJSON(pluginurl + 'countries/en.json', data => {
-				jet_country_options(data);
+				jetCountryOptions(data);
 			});				
 		});			
 }	
 
-const jet_country_options = (data) => {
+const jetCountryOptions = data => {
 	jQuery('.countrylist').each(function() {
-		for (var x = 0; x < data.length; x++) 
+		for (let x = 0; x < data.length; x++) 
 		{
 			jQuery(this).append('<option value=' + data[x][0] + '>' + data[x][1] + '</option>');
 		}
