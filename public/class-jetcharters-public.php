@@ -55,6 +55,7 @@ class Jetcharters_Public {
 		add_shortcode( 'jetlist', array('Jetcharters_Public', 'jetlist') );
 		add_shortcode( 'destination', array('Jetcharters_Public', 'filter_destination_table') );
 		add_action( 'parse_query', array( &$this, 'on_quote_submit' ), 1);
+		add_filter('minimal_sitemap', array(&$this, 'sitemap'), 10);
 	}
 	
 	public static function on_quote_submit()
@@ -601,11 +602,11 @@ class Jetcharters_Public {
 			exit;
 		}
 	}	
-	public static function unset_template($template)
+	public static function sitemap($sitemap)
 	{
-		if(isset($_GET['sitemap']))
+		if(isset($_GET['minimal-sitemap']))
 		{
-			if($_GET['sitemap'] == 'airports')
+			if($_GET['minimal-sitemap'] == 'airports')
 			{
 				global $polylang;
 				if(isset($polylang))
@@ -658,26 +659,15 @@ class Jetcharters_Public {
 					}					
 				}
 				
-					$output =  '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
-					$output .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-					xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0"
-					xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">' . "\n";
-					$output .= $urllist;
-					$output .= '</urlset>';
-
-					header('Content-type: application/xml');
-					exit(ent2ncr($output));
+				$sitemap =  '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+				$sitemap .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+				xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0"
+				xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">' . "\n";
+				$sitemap .= $urllist;
+				$sitemap .= '</urlset>';
 			}
-			else
-			{
-				return $template;
-			}
-			exit();
 		}
-		else
-		{
-			return $template;
-		}
+		return $sitemap;
 	}
 	public static function cleanURL($url)
 	{
