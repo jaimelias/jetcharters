@@ -50,8 +50,6 @@ class Jetcharters {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'init', $plugin_post_type, 'fly_post_type', 0);
 		$this->loader->add_action( 'init', $plugin_post_type, 'jet_post_type', 0 );			
-		$this->loader->add_action( 'admin_menu', $plugin_settings, 'add_settings_page' );
-		$this->loader->add_action( 'admin_init', $plugin_settings, 'settings_init' );	
 		$this->loader->add_action( 'save_post', $plugin_meta_box, 'jet_save' );
 		$this->loader->add_action( 'add_meta_boxes',$plugin_meta_box, 'jet_add_meta_box' );
 		$this->loader->add_action( 'add_meta_boxes',$plugin_meta_box, 'destinations_add_meta_box' );

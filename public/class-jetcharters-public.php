@@ -279,31 +279,34 @@ class Jetcharters_Public {
 		
 		return $content;
 	}
+	public static function algoliasearch_after()
+	{
+		$output = null;
+		if(get_option('algolia_token') && get_option('algolia_index') && get_option('algolia_id'))
+		{
+			$output .= 'const algoliaClient = algoliasearch(getAlgoliaId, getAlgoliaToken);';
+			$output .= 'const algoliaIndex = algoliaClient.initIndex(getAlgoliaIndex);';
+		}
+		return $output;
+	}
+	public static function algoliasearch_before()
+	{
+		$output = null;
+		$algolia_token = get_option('algolia_token');
+		$algolia_index = get_option('algolia_index');
+		$algolia_id = get_option('algolia_id');
+		
+		if($algolia_token && $algolia_index && $algolia_id)
+		{
+			$output .= 'const getAlgoliaToken = "'.esc_html($algolia_token).'";';	
+			$output .= 'const getAlgoliaIndex = "'.esc_html($algolia_index).'";';
+			$output .= 'const getAlgoliaId = "'.esc_html($algolia_id).'";';
+		}
+		return $output;
+	}
 	public static function json_src_url()
 	{
-		global $post;	
-		$output = 'function jsonsrc() { return "'.esc_url(plugin_dir_url( __FILE__ )).'";}';
-		
-		if(get_option('algolia_token'))
-		{
-			$algolia_token = get_option('algolia_token');
-			$algolia_token = $algolia_token['text_field_jetcharters_8'];
-			$output .= 'function get_algolia_token() { return "'.esc_html($algolia_token).'";}';
-		}
-		if(get_option('algolia_index'))
-		{
-			$algolia_index = get_option('algolia_index');
-			$algolia_index = $algolia_index['text_field_jetcharters_9'];
-			$output .= 'function get_algolia_index() { return "'.esc_html($algolia_index).'";}';
-		}
-		if(get_option('algolia_id'))
-		{
-			$algolia_id = get_option('algolia_id');
-			$algolia_id = $algolia_id['text_field_jetcharters_10'];
-			$output .= 'function get_algolia_id() { return "'.esc_html($algolia_id).'";}';
-		}
-
-		return $output;
+		return 'const jsonsrc = () => { return "'.esc_url(plugin_dir_url( __FILE__ )).'";}';
 	}
 
 	public static function jet_calculator()
@@ -476,27 +479,12 @@ class Jetcharters_Public {
 
 	public static function mapbox_vars()
 	{
-		$mapbox_token = get_option('mapbox_token');
-		$mapbox_token = esc_html($mapbox_token['text_field_jetcharters_0']);
-		//map name	
-		$mapbox_map_id = get_option('mapbox_map_id');
-		$mapbox_map_id = esc_html($mapbox_map_id['text_field_jetcharters_1']);
-		//base zoom
-		$mapbox_map_zoom = get_option('mapbox_map_zoom');
-		$mapbox_map_zoom = esc_html($mapbox_map_zoom['text_field_jetcharters_4']);	
-		//base lat
-		$mapbox_base_lat = get_option('mapbox_base_lat');
-		$mapbox_base_lat = esc_html($mapbox_base_lat['text_field_jetcharters_5']);
-		//base lon
-		$mapbox_base_lon = get_option('mapbox_base_lon');
-		$mapbox_base_lon = esc_html($mapbox_base_lon['text_field_jetcharters_6']);
-
 		$mapbox_vars = array();
-		$mapbox_vars['mapbox_token'] = $mapbox_token;
-		$mapbox_vars['mapbox_map_id'] = $mapbox_map_id;
-		$mapbox_vars['mapbox_map_zoom'] = $mapbox_map_zoom;
-		$mapbox_vars['mapbox_base_lat'] = $mapbox_base_lat;
-		$mapbox_vars['mapbox_base_lon'] = $mapbox_base_lon;
+		$mapbox_vars['mapbox_token'] = esc_html(get_option('mapbox_token'));
+		$mapbox_vars['mapbox_map_id'] = esc_html(get_option('mapbox_map_id'));
+		$mapbox_vars['mapbox_map_zoom'] = intval(get_option('mapbox_map_zoom'));
+		$mapbox_vars['mapbox_base_lat'] = floatval(get_option('mapbox_base_lat'));
+		$mapbox_vars['mapbox_base_lon'] = floatval(get_option('mapbox_base_lon'));
 		$mapbox_vars['home_url'] = home_lang();
 		return 'function mapbox_vars(){return '.json_encode($mapbox_vars).';}';
 	}
@@ -577,9 +565,9 @@ class Jetcharters_Public {
 		
 		//mapbox options
 		$mapbox_token = get_option('mapbox_token');
-		$mapbox_token = esc_html($mapbox_token['text_field_jetcharters_0']);	
+		$mapbox_token = esc_html($mapbox_token);	
 		$mapbox_map_id = get_option('mapbox_map_id');
-		$mapbox_map_id = esc_html($mapbox_map_id['text_field_jetcharters_1']);		
+		$mapbox_map_id = esc_html($mapbox_map_id);		
 		
 		//map position
 		$mapbox_zoom = 8;
@@ -710,11 +698,8 @@ class Jetcharters_Public {
 	public static function return_json() {
 		
 		$algolia_token = get_option('algolia_token');
-		$algolia_token = $algolia_token['text_field_jetcharters_8'];
 		$algolia_index = get_option('algolia_index');
-		$algolia_index = $algolia_index['text_field_jetcharters_9'];
 		$algolia_id = get_option('algolia_id');
-		$algolia_id = $algolia_id['text_field_jetcharters_10'];
 		
 		$curl = curl_init();
 		
@@ -827,6 +812,8 @@ class Jetcharters_Public {
 			
 			wp_enqueue_script('algolia', plugin_dir_url( __FILE__ ).'js/algoliasearch.min.js', array( 'jquery' ), '3.32.0', true );
 			wp_add_inline_script('algolia', self::json_src_url(), 'before');
+			wp_add_inline_script('algolia', self::algoliasearch_before(), 'before');
+			wp_add_inline_script('algolia', self::algoliasearch_after(), 'after');
 			wp_enqueue_script('algolia_autocomplete', plugin_dir_url( __FILE__ ).'js/autocomplete.jquery.min.js', array( 'jquery' ), '0.36.0', true );
 			
 			wp_enqueue_script( 'mapbox', 'https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js', array( 'jquery', 'algolia'), '3.3.1', true );
@@ -909,7 +896,7 @@ class Jetcharters_Public {
 	{
 		global $post;
 		
-		if(is_a( $post, 'WP_Post' ) && (has_shortcode( $post->post_content, 'mapbox_airports') || has_shortcode( $post->post_content, 'jc_calculator')))
+		if(is_a( $post, 'WP_Post' ) && (has_shortcode( $post->post_content, 'mapbox_airports') || has_shortcode( $post->post_content, 'jc_calculator')) || is_singular('jet'))
 		{
 			wp_enqueue_style( 'picker-css', plugin_dir_url( __FILE__ ) . 'css/picker/default.css', array(), 'jetcharters', 'all' );
 			wp_add_inline_style('picker-css', self::get_inline_css('picker/default.date'));
@@ -1064,10 +1051,9 @@ class Jetcharters_Public {
 	public static function webhook($data)
 	{
 		
-		if(get_option( 'jet_webhook' ))
+		if(get_option('jet_webhook'))
 		{
-			$webhook = get_option( 'jet_webhook' );
-			$webhook = $webhook['text_field_jetcharters_11'];
+			$webhook = get_option('jet_webhook');
 			
 			if(!filter_var($webhook, FILTER_VALIDATE_URL) === false)
 			{
@@ -1297,11 +1283,8 @@ class Jetcharters_Public {
 	{
 		$query_param = 'browse?cursor=';
 		$algolia_token = get_option('algolia_token');
-		$algolia_token = $algolia_token['text_field_jetcharters_8'];
 		$algolia_index = get_option('algolia_index');
-		$algolia_index = $algolia_index['text_field_jetcharters_9'];
 		$algolia_id = get_option('algolia_id');
-		$algolia_id = $algolia_id['text_field_jetcharters_10'];
 		
 		$curl = curl_init();
 		
@@ -1327,11 +1310,8 @@ class Jetcharters_Public {
 		$new_query_var = $string;
 		$query_param = '?query='.$new_query_var.'&hitsPerPage=1';
 		$algolia_token = get_option('algolia_token');
-		$algolia_token = $algolia_token['text_field_jetcharters_8'];
 		$algolia_index = get_option('algolia_index');
-		$algolia_index = $algolia_index['text_field_jetcharters_9'];
 		$algolia_id = get_option('algolia_id');
-		$algolia_id = $algolia_id['text_field_jetcharters_10'];
 		
 		$curl = curl_init();
 		$headers = array();

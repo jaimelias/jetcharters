@@ -109,7 +109,9 @@ class Jetcharters_Admin {
 			
 			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jetcharters-admin.js', array( 'jquery', 'algolia', 'algolia_autocomplete', 'handsontableJS'), time(), false );
 
-			wp_add_inline_script('jetcharters', Jetcharters_Public::json_src_url());
+			wp_add_inline_script('jetcharters', Jetcharters_Public::json_src_url(), 'before');
+			wp_add_inline_script('jetcharters', Jetcharters_Public::algoliasearch_before(), 'before');
+			wp_add_inline_script('jetcharters', Jetcharters_Public::algoliasearch_after(), 'before');
 		
 		}
 	}

@@ -313,9 +313,7 @@ const one_way_round_trip = () => {
 const algolia_execute = () => {
 
 jQuery('.jet_calculator').each(function(){
-	
-	const client = algoliasearch(get_algolia_id(), get_algolia_token());
-	const index = client.initIndex(get_algolia_index());
+
 	const thisForm = jQuery(this);
 	
 	jQuery(this).find('.jet_list').each(function(){
@@ -325,7 +323,7 @@ jQuery('.jet_calculator').each(function(){
 		jQuery(this_field).autocomplete({
 			hint: false
 		},[{
-			source: $.fn.autocomplete.sources.hits(index, {
+			source: $.fn.autocomplete.sources.hits(algoliaIndex, {
 				hitsPerPage: 4
 			}),
 			displayKey: 'airport',

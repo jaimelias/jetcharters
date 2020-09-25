@@ -221,8 +221,6 @@ function get_col_type(container)
 	
 	function algolia_execute()
 	{
-		var client = algoliasearch(get_algolia_id(), get_algolia_token());
-		var index = client.initIndex(get_algolia_index());
 
 		$('.jet_list').each(function() {
 
@@ -232,7 +230,7 @@ function get_col_type(container)
 			autocomplete(this_id, {
 				hint: false
 			}, [{
-				source: autocomplete.sources.hits(index, {
+				source: autocomplete.sources.hits(algoliaIndex, {
 					hitsPerPage: 5
 				}),
 				displayKey: 'iata',

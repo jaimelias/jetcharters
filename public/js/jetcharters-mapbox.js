@@ -1,11 +1,8 @@
-const mapboxVars = mapbox_vars();
-const client = algoliasearch(get_algolia_id(), get_algolia_token());
-const index = client.initIndex(get_algolia_index());
-const setLat = mapboxVars.mapbox_base_lat;
-const setLon = mapboxVars.mapbox_base_lon;
-const setZoom = mapboxVars.mapbox_map_zoom;
-const mapboxToken = mapboxVars.mapbox_token;
-const mapboxId = mapboxVars.mapbox_map_id;
+const setLat = mapbox_vars().mapbox_base_lat;
+const setLon = mapbox_vars().mapbox_base_lon;
+const setZoom = mapbox_vars().mapbox_map_zoom;
+const mapboxToken = mapbox_vars().mapbox_token;
+const mapboxId = mapbox_vars().mapbox_map_id;
 
 L.mapbox.accessToken = mapboxToken;
 
@@ -29,10 +26,10 @@ jQuery(() => {
 	
 	if(!isMobile && jQuery('.mapbox_form').length)
 	{
-		load_mapbox(index, true);
+		load_mapbox(algoliaIndex, true);
 		
 		map.on('moveend zoomend', function() {
-			load_mapbox(index, false);
+			load_mapbox(algoliaIndex, false);
 		});
 		
 		jQuery('.mapbox_form').each(function(){
@@ -155,7 +152,7 @@ const seachByIp = (err, content) => {
 				}),
 				title: title
 			});
-		   marker.bindPopup('<div class="text-center"><a target="_top" class="large" href="'+mapboxVars.home_url+'fly/' + convertToSlug(content.hits[i]["airport"]) + '/">' + title + '</a></div>');
+		   marker.bindPopup('<div class="text-center"><a target="_top" class="large" href="'+mapbox_vars().home_url+'fly/' + convertToSlug(content.hits[i]["airport"]) + '/">' + title + '</a></div>');
 
 			markers.addLayer(marker);
 		}
