@@ -1,5 +1,6 @@
 jQuery(() => {
 	
+	one_way_round_trip();
 	algolia_execute();
 	validate_instant_quote();
 	country_dropdown();

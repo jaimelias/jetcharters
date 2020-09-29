@@ -86,24 +86,18 @@ class Jetcharters_Public {
 						}
 					}
 					
-					$blog_name = get_bloginfo('name');
-					$subject = $data['lead_name'] . ', '. $blog_name . ' ' . __('Sent You an Estimate', 'jetcharters');
-					$headers = array();
-					$headers[] = 'Content-Type: text/html; charset=UTF-8';
-					$headers[] = 'BCC: ' . get_option('admin_email');
-					
-					$hello = __('Hello', 'jetcharters') . ' ' . $data['lead_name'];
-					$greeting = __('Congratulations! Your request has been sent to one of our Charter Experts!', 'jetcharters');
-					$message = __('There are some questions we will have in order to better focus our attention on the right aircraft for the mission. Please expect a call and/or email soon to discuss your preferences. Feel free to ask any question as we are here to advise our clients on aviation worldwide.', 'jetcharters');
-					$itinerary = 'Itinerary';
-					$quote = 'Quote';
-					$contact_whatsapp = __('Feel free to contact us using Whatsapp', 'jetcharters');
-					$whatsapp = get_theme_mod('whatsapp');
-					$contact_tel = __('To speak immediately to a Charter Specialist standing by, please call', 'jetcharters');
-					$tel = get_theme_mod('min_tel');
+					$subject = sprintf(__('%s, Your request was Sent to our Charter Experts!', 'jetcharters'), $data['lead_name']);
+
 					require_once('email_template.php');
 					
-					wp_mail(sanitize_email($_POST['lead_email']), $subject , $email_template, $headers);
+					$args = array(
+						'subject' => $subject,
+						'to' => sanitize_email($_POST['lead_email']),
+						'message' => $email_template
+					);
+					
+					sg_mail($args);
+
 					self::webhook(json_encode($data));
 					$GLOBALS['VALID_JET_RECAPTCHA'] = true;
 				}
