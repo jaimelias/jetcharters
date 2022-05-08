@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Panama Jet Hub\n"
 "POT-Creation-Date: 2020-09-29 04:29+0000\n"
-"PO-Revision-Date: 2020-09-29 04:32+0000\n"
+"PO-Revision-Date: 2021-11-03 17:35+0000\n"
 "Last-Translator: \n"
 "Language-Team: Spanish (Spain)\n"
 "Language: es_ES\n"
@@ -24,226 +24,39 @@ msgid "%s, Your request was Sent to our Charter Experts!"
 msgstr ""
 "%s, tu solicitud ha sido enviado a nuestros expertos en vuelos charter!"
 
-#: public/class-jetcharters-public.php:191
-#: public/class-jetcharters-public.php:398
-#: public/class-jetcharters-public.php:1238
-msgid "Charter Flights"
-msgstr "Vuelos Privados"
+#: includes/class-jetcharters-post-type.php:19
+#: includes/class-jetcharters-post-type.php:71
+msgid "Add New"
+msgstr "Nuevo"
 
-#: public/class-jetcharters-public.php:192
-#: public/class-jetcharters-public.php:193
-#: public/class-jetcharters-public.php:325
-#: public/class-jetcharters-public.php:1169 public/partials/metatags-fly.php:47
-#: public/partials/metatags-jet.php:4
-msgid "Private Charter Flight"
-msgstr "Vuelo charter privado"
+#: includes/class-jetcharters-post-type.php:18
+#: includes/class-jetcharters-post-type.php:70
+msgid "Add New Item"
+msgstr "Nuevo elemento"
 
-#: public/class-jetcharters-public.php:193 public/partials/metatags-fly.php:47
-msgid "Airplanes and helicopter rides in"
-msgstr "Aviones y tours en helicóptero en"
+#: includes/class-jetcharters-meta-box.php:23
+msgid "Aircraft"
+msgstr "Aeronave"
 
-#: public/class-jetcharters-public.php:271
-msgid "Mapbox preview not available in editing mode."
-msgstr ""
-
-#: public/class-jetcharters-public.php:337
-#: public/class-jetcharters-public.php:342
-#: public/class-jetcharters-public.php:402
-#: public/class-jetcharters-public.php:407
-msgid "Destination Not Found"
-msgstr "Destino no encontrado"
-
-#: public/class-jetcharters-public.php:347
-#: public/class-jetcharters-public.php:386
-msgid "Request Submitted"
-msgstr "Solicitar cotización"
-
-#: public/class-jetcharters-public.php:352
-#: public/class-jetcharters-public.php:382
-msgid "Find an Aircraft"
-msgstr "Aeronaves disponibles"
-
-#: public/class-jetcharters-public.php:440
-msgid "Request received. Our sales team will be in touch with you soon."
-msgstr "Solicitud recibida. Nuestro equipo de ventas en contácto muy pronto."
-
-#: public/class-jetcharters-public.php:444
-msgid "Invalid Recaptcha"
-msgstr "Recaptcha inválido"
-
-#: public/class-jetcharters-public.php:459
-msgid "Invalid Request"
-msgstr "Solicitud inválida"
-
-#: public/class-jetcharters-public.php:967
-msgid "Turbo Prop"
-msgstr "Avioneta"
-
-#: public/class-jetcharters-public.php:971
-msgid "Light Jet"
-msgstr "Jet ligero"
-
-#: public/class-jetcharters-public.php:975
-msgid "Mid-size Jet"
-msgstr "Jet medio"
-
-#: public/class-jetcharters-public.php:979
-msgid "Heavy Jet"
-msgstr "Jet pesado"
-
-#: public/class-jetcharters-public.php:983
-msgid "Airliner"
-msgstr "Avión"
-
-#: public/class-jetcharters-public.php:987
-msgid "Helicopter"
-msgstr "Helicóptero"
-
-#: public/class-jetcharters-public.php:1166 public/partials/jet_search.php:114
-msgid "pounds"
-msgstr "libras"
-
-#: public/class-jetcharters-public.php:1166 public/partials/jet_search.php:114
-msgid "kg"
-msgstr "kg"
-
-#: public/class-jetcharters-public.php:1169
-msgid "from"
-msgstr "desde"
-
-#: public/class-jetcharters-public.php:1169
-msgid "to"
-msgstr "hasta"
-
-#: public/class-jetcharters-public.php:1177
-#: includes/class-jetcharters-meta-box.php:58
-#: public/partials/jet_search.php:127
-msgid "Commercial Flight"
-msgstr "Vuelo comercial"
-
-#: public/class-jetcharters-public.php:1181
-#: includes/class-jetcharters-meta-box.php:59
-#: public/partials/jet_search.php:131
-msgid "Ferry"
-msgstr ""
-
-#: public/class-jetcharters-public.php:1185
-#: includes/class-jetcharters-meta-box.php:60
-#: public/partials/jet_search.php:135
-msgid "Ground Transport"
-msgstr "Transporte Terrestre"
-
-#: public/class-jetcharters-public.php:1205 public/partials/jet_search.php:138
-msgid "Per Person"
-msgstr "Por persona"
-
-#: public/class-jetcharters-public.php:1209
-#: includes/class-jetcharters-meta-box.php:57
-msgid "Charter Flight"
-msgstr "Vuelo privado"
-
-#: public/class-jetcharters-public.php:1216 public/partials/jet_search.php:145
-#: public/partials/jet_search.php:162
-msgid "Fees per pers."
-msgstr "Cargos por pers."
-
-#: public/class-jetcharters-public.php:1246
-msgid "Flights to "
-msgstr "Vuelos a"
-
-#: public/class-jetcharters-public.php:1252
-#: includes/class-jetcharters-post-type.php:14
-#: includes/class-jetcharters-post-type.php:38
-#: public/partials/price-calculator.php:8
-msgid "Destination"
-msgstr "Destino"
-
-#: public/class-jetcharters-public.php:1256
-#: public/partials/price-calculator.php:4
-msgid "Origin"
-msgstr "Origen"
-
-#: public/class-jetcharters-public.php:1257
-#: includes/class-jetcharters-meta-box.php:14
-#: public/partials/jet_search.php:204
-msgid "Flights"
-msgstr "Vuelos"
-
-#: public/class-jetcharters-public.php:1261 public/partials/jet_search.php:36
-msgid "One Way"
-msgstr "Una vía"
-
-#: public/email_template.php:4
-#, php-format
-msgid "Hello %s,"
-msgstr "Hola %s,"
-
-#: public/email_template.php:5
-#, php-format
-msgid "Thank you for contacting %s!"
-msgstr "¡Gracias por contactar a %s!"
-
-#: public/email_template.php:6
-msgid ""
-"There are some questions we will have in order to better focus our attention "
-"on the right aircraft for the mission. Please expect a call and/or email "
-"soon to discuss your preferences. Feel free to ask any question."
-msgstr ""
-"Hay algunas preguntas que tendremos para enfocar mejor nuestra atención en "
-"el avión adecuado para la misión. Espere una llamada y / o correo "
-"electrónico pronto para discutir sus preferencias. No dude en hacer "
-"cualquier pregunta."
-
-#: public/email_template.php:7
+#: public/email_template.php:9
 #, php-format
 msgid "Aircraft: %s"
 msgstr "Aeronave: %s"
 
-#: public/email_template.php:8
-#, php-format
-msgid "Departure: %s"
-msgstr "Partida: %s"
+#: public/class-jetcharters-public.php:991
+msgid "Airliner"
+msgstr "Avión"
 
-#: public/email_template.php:9
-#, php-format
-msgid "Return: %s"
-msgstr "Retorno: %s"
+#: public/class-jetcharters-public.php:205 public/partials/metatags-fly.php:47
+msgid "Airplanes and helicopter rides in"
+msgstr "Aviones y tours en helicóptero en"
 
-#: public/email_template.php:10
-#, php-format
-msgid "Estimate: %s%s"
-msgstr "Estimado: %s%s"
+#: public/partials/jetcharters-public-display.php:21
+msgid "Airport"
+msgstr "Aeropuerto"
 
-#: public/email_template.php:11
-msgid "Feel free to contact us using Whatsapp"
-msgstr "Escribe a nuestro Whatsapp"
-
-#: public/email_template.php:13
-msgid "To speak immediately to a Charter Specialist standing by, please call"
-msgstr "Para hablar de inmediato con un especialista llame al"
-
-#: admin/class-jetcharters-settings.php:48
-msgid "General Settings"
-msgstr "Configuración general"
-
-#: admin/class-jetcharters-settings.php:55
-msgid "Mapbox Token"
-msgstr "Token de Mapbox"
-
-#: admin/class-jetcharters-settings.php:63
-msgid "Map ID"
-msgstr "ID del Mapa"
-
-#: admin/class-jetcharters-settings.php:70
-msgid "Mapbox Map Zoom"
-msgstr ""
-
-#: admin/class-jetcharters-settings.php:78
-msgid "Base Latitud"
-msgstr ""
-
-#: admin/class-jetcharters-settings.php:86
-msgid "Base Longitud"
+#: admin/class-jetcharters-settings.php:113
+msgid "Algolia Api Id"
 msgstr ""
 
 #: admin/class-jetcharters-settings.php:96
@@ -254,65 +67,435 @@ msgstr ""
 msgid "Algolia Index Name"
 msgstr ""
 
-#: admin/class-jetcharters-settings.php:113
-msgid "Algolia Api Id"
-msgstr ""
-
-#: admin/class-jetcharters-settings.php:122
-msgid "Webhook"
-msgstr ""
-
-#: includes/class-jetcharters-post-type.php:13
-msgid "Destinations"
-msgstr "Destinos"
-
-#: includes/class-jetcharters-post-type.php:15
-msgid "Item Archives"
-msgstr "Archivos de elementos"
-
-#: includes/class-jetcharters-post-type.php:16
-#: includes/class-jetcharters-post-type.php:68
-msgid "Parent Item:"
-msgstr "Elementos pricipales"
-
 #: includes/class-jetcharters-post-type.php:17
 #: includes/class-jetcharters-post-type.php:69
 msgid "All Items"
 msgstr "Todos los elementos"
 
-#: includes/class-jetcharters-post-type.php:18
-#: includes/class-jetcharters-post-type.php:70
-msgid "Add New Item"
-msgstr "Nuevo elemento"
+#: public/partials/jet_search.php:50 public/partials/jet_search.php:62
+msgid "at"
+msgstr "a las"
 
-#: includes/class-jetcharters-post-type.php:19
-#: includes/class-jetcharters-post-type.php:71
-msgid "Add New"
-msgstr "Nuevo"
+#: public/partials/jetcharters-jet-single.php:13
+msgid "Base Airport"
+msgstr "Aeropuerto base"
 
-#: includes/class-jetcharters-post-type.php:20
-#: includes/class-jetcharters-post-type.php:72
-msgid "New Item"
-msgstr "Nuevo elemento"
+#: includes/class-jetcharters-meta-box.php:73
+#: includes/class-jetcharters-meta-box.php:111
+msgid "Base City"
+msgstr "Ciudad bse"
+
+#: includes/class-jetcharters-meta-box.php:65
+#: includes/class-jetcharters-meta-box.php:103
+msgid "Base IATA"
+msgstr "IATA Base"
+
+#: admin/class-jetcharters-settings.php:78
+msgid "Base Latitud"
+msgstr ""
+
+#: includes/class-jetcharters-meta-box.php:77
+msgid "Base Latitude"
+msgstr "Latitud base"
+
+#: public/partials/jetcharters-jet-single.php:14
+msgid "Base Location"
+msgstr "Ubicación base"
+
+#: admin/class-jetcharters-settings.php:86
+msgid "Base Longitud"
+msgstr ""
+
+#: includes/class-jetcharters-meta-box.php:81
+msgid "Base Longitude"
+msgstr "Longitud base"
+
+#: includes/class-jetcharters-meta-box.php:69
+#: includes/class-jetcharters-meta-box.php:107
+msgid "Base Name"
+msgstr "Nombre de base"
+
+#: public/partials/jet_search.php:14
+msgid "Call us at our 24/7 phone number"
+msgstr "Llámanos a nuestro teléfono 24 horas"
+
+#: public/class-jetcharters-public.php:1217
+#: includes/class-jetcharters-meta-box.php:57
+msgid "Charter Flight"
+msgstr "Vuelo privado"
+
+#: public/class-jetcharters-public.php:203
+#: public/class-jetcharters-public.php:412
+#: public/class-jetcharters-public.php:1246
+msgid "Charter Flights"
+msgstr "Vuelos Privados"
+
+#: public/partials/jetcharters-public-display.php:57
+msgid "City"
+msgstr "Ciudad"
+
+#: public/class-jetcharters-public.php:1185
+#: includes/class-jetcharters-meta-box.php:58
+#: public/partials/jet_search.php:127
+msgid "Commercial Flight"
+msgstr "Vuelo comercial"
+
+#: public/partials/jet_search.php:258
+#: public/partials/jetcharters-public-display.php:58
+msgid "Country"
+msgstr "País"
+
+#: public/partials/price-calculator.php:5
+#: public/partials/price-calculator.php:9
+msgid "country / city / airport"
+msgstr "país, ciudad, aeropuerto"
+
+#: public/partials/jetcharters-jet-single.php:10
+msgid "Cruise Speed"
+msgstr "Velocidad crucero"
+
+#: includes/class-jetcharters-meta-box.php:139
+msgid "Cruise Speed (knots)"
+msgstr "Velocidad crucero en nudos"
+
+#: public/partials/price-calculator.php:33
+msgid "Date of Departure"
+msgstr "Fecha de partida"
+
+#: public/partials/price-calculator.php:47
+msgid "Date of Return"
+msgstr "Fecha de regreso"
+
+#: includes/class-jetcharters-meta-box.php:189
+msgid "days prior departure"
+msgstr "días antes de la partida"
+
+#: public/partials/jet_search.php:66
+msgid "Departure"
+msgstr "Partida"
+
+#: public/email_template.php:10
+#, php-format
+msgid "Departure: %s"
+msgstr "Partida: %s"
+
+#: includes/class-jetcharters-meta-box.php:176
+msgid "Deposit"
+msgstr "Deposito"
+
+#: public/class-jetcharters-public.php:1260
+#: includes/class-jetcharters-post-type.php:14
+#: includes/class-jetcharters-post-type.php:38
+#: public/partials/price-calculator.php:8
+msgid "Destination"
+msgstr "Destino"
+
+#: public/class-jetcharters-public.php:351
+#: public/class-jetcharters-public.php:356
+#: public/class-jetcharters-public.php:416
+#: public/class-jetcharters-public.php:421
+msgid "Destination Not Found"
+msgstr "Destino no encontrado"
+
+#: includes/class-jetcharters-post-type.php:13
+msgid "Destinations"
+msgstr "Destinos"
+
+#: includes/class-jetcharters-meta-box.php:44
+msgid "destinations"
+msgstr "destinos"
+
+#: includes/class-jetcharters-meta-box.php:184
+msgid "Discount from deposit"
+msgstr "Descuento del deposito"
+
+#: includes/class-jetcharters-meta-box.php:183
+msgid "Discount from total price"
+msgstr "Precio total con descuento"
+
+#: public/partials/jet_search.php:207
+msgid "Duration"
+msgstr "Duración"
 
 #: includes/class-jetcharters-post-type.php:21
 #: includes/class-jetcharters-post-type.php:73
 msgid "Edit Item"
 msgstr ""
 
-#: includes/class-jetcharters-post-type.php:22
-#: includes/class-jetcharters-post-type.php:74
-msgid "Update Item"
+#: includes/class-jetcharters-meta-box.php:203
+#: public/partials/jet_search.php:244
+msgid "Email"
+msgstr "Email"
+
+#: public/email_template.php:12
+#, php-format
+msgid "Estimate: %s%s"
+msgstr "Estimado: %s%s"
+
+#: includes/class-jetcharters-post-type.php:27
+msgid "Featured Image"
 msgstr ""
 
-#: includes/class-jetcharters-post-type.php:23
-#: includes/class-jetcharters-post-type.php:75
-msgid "View Item"
+#: public/email_template.php:13
+msgid "Feel free to contact us using Whatsapp"
+msgstr "Escribe a nuestro Whatsapp"
+
+#: public/class-jetcharters-public.php:1224 public/partials/jet_search.php:145
+#: public/partials/jet_search.php:162
+msgid "Fees per pers."
+msgstr "Cargos por pers."
+
+#: public/class-jetcharters-public.php:1189
+#: includes/class-jetcharters-meta-box.php:59
+#: public/partials/jet_search.php:131
+msgid "Ferry"
+msgstr "Ferry"
+
+#: includes/class-jetcharters-post-type.php:35
+#: includes/class-jetcharters-post-type.php:81
+msgid "Filter items list"
 msgstr ""
 
-#: includes/class-jetcharters-post-type.php:24
-#: includes/class-jetcharters-post-type.php:76
-msgid "Search Item"
+#: public/partials/price-calculator.php:58
+msgid "Find Aircrafts"
+msgstr "Encontrar aeronaves"
+
+#: public/class-jetcharters-public.php:366
+#: public/class-jetcharters-public.php:396
+msgid "Find an Aircraft"
+msgstr "Aeronaves disponibles"
+
+#: public/partials/price-calculator.php:21
+msgid "Flight"
+msgstr "Vuelo"
+
+#: public/class-jetcharters-public.php:1265
+#: includes/class-jetcharters-meta-box.php:14
+#: public/partials/jet_search.php:204
+msgid "Flights"
+msgstr "Vuelos"
+
+#: public/class-jetcharters-public.php:1254
+msgid "Flights to "
+msgstr "Vuelos a"
+
+#: public/class-jetcharters-public.php:1177
+msgid "from"
+msgstr "desde"
+
+#: public/partials/jetcharters-jet-single.php:49
+msgid "ft"
+msgstr "ft"
+
+#: includes/class-jetcharters-meta-box.php:175
+msgid "Full payment"
+msgstr "Pago total"
+
+#: admin/class-jetcharters-settings.php:48
+msgid "General Settings"
+msgstr "Configuración general"
+
+#: public/class-jetcharters-public.php:1193
+#: includes/class-jetcharters-meta-box.php:60
+#: public/partials/jet_search.php:135
+msgid "Ground Transport"
+msgstr "Transporte Terrestre"
+
+#: public/class-jetcharters-public.php:987
+msgid "Heavy Jet"
+msgstr "Jet pesado"
+
+#: public/class-jetcharters-public.php:995
+msgid "Helicopter"
+msgstr "Helicóptero"
+
+#: public/email_template.php:5
+#, php-format
+msgid "Hello %s,"
+msgstr "Hola %s,"
+
+#: public/partials/price-calculator.php:38
+msgid "Hour of Departure"
+msgstr "Hora de partida"
+
+#: public/partials/price-calculator.php:52
+msgid "Hour of Return"
+msgstr "Hora de regreso"
+
+#. Author URI of the plugin
+msgid "http://jaimelias.com"
+msgstr ""
+
+#. URI of the plugin
+msgid "http://www.panamajethub.com"
+msgstr ""
+
+#: includes/class-jetcharters-post-type.php:31
+msgid "Insert into item"
+msgstr ""
+
+#: public/partials/jetcharters-jet-single.php:81
+#, fuzzy
+msgid "Instant Quotes"
+msgstr "Cotizaciones instantaneas"
+
+#: public/class-jetcharters-public.php:458
+msgid "Invalid Recaptcha"
+msgstr "Recaptcha inválido"
+
+#: public/class-jetcharters-public.php:473
+msgid "Invalid Request"
+msgstr "Solicitud inválida"
+
+#: includes/class-jetcharters-post-type.php:15
+msgid "Item Archives"
+msgstr "Archivos de elementos"
+
+#: includes/class-jetcharters-post-type.php:33
+#: includes/class-jetcharters-post-type.php:79
+msgid "Items list"
+msgstr ""
+
+#: includes/class-jetcharters-post-type.php:34
+#: includes/class-jetcharters-post-type.php:80
+msgid "Items list navigation"
+msgstr ""
+
+#. Author of the plugin
+msgid "Jaimelías"
+msgstr ""
+
+#: includes/class-jetcharters-post-type.php:84
+msgid "Jet"
+msgstr "Jet"
+
+#. Name of the plugin
+msgid "Jet Charters"
+msgstr "Vuelos privados"
+
+#: includes/class-jetcharters-post-type.php:66
+#: includes/class-jetcharters-post-type.php:67
+msgid "Jets"
+msgstr "Jets"
+
+#: public/class-jetcharters-public.php:1174 public/partials/jet_search.php:114
+msgid "kg"
+msgstr "kg"
+
+#: public/partials/jetcharters-jet-single.php:41
+msgid "km"
+msgstr "km"
+
+#: public/partials/jetcharters-jet-single.php:45
+msgid "kn"
+msgstr "kn"
+
+#: public/partials/jetcharters-jet-single.php:45
+msgid "kph"
+msgstr "kph"
+
+#: includes/class-jetcharters-meta-box.php:180
+msgid "Last Minute Discount"
+msgstr "Descuento de último minuto"
+
+#: includes/class-jetcharters-meta-box.php:189
+msgid "Last Minute Extends to"
+msgstr ""
+
+#: public/partials/jet_search.php:236
+msgid "Last Name"
+msgstr "Apellido"
+
+#: public/partials/jetcharters-public-display.php:60
+msgid "Latitude"
+msgstr "Latitud"
+
+#: public/class-jetcharters-public.php:979
+msgid "Light Jet"
+msgstr "Jet ligero"
+
+#: public/partials/price-calculator.php:38
+#: public/partials/price-calculator.php:52
+msgid "Local Time"
+msgstr "Hora local"
+
+#: includes/class-jetcharters-meta-box.php:211
+msgid "Location"
+msgstr "Ubicación"
+
+#: public/partials/jetcharters-public-display.php:59
+msgid "Longitude"
+msgstr "Longitud"
+
+#: public/partials/jetcharters-jet-single.php:49
+msgid "m"
+msgstr "m"
+
+#: includes/class-jetcharters-meta-box.php:148
+#: public/partials/jetcharters-jet-single.php:5
+msgid "Manufacturer"
+msgstr "Fabricante"
+
+#: admin/class-jetcharters-settings.php:63
+msgid "Map ID"
+msgstr "ID del Mapa"
+
+#: admin/class-jetcharters-settings.php:70
+msgid "Mapbox Map Zoom"
+msgstr ""
+
+#: public/class-jetcharters-public.php:285
+msgid "Mapbox preview not available in editing mode."
+msgstr ""
+
+#: admin/class-jetcharters-settings.php:55
+msgid "Mapbox Token"
+msgstr "Token de Mapbox"
+
+#: public/partials/jetcharters-jet-single.php:11
+msgid "Max Altitude"
+msgstr "Altitud máxima"
+
+#: includes/class-jetcharters-meta-box.php:142
+msgid "Max. Altitude (feet)"
+msgstr "Altitud Máxima"
+
+#: public/partials/jetcharters-jet-single.php:41
+msgid "mi"
+msgstr "mi"
+
+#: public/class-jetcharters-public.php:983
+msgid "Mid-size Jet"
+msgstr "Jet medio"
+
+#: includes/class-jetcharters-meta-box.php:151
+#: public/partials/jetcharters-jet-single.php:6
+msgid "Model"
+msgstr "Modelo"
+
+#: public/partials/jetcharters-jet-single.php:45
+msgid "mph"
+msgstr "mph"
+
+#: public/partials/jet_search.php:230
+msgid "Name"
+msgstr "Nombre"
+
+#: includes/class-jetcharters-post-type.php:20
+#: includes/class-jetcharters-post-type.php:72
+msgid "New Item"
+msgstr "Nuevo elemento"
+
+#: public/partials/jetcharters-jet-single.php:41
+msgid "nm"
+msgstr "mn"
+
+#: public/partials/jet_search.php:266
+msgid "No"
+msgstr ""
+
+#: includes/class-jetcharters-meta-box.php:182
+msgid "No discount"
 msgstr ""
 
 #: includes/class-jetcharters-post-type.php:25
@@ -325,106 +508,36 @@ msgstr ""
 msgid "Not found in Trash"
 msgstr ""
 
-#: includes/class-jetcharters-post-type.php:27
-msgid "Featured Image"
-msgstr ""
+#: includes/class-jetcharters-meta-box.php:86
+msgid "Number of Flights"
+msgstr "Número de vuelos"
 
-#: includes/class-jetcharters-post-type.php:28
-msgid "Set featured image"
-msgstr ""
+#: public/partials/jet_search.php:48 public/partials/jet_search.php:60
+msgid "on"
+msgstr "el"
 
-#: includes/class-jetcharters-post-type.php:29
-msgid "Remove featured image"
-msgstr ""
+#: public/class-jetcharters-public.php:1269 public/partials/jet_search.php:36
+msgid "One Way"
+msgstr "Una vía"
 
-#: includes/class-jetcharters-post-type.php:30
-msgid "Use as featured image"
-msgstr ""
-
-#: includes/class-jetcharters-post-type.php:31
-msgid "Insert into item"
-msgstr ""
-
-#: includes/class-jetcharters-post-type.php:32
-msgid "Uploaded to this item"
-msgstr ""
-
-#: includes/class-jetcharters-post-type.php:33
-#: includes/class-jetcharters-post-type.php:79
-msgid "Items list"
-msgstr ""
-
-#: includes/class-jetcharters-post-type.php:34
-#: includes/class-jetcharters-post-type.php:80
-msgid "Items list navigation"
-msgstr ""
-
-#: includes/class-jetcharters-post-type.php:35
-#: includes/class-jetcharters-post-type.php:81
-msgid "Filter items list"
-msgstr ""
-
-#: includes/class-jetcharters-post-type.php:66
-#: includes/class-jetcharters-post-type.php:67
-msgid "Jets"
-msgstr "Jets"
-
-#: includes/class-jetcharters-post-type.php:84
-msgid "Jet"
-msgstr "Jet"
-
-#: includes/class-jetcharters-meta-box.php:23
-msgid "Aircraft"
-msgstr "Aeronave"
+#: public/partials/price-calculator.php:23
+msgid "One way"
+msgstr "Una vía"
 
 #: includes/class-jetcharters-meta-box.php:32
 #: includes/class-jetcharters-meta-box.php:199
 msgid "Operator"
 msgstr "Operador"
 
-#: includes/class-jetcharters-meta-box.php:44
-msgid "destinations"
-msgstr "destinos"
+#: public/class-jetcharters-public.php:1264
+#: public/partials/price-calculator.php:4
+msgid "Origin"
+msgstr "Origen"
 
-#: includes/class-jetcharters-meta-box.php:55
-msgid "Type of Transport"
-msgstr ""
-
-#: includes/class-jetcharters-meta-box.php:65
-#: includes/class-jetcharters-meta-box.php:103
-msgid "Base IATA"
-msgstr "IATA Base"
-
-#: includes/class-jetcharters-meta-box.php:69
-#: includes/class-jetcharters-meta-box.php:107
-msgid "Base Name"
-msgstr "Nombre de base"
-
-#: includes/class-jetcharters-meta-box.php:73
-#: includes/class-jetcharters-meta-box.php:111
-msgid "Base City"
-msgstr "Ciudad bse"
-
-#: includes/class-jetcharters-meta-box.php:77
-msgid "Base Latitude"
-msgstr "Latitud base"
-
-#: includes/class-jetcharters-meta-box.php:81
-msgid "Base Longitude"
-msgstr "Longitud base"
-
-#: includes/class-jetcharters-meta-box.php:86
-msgid "Number of Flights"
-msgstr "Número de vuelos"
-
-#: includes/class-jetcharters-meta-box.php:91
-msgid "Prices Per Flight"
-msgstr "Precios por vuelo"
-
-#: includes/class-jetcharters-meta-box.php:121
-#: public/partials/jetcharters-jet-single.php:4
-msgid "Type"
-msgstr "Tipo"
+#: includes/class-jetcharters-post-type.php:16
+#: includes/class-jetcharters-post-type.php:68
+msgid "Parent Item:"
+msgstr "Elementos pricipales"
 
 #: includes/class-jetcharters-meta-box.php:133
 #: public/partials/jet_search.php:76 public/partials/price-calculator.php:15
@@ -432,232 +545,46 @@ msgstr "Tipo"
 msgid "Passengers"
 msgstr "Pasajeros"
 
-#: includes/class-jetcharters-meta-box.php:136
-msgid "Range (nautical miles)"
-msgstr "Rango en millas nauticas"
-
-#: includes/class-jetcharters-meta-box.php:139
-msgid "Cruise Speed (knots)"
-msgstr "Velocidad crucero en nudos"
-
-#: includes/class-jetcharters-meta-box.php:142
-msgid "Max. Altitude (feet)"
-msgstr "Altitud Máxima"
-
-#: includes/class-jetcharters-meta-box.php:145
-msgid "Takeoff Field Lenght (feet)"
-msgstr "Largo de pista para despegue (pies)"
-
-#: includes/class-jetcharters-meta-box.php:148
-#: public/partials/jetcharters-jet-single.php:5
-msgid "Manufacturer"
-msgstr "Fabricante"
-
-#: includes/class-jetcharters-meta-box.php:151
-#: public/partials/jetcharters-jet-single.php:6
-msgid "Model"
-msgstr "Modelo"
-
-#: includes/class-jetcharters-meta-box.php:154
-#: public/partials/jetcharters-jet-single.php:7
-msgid "Year of Construction"
-msgstr "Año de construcción"
-
-#: includes/class-jetcharters-meta-box.php:157
-msgid "Show Price"
-msgstr "Mostrar precio"
-
-#: includes/class-jetcharters-meta-box.php:163
-msgid "Price Per Hour"
-msgstr "Precio por hora"
+#: public/email_template.php:6
+#, php-format
+msgid "Passengers: %s"
+msgstr "Pasajeros: %s"
 
 #: includes/class-jetcharters-meta-box.php:173
 msgid "Payment"
 msgstr "Pago"
 
-#: includes/class-jetcharters-meta-box.php:175
-msgid "Full payment"
-msgstr ""
-
-#: includes/class-jetcharters-meta-box.php:176
-msgid "Deposit"
-msgstr ""
-
-#: includes/class-jetcharters-meta-box.php:180
-msgid "Last Minute Discount"
-msgstr ""
-
-#: includes/class-jetcharters-meta-box.php:182
-msgid "No discount"
-msgstr ""
-
-#: includes/class-jetcharters-meta-box.php:183
-msgid "Discount from total price"
-msgstr ""
-
-#: includes/class-jetcharters-meta-box.php:184
-msgid "Discount from deposit"
-msgstr ""
-
-#: includes/class-jetcharters-meta-box.php:189
-msgid "Last Minute Extends to"
-msgstr ""
-
-#: includes/class-jetcharters-meta-box.php:189
-msgid "days prior departure"
-msgstr "días antes de la partida"
-
-#: includes/class-jetcharters-meta-box.php:203
-#: public/partials/jet_search.php:244
-msgid "Email"
-msgstr "Email"
-
-#: includes/class-jetcharters-meta-box.php:207
-msgid "Telephone"
-msgstr "Teléfono"
-
-#: includes/class-jetcharters-meta-box.php:211
-msgid "Location"
-msgstr "Ubicación"
-
-#: public/partials/jet_search.php:10
-msgid ""
-"The requested quote is not available in our website yet. Please contact our "
-"sales team for an immediate answer."
-msgstr ""
-"Tu solicitud no está disponible en nuestro sitio web aún. Por favor contacta "
-"a nuestro equipo de ventas para una pronta respuesta."
-
-#: public/partials/jet_search.php:14
-msgid "Call us at our 24/7 phone number"
-msgstr "Llámanos a nuestro teléfono 24 horas"
-
-#: public/partials/jet_search.php:40
-msgid "Round Trip"
-msgstr "Viaje redondo"
-
-#: public/partials/jet_search.php:48 public/partials/jet_search.php:60
-msgid "on"
-msgstr "el"
-
-#: public/partials/jet_search.php:50 public/partials/jet_search.php:62
-msgid "at"
-msgstr "a las"
-
-#: public/partials/jet_search.php:66
-msgid "Departure"
-msgstr "Partida"
-
-#: public/partials/jet_search.php:71
-msgid "Return"
-msgstr "Regreso"
-
-#: public/partials/jet_search.php:179
-msgid "Quote"
-msgstr "Cotizar"
-
-#: public/partials/jet_search.php:207
-msgid "Duration"
-msgstr "Duración"
-
-#: public/partials/jet_search.php:223
-msgid "Request a Quote"
-msgstr "Solicitar cotización"
-
-#: public/partials/jet_search.php:230
-msgid "Name"
-msgstr "Nombre"
-
-#: public/partials/jet_search.php:236
-msgid "Last Name"
-msgstr "Apellido"
+#: public/class-jetcharters-public.php:1213 public/partials/jet_search.php:138
+msgid "Per Person"
+msgstr "Por persona"
 
 #: public/partials/jet_search.php:250
 msgid "Phone"
 msgstr "Teléfono"
 
-#: public/partials/jet_search.php:258
-#: public/partials/jetcharters-public-display.php:58
-msgid "Country"
-msgstr "País"
+#: public/class-jetcharters-public.php:1174 public/partials/jet_search.php:114
+msgid "pounds"
+msgstr "libras"
 
-#: public/partials/jet_search.php:264
-msgid "Traveling With Children"
-msgstr "Viajas con niños"
+#: includes/class-jetcharters-meta-box.php:163
+msgid "Price Per Hour"
+msgstr "Precio por hora"
 
-#: public/partials/jet_search.php:266
-msgid "No"
-msgstr ""
+#: includes/class-jetcharters-meta-box.php:91
+msgid "Prices Per Flight"
+msgstr "Precios por vuelo"
 
-#: public/partials/jet_search.php:267
-msgid "Yes"
-msgstr ""
+#: public/class-jetcharters-public.php:204
+#: public/class-jetcharters-public.php:205
+#: public/class-jetcharters-public.php:339
+#: public/class-jetcharters-public.php:1177 public/partials/metatags-fly.php:47
+#: public/partials/metatags-jet.php:4
+msgid "Private Charter Flight"
+msgstr "Vuelo charter privado"
 
-#: public/partials/jet_search.php:302
-msgid "Send Request"
-msgstr "Enviar solicitud"
-
-#: public/partials/price-calculator.php:5
-#: public/partials/price-calculator.php:9
-msgid "country / city / airport"
-msgstr "país, ciudad, aeropuerto"
-
-#: public/partials/price-calculator.php:21
-msgid "Flight"
-msgstr "Vuelo"
-
-#: public/partials/price-calculator.php:23
-msgid "One way"
-msgstr "Una vía"
-
-#: public/partials/price-calculator.php:24
-msgid "Round trip"
-msgstr "Ida y Vuelta"
-
-#: public/partials/price-calculator.php:33
-msgid "Date of Departure"
-msgstr "Fecha de partida"
-
-#: public/partials/price-calculator.php:38
-msgid "Hour of Departure"
-msgstr "Hora de partida"
-
-#: public/partials/price-calculator.php:38
-#: public/partials/price-calculator.php:52
-msgid "Local Time"
-msgstr "Hora local"
-
-#: public/partials/price-calculator.php:47
-msgid "Date of Return"
-msgstr "Fecha de regreso"
-
-#: public/partials/price-calculator.php:52
-msgid "Hour of Return"
-msgstr "Hora de regreso"
-
-#: public/partials/price-calculator.php:58
-msgid "Find Aircrafts"
-msgstr "Encontrar aeronaves"
-
-#: public/partials/jetcharters-public-display.php:21
-msgid "Airport"
-msgstr "Aeropuerto"
-
-#: public/partials/jetcharters-public-display.php:57
-msgid "City"
-msgstr "Ciudad"
-
-#: public/partials/jetcharters-public-display.php:59
-msgid "Longitude"
-msgstr "Longitud"
-
-#: public/partials/jetcharters-public-display.php:60
-msgid "Latitude"
-msgstr "Latitud"
-
-#: public/partials/jetcharters-public-display.php:61
-msgid "Timezone"
-msgstr "Zona horaria"
+#: public/partials/jet_search.php:179
+msgid "Quote"
+msgstr "Cotizar"
 
 #: public/partials/jetcharters-public-display.php:70
 msgid "Quote Charter Flight to"
@@ -667,66 +594,96 @@ msgstr "Cotizar vuelo privado a"
 msgid "Range"
 msgstr "Rango"
 
-#: public/partials/jetcharters-jet-single.php:10
-msgid "Cruise Speed"
-msgstr "Velocidad crucero"
+#: includes/class-jetcharters-meta-box.php:136
+msgid "Range (nautical miles)"
+msgstr "Rango en millas nauticas"
 
-#: public/partials/jetcharters-jet-single.php:11
-msgid "Max Altitude"
-msgstr "Altitud máxima"
+#: includes/class-jetcharters-post-type.php:29
+msgid "Remove featured image"
+msgstr ""
+
+#: public/partials/jet_search.php:223
+msgid "Request a Quote"
+msgstr "Solicitar cotización"
+
+#: public/class-jetcharters-public.php:454
+msgid "Request received. Our sales team will be in touch with you soon."
+msgstr "Solicitud recibida. Nuestro equipo de ventas en contácto muy pronto."
+
+#: public/class-jetcharters-public.php:361
+#: public/class-jetcharters-public.php:400
+msgid "Request Submitted"
+msgstr "Solicitar cotización"
+
+#: public/partials/jet_search.php:71
+msgid "Return"
+msgstr "Regreso"
+
+#: public/email_template.php:11
+#, php-format
+msgid "Return: %s"
+msgstr "Retorno: %s"
+
+#: public/partials/jet_search.php:40
+msgid "Round Trip"
+msgstr "Viaje redondo"
+
+#: public/partials/price-calculator.php:24
+msgid "Round trip"
+msgstr "Ida y Vuelta"
+
+#: includes/class-jetcharters-post-type.php:24
+#: includes/class-jetcharters-post-type.php:76
+msgid "Search Item"
+msgstr ""
+
+#: public/partials/jet_search.php:302
+msgid "Send Request"
+msgstr "Enviar solicitud"
+
+#: includes/class-jetcharters-post-type.php:28
+msgid "Set featured image"
+msgstr ""
+
+#: includes/class-jetcharters-meta-box.php:157
+msgid "Show Price"
+msgstr "Mostrar precio"
 
 #: public/partials/jetcharters-jet-single.php:12
 msgid "Takeoff Field"
 msgstr "Capacidad despegue"
 
-#: public/partials/jetcharters-jet-single.php:13
-msgid "Base Airport"
-msgstr "Aeropuerto base"
+#: includes/class-jetcharters-meta-box.php:145
+msgid "Takeoff Field Lenght (feet)"
+msgstr "Largo de pista para despegue (pies)"
 
-#: public/partials/jetcharters-jet-single.php:14
-msgid "Base Location"
-msgstr "Ubicación base"
+#: includes/class-jetcharters-meta-box.php:207
+msgid "Telephone"
+msgstr "Teléfono"
 
-#: public/partials/jetcharters-jet-single.php:41
-msgid "nm"
-msgstr "mn"
+#: public/email_template.php:7
+#, php-format
+msgid "Thank you for contacting %s!"
+msgstr "¡Gracias por contactar a %s!"
 
-#: public/partials/jetcharters-jet-single.php:41
-msgid "mi"
-msgstr "mi"
+#: public/partials/jet_search.php:10
+msgid ""
+"The requested quote is not available in our website yet. Please contact our "
+"sales team for an immediate answer."
+msgstr ""
+"Tu solicitud no está disponible en nuestro sitio web aún. Por favor contacta "
+"a nuestro equipo de ventas para una pronta respuesta."
 
-#: public/partials/jetcharters-jet-single.php:41
-msgid "km"
-msgstr "km"
-
-#: public/partials/jetcharters-jet-single.php:45
-msgid "kn"
-msgstr "kn"
-
-#: public/partials/jetcharters-jet-single.php:45
-msgid "mph"
-msgstr "mph"
-
-#: public/partials/jetcharters-jet-single.php:45
-msgid "kph"
-msgstr "kph"
-
-#: public/partials/jetcharters-jet-single.php:49
-msgid "ft"
-msgstr "ft"
-
-#: public/partials/jetcharters-jet-single.php:49
-msgid "m"
-msgstr "m"
-
-#: public/partials/jetcharters-jet-single.php:81
-#, fuzzy
-msgid "Instant Quotes"
-msgstr "Cotizaciones instantaneas"
-
-#. Name of the plugin
-msgid "Jet Charters"
-msgstr "Vuelos privados"
+#: public/email_template.php:8
+msgid ""
+"There are some questions we will have in order to better focus our attention "
+"on the right aircraft for the mission. Please expect a call and/or email "
+"soon to discuss your preferences. Feel free to ask any question."
+msgstr ""
+"Hay algunas preguntas que tendremos para enfocar mejor nuestra atención en "
+"el avión adecuado para la misión. Espere una llamada y / o correo "
+"electrónico pronto para discutir sus preferencias. No dude en hacer "
+"cualquier pregunta."
 
 #. Description of the plugin
 msgid ""
@@ -734,14 +691,62 @@ msgid ""
 "WordPress admin area."
 msgstr ""
 
-#. URI of the plugin
-msgid "http://www.panamajethub.com"
+#: public/partials/jetcharters-public-display.php:61
+msgid "Timezone"
+msgstr "Zona horaria"
+
+#: public/class-jetcharters-public.php:1177
+msgid "to"
+msgstr "hasta"
+
+#: public/email_template.php:15
+msgid "To speak immediately to a Charter Specialist standing by, please call"
+msgstr "Para hablar de inmediato con un especialista llame al"
+
+#: public/partials/jet_search.php:264
+msgid "Traveling With Children"
+msgstr "Viajas con niños"
+
+#: public/class-jetcharters-public.php:975
+msgid "Turbo Prop"
+msgstr "Avioneta"
+
+#: includes/class-jetcharters-meta-box.php:121
+#: public/partials/jetcharters-jet-single.php:4
+msgid "Type"
+msgstr "Tipo"
+
+#: includes/class-jetcharters-meta-box.php:55
+msgid "Type of Transport"
 msgstr ""
 
-#. Author of the plugin
-msgid "Jaimelías"
+#: includes/class-jetcharters-post-type.php:22
+#: includes/class-jetcharters-post-type.php:74
+msgid "Update Item"
 msgstr ""
 
-#. Author URI of the plugin
-msgid "http://jaimelias.com"
+#: includes/class-jetcharters-post-type.php:32
+msgid "Uploaded to this item"
+msgstr ""
+
+#: includes/class-jetcharters-post-type.php:30
+msgid "Use as featured image"
+msgstr ""
+
+#: includes/class-jetcharters-post-type.php:23
+#: includes/class-jetcharters-post-type.php:75
+msgid "View Item"
+msgstr ""
+
+#: admin/class-jetcharters-settings.php:122
+msgid "Webhook"
+msgstr ""
+
+#: includes/class-jetcharters-meta-box.php:154
+#: public/partials/jetcharters-jet-single.php:7
+msgid "Year of Construction"
+msgstr "Año de construcción"
+
+#: public/partials/jet_search.php:267
+msgid "Yes"
 msgstr ""

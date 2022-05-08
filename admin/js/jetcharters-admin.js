@@ -45,6 +45,7 @@
 		console.log(data);
 		
 		var args = {
+			licenseKey: 'non-commercial-and-evaluation',
 			data: data,
 			stretchH: 'all',
 			columns: columns,

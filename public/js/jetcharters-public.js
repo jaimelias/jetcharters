@@ -254,21 +254,20 @@ const validate_jet_form = () => {
 				today.setDate(today.getDate() - 2);
 				today = Date.parse(today);
 				const days_between = Math.round((departure-today)/(1000*60*60*24));				
-				const eventAction = jQuery('#jet_origin').val()+'/'+jQuery('#jet_destination').val();
-				const eventLabel = days_between+'/'+jQuery('#jet_departure_date').val()+'/'+jQuery('#jet_pax').val();
+				const itinerary = jQuery('#jet_origin').val()+'/'+jQuery('#jet_destination').val();
 				
-				if(typeof ga !== typeof undefined)
+				if(typeof gtag !== 'undefined')
 				{	
-					const eventArgs = {
-						eventCategory: 'Flight',
-						eventAction: eventAction,
-						eventLabel: eventLabel,
-					};
-					ga('send', 'event', eventArgs);
+					gtag('event', 'search_flight', {
+						itinerary,
+						days_between,
+						departure: jQuery('#jet_departure_date').val(),
+						pax: jQuery('#jet_pax').val()
+					});
 				}
 				else
 				{
-					console.log('jetcharters: GA not defined');
+					console.log('jetcharters: gtag not defined');
 				}
 				jQuery(thisForm).attr({'action': jQuery(thisForm).attr('action')+hash});
 				jQuery(thisForm).submit();

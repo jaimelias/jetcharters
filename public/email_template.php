@@ -1,7 +1,9 @@
 <?php 
 
 $first_name = sanitize_text_field($_POST['lead_name']);
+$jet_pax = sanitize_text_field($_POST['jet_pax']);
 $hello = sprintf(__('Hello %s,', 'jetcharters'), $first_name);
+$passengers = sprintf(__('Passengers: %s', 'jetcharters'), $jet_pax);
 $greeting = sprintf(__('Thank you for contacting %s!', 'jetcharters'), get_bloginfo('name'));
 $message = __('There are some questions we will have in order to better focus our attention on the right aircraft for the mission. Please expect a call and/or email soon to discuss your preferences. Feel free to ask any question.', 'jetcharters');
 $aircraft = (isset($_POST['aircraft_name'])) ? sprintf(__('Aircraft: %s', 'jetcharters'), sanitize_text_field($_POST['aircraft_name'])) : null;
@@ -20,6 +22,7 @@ $email_template = <<<EOD
 <h2>$greeting</h2>
 <p>$message</p>
 <p>$aircraft</p>
+<p>$passengers</p>
 <p>$itinerary</p>
 <p>$estimate</p>
 <p>$contact_whatsapp:</p>

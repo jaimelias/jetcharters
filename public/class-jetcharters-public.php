@@ -119,43 +119,49 @@ class Jetcharters_Public {
 		{
 			global $airport_array;
 
-
 			if(is_object($airport_array) || is_array($airport_array))
 			{
-				$iata = $airport_array['iata'];
-				$codes = '('.$iata.')';
-				$city = $airport_array['city'];
-				$airport = $airport_array['airport'];
-				$country_name = $airport_array['country_names'];
+				
+				[
+					'city' => $city, 
+					'iata' => $iata, 
+					'city' => $city, 
+					'airport' => $airport,
+					'country_names' => $country_names
+				] = $airport_array;
+				
+				
 				$lang = substr(get_locale(), 0, -3);
 				$prices = array();
 				
 				if($lang)
 				{
-					if(array_key_exists($lang, $country_name))
+					if(array_key_exists($lang, $country_names))
 					{
-						$country_lang = $country_name[$lang];
+						$country_lang = $country_names[$lang];
 					}
 					else
 					{
-						$country_lang = $country_name['en'];
+						$country_lang = $country_names['en'];
 					}
 				}
 				
-				$addressArray = array(($airport.' '.$codes), $city, $country_lang);
-				$address = implode(', ', $addressArray);			
+				$addressArray = array(($airport.' ('.$iata.')'), $city, $country_lang);
+				$address = implode(', ', $addressArray);		
 				
-				$args23 = array('post_type' => 'jet','posts_per_page' => 200, 'post_parent' => 0, 'meta_key' => 'jet_base_iata', 'orderby' => 'meta_value');
-				$args23['meta_query'] = array();
-
-				$meta_args = array(
-					'key' => 'jet_base_iata',
-					'value' => esc_html($iata),
-					'compare' => '!='
-				);			
+				$args23 = array(
+					'post_type' => 'jet',
+					'posts_per_page' => 200,
+					'post_parent' => 0,
+					'meta_key' => 'jet_base_iata',
+					'meta_query' => array(
+						'key' => 'jet_base_iata',
+						'value' => esc_html($iata),
+						'compare' => '!='
+					),
+					'orderby' => 'meta_value'
+				);
 				
-				$args23['meta_key'] = array();
-				array_push($args23['meta_query'], $meta_args);
 				$wp_query23 = new WP_Query( $args23 );
 
 				if ($wp_query23->have_posts())
@@ -165,14 +171,18 @@ class Jetcharters_Public {
 						$wp_query23->the_post();
 						$table_price = html_entity_decode(Charterflights_Meta_Box::jet_get_meta( 'jet_rates' ));
 						$table_price = json_decode($table_price, true);
-							
-						
-						for($x = 0; $x < count($table_price); $x++)
+
+						if(is_array($table_price))
 						{
-							if(($iata == $table_price[$x][0] || $iata == $table_price[$x][1]) && ($table_price[$x][0] != '' || $table_price[$x][1] != ''))
+							for($x = 0; $x < count($table_price); $x++)
 							{
-								array_push($prices, floatval($table_price[$x][3]));
-							}
+								$tp = $table_price[$x];
+								
+								if(($iata == $tp[0] || $iata == $tp[1]) && ($tp[0] != '' || $tp[1] != ''))
+								{
+									array_push($prices, floatval($tp[3]));
+								}
+							}							
 						}
 					}
 
@@ -182,20 +192,28 @@ class Jetcharters_Public {
 
 				if(count($prices) > 0)
 				{
-					$arr = array();
-					$arr['@context'] = 'http://schema.org/';
-					$arr['@type'] = 'Product';
-					$arr['brand'] = array();
-					$arr['brand']['@type'] = 'Thing';
-					$arr['brand']['name'] = esc_html(get_bloginfo('name'));				
-					$arr['category'] = esc_html(__('Charter Flights', 'jetcharters'));
-					$arr['name'] = esc_html(__('Private Charter Flight', 'jetcharters').' '.$airport);
-					$arr['description'] = esc_html(__('Private Charter Flight', 'jetcharters').' '.$address.'. '.__('Airplanes and helicopter rides in', 'jetcharters').' '.$airport.', '.$city);
-					$arr['image'] = esc_url(Jetcharters_Public::airport_img_url($airport_array, true));
-					$arr['sku'] = md5($iata);
-					$arr['gtin8'] = substr(md5($iata), 0, 8);
+					
+					$arr = array(
+						'@context' => 'http://schema.org/',
+						'@type' => 'Product',
+						'brand' => array(
+							'@type' => 'Thing',
+							'name' => esc_html(get_bloginfo('name'))
+						),
+						'category' => esc_html(__('Charter Flights', 'jetcharters')),
+						'name' => esc_html(__('Private Charter Flight', 'jetcharters').' '.$airport),
+						'description' => esc_html(__('Private Charter Flight', 'jetcharters').' '.$address.'. '.__('Airplanes and helicopter rides in', 'jetcharters').' '.$airport.', '.$city),
+						'image' => esc_url(Jetcharters_Public::airport_img_url($airport_array, true)),
+						'sku' => md5($iata),
+						'gtin8' => substr(md5($iata), 0, 8)
+					);
 
-					$offers = array();
+					$offers = array(
+						'priceCurrency' => 'USD',
+						'priceValidUntil' => esc_html(date('Y-m-d', strtotime('+1 year'))),
+						'availability' => 'http://schema.org/InStock',
+						'url' => esc_url(get_the_permalink())
+					);
 					
 					if(count($prices) == 1)
 					{
@@ -209,11 +227,7 @@ class Jetcharters_Public {
 						$offers['lowPrice'] = number_format(min($prices), 2, '.', '');
 						$offers['highPrice'] = number_format(max($prices), 2, '.', '');					
 					}
-
-					$offers['priceCurrency'] = 'USD';
-					$offers['priceValidUntil'] = esc_html(date('Y-m-d', strtotime('+1 year')));
-					$offers['availability'] = 'http://schema.org/InStock';				
-					$offers['url'] = esc_url(get_the_permalink());				
+					
 					$arr['offers'] = $offers;				
 				}				
 			}
@@ -473,13 +487,15 @@ class Jetcharters_Public {
 
 	public static function mapbox_vars()
 	{
-		$mapbox_vars = array();
-		$mapbox_vars['mapbox_token'] = esc_html(get_option('mapbox_token'));
-		$mapbox_vars['mapbox_map_id'] = esc_html(get_option('mapbox_map_id'));
-		$mapbox_vars['mapbox_map_zoom'] = intval(get_option('mapbox_map_zoom'));
-		$mapbox_vars['mapbox_base_lat'] = floatval(get_option('mapbox_base_lat'));
-		$mapbox_vars['mapbox_base_lon'] = floatval(get_option('mapbox_base_lon'));
-		$mapbox_vars['home_url'] = home_lang();
+		$mapbox_vars = array(
+			'mapbox_token' => esc_html(get_option('mapbox_token')),
+			'mapbox_map_id' => esc_html(get_option('mapbox_map_id')),
+			'mapbox_map_zoom' => intval(get_option('mapbox_map_zoom')),
+			'mapbox_base_lat' => floatval(get_option('mapbox_base_lat')),
+			'mapbox_base_lon' => floatval(get_option('mapbox_base_lon')),
+			'home_url' => home_lang(),
+		);
+
 		return 'function mapbox_vars(){return '.json_encode($mapbox_vars).';}';
 	}
 	public static function meta_tags()
@@ -559,19 +575,11 @@ class Jetcharters_Public {
 		
 		//mapbox options
 		$mapbox_token = get_option('mapbox_token');
-		$mapbox_token = esc_html($mapbox_token);	
-		$mapbox_map_id = get_option('mapbox_map_id');
-		$mapbox_map_id = esc_html($mapbox_map_id);		
 		
 		//map position
-		$mapbox_zoom = 8;
 		$mapbox_marker = 'pin-l-airport+dd3333('.$_geoloc['lng'].','.$_geoloc['lat'].')';
-		$image_resolution = 'png256';
-		$mapbox_width = 800;
-		$mapbox_height = 450;
-		$mapbox_mobile = null;
 
-		return 'https://api.mapbox.com/v4/'.$mapbox_map_id.'/'.$mapbox_marker.'/'.$_geoloc['lng'].','.$_geoloc['lat'].','.$mapbox_zoom.'/'.$mapbox_width.'x'.$mapbox_height.'.'.$image_resolution.'?access_token='.$mapbox_token.$mapbox_mobile;				
+		return 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/'.esc_html($mapbox_marker).'/'.esc_html($_geoloc['lng']).','.esc_html($_geoloc['lat']).',8/600x400?access_token='.esc_html($mapbox_token);				
 	}
 	
 	public static function redirect_cacheimg()
@@ -818,7 +826,7 @@ class Jetcharters_Public {
 			wp_add_inline_script('mapbox', self::get_inline_js('jetcharters-mapbox'), 'after');
 			wp_enqueue_script('sha512', plugin_dir_url( __FILE__ ) . 'js/sha512.js', array(), 'async_defer', true );
 			self::datepickerJS();			
-			wp_enqueue_script($this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jetcharters-public.js', $dep, time(), true );
+			wp_enqueue_script($this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/jetcharters-public.js', $dep, '', true );
 		}
 		
 		if(Jetcharters_Validators::valid_jet_search())
@@ -1146,7 +1154,7 @@ class Jetcharters_Public {
 						$origin_iata = $table_price[$x][0];
 					}
 					
-					if(($iata == $table_price[$x][0] || $iata == $table_price[$x][1]) && ($table_price[$x][0] != '' || $table_price[$x][1] != ''))
+					if(($iata == $table_price[$x][0] || $iata == $table_price[$x][1]) && ($table_price[$x][0] != '' || $table_price[$x][1] != '') && is_array($algolia_full))
 					{
 						
 						for($y = 0; $y < count($algolia_full); $y++)

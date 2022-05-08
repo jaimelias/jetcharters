@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Panama Jet Hub\n"
 "POT-Creation-Date: 2020-09-29 04:29+0000\n"
-"PO-Revision-Date: 2020-09-29 04:28+0000\n"
+"PO-Revision-Date: 2020-09-29 04:32+0000\n"
 "Last-Translator: \n"
 "Language-Team: Spanish (Spain)\n"
 "Language: es_ES\n"
@@ -212,7 +212,7 @@ msgstr "Retorno: %s"
 #: public/email_template.php:10
 #, php-format
 msgid "Estimate: %s%s"
-msgstr "Estimado: %s"
+msgstr "Estimado: %s%s"
 
 #: public/email_template.php:11
 msgid "Feel free to contact us using Whatsapp"
