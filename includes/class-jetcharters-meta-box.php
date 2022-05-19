@@ -55,9 +55,7 @@ class Charterflights_Meta_Box
 		<p><label for="jet_commercial"><?php _e( 'Type of Transport', 'jetcharters' ); ?></label><br>
 			<select name="jet_commercial" id="jet_commercial">
 				<option value="0" <?php echo (Charterflights_Meta_Box::jet_get_meta( 'jet_commercial' ) == 0 ) ? 'selected' : '' ?>><?php _e( 'Charter Flight', 'jetcharters' ); ?></option>
-				<option value="1" <?php echo (Charterflights_Meta_Box::jet_get_meta( 'jet_commercial' ) == 1 ) ? 'selected' : '' ?>><?php _e( 'Commercial Flight', 'jetcharters' ); ?></option>	
-				<option value="2" <?php echo (Charterflights_Meta_Box::jet_get_meta( 'jet_commercial' ) == 2 ) ? 'selected' : '' ?>><?php _e( 'Ferry', 'jetcharters' ); ?></option>	
-				<option value="3" <?php echo (Charterflights_Meta_Box::jet_get_meta( 'jet_commercial' ) == 3 ) ? 'selected' : '' ?>><?php _e( 'Ground Transport', 'jetcharters' ); ?></option>
+				<option value="1" <?php echo (Charterflights_Meta_Box::jet_get_meta( 'jet_commercial' ) == 1 ) ? 'selected' : '' ?>><?php _e( 'Commercial Flight', 'jetcharters' ); ?></option>
 			</select>
 		</p>	
 

@@ -1,7 +1,7 @@
 <?php
 
-$table_html = '<table class="text-center pure-table pure-table-striped">';
-$table_label = array(__('Type', 'jetcharters'),
+$table = '<table class="text-center pure-table small pure-table-striped">';
+$labels = array(__('Type', 'jetcharters'),
 	 __('Manufacturer', 'jetcharters'),
 	 __('Model', 'jetcharters'),
 	 __('Year of Construction', 'jetcharters'),
@@ -13,7 +13,7 @@ $table_label = array(__('Type', 'jetcharters'),
 	 __('Base Airport', 'jetcharters'),
 	 __('Base Location', 'jetcharters')
 	 );
-$table_id = array('jet_type',
+$keys = array('jet_type',
 	 'jet_manufacturer',
 	 'jet_model',
 	 'jet_year_of_construction',
@@ -26,42 +26,42 @@ $table_id = array('jet_type',
 	 'jet_base_city'
 	 );
 
-for($x = 0; $x < count($table_id); $x++)
+for($x = 0; $x < count($keys); $x++)
 {
-	if(Charterflights_Meta_Box::jet_get_meta($table_id[$x]))
+	$key = $keys[$x];
+	$value = Charterflights_Meta_Box::jet_get_meta($key);
+	
+	if($value)
 	{
-		$value = Charterflights_Meta_Box::jet_get_meta($table_id[$x]);
-		
-		if($table_id[$x] == 'jet_type')
+		if($key == 'jet_type')
 		{
 			$value = Jetcharters_Public::jet_type($value);
 		}
-		else if($table_id[$x] == 'jet_range')
+		else if($key == 'jet_range')
 		{
 			$value = $value.__('nm', 'jetcharters').' | '.round(intval($value)*1.15078).__('mi', 'jetcharters').' | '.round(intval($value)*1.852).__('km', 'jetcharters');
 		}
-		else if($table_id[$x] == 'jet_cruise_speed')
+		else if($key == 'jet_cruise_speed')
 		{
 			$value = $value.__('kn', 'jetcharters').' | '.round(intval($value)*1.15078).__('mph', 'jetcharters').' | '.round(intval($value)*1.852).__('kph', 'jetcharters');			
 		}
-		else if($table_id[$x] == 'jet_max_altitude')
+		else if($key == 'jet_max_altitude')
 		{
 			$value = $value.__('ft', 'jetcharters').' | '.round(intval($value)*0.3048).__('m', 'jetcharters');
 		}
-		else if($table_id[$x] == 'jet_base_iata')
+		else if($key == 'jet_base_iata')
 		{
-			$airport_name = Charterflights_Meta_Box::jet_get_meta('jet_base_name');
-			$value = '<a href="'.esc_url(home_lang()).'fly/'.Jetcharters_Public::cleanURL($airport_name).'/" >'.$value.' | '.$airport_name.'</a>';
+			$value = Charterflights_Meta_Box::jet_get_meta('jet_base_name');
 		}
 		
-		$table_html .= '<tr>';
-		$table_html .= '<td><strong>'.$table_label[$x].'</strong></td>';
-		$table_html .= '<td>'.$value.'</td>';
-		$table_html .= '</tr>';			
+		$table .= '<tr>';
+		$table .= '<td><span class="semibold">'.esc_html($labels[$x]).'</span></td>';
+		$table .= '<td>'.esc_html($value).'</td>';
+		$table .= '</tr>';			
 	}
 }
 
-$table_html .= '</table>';
+$table .= '</table>';
 
 global $post;
 
@@ -69,24 +69,26 @@ global $post;
 
 
 <div class="pure-g gutters">
-	<div class="pure-u-1 pure-u-md-1-2">
-		<?php if(has_post_thumbnail()): ?>
+	<div class="pure-u-1 pure-u-md-2-3">
+		<?php if(has_post_thumbnail() && empty($content)): ?>
 			<p><?php the_post_thumbnail('medium', array('class' => 'img-responsive')); ?></p>
+		<?php else: ?>
+			<?php echo $content; ?>
 		<?php endif;?>
-		<?php echo $content; ?>
 		</div>
-	<div class="pure-u-1 pure-u-md-1-2"><?php echo $table_html; ?></div>
+	<div class="pure-u-1 pure-u-md-1-3"><?php echo $table; ?></div>
 </div>
 
-<h2><?php echo esc_html(__('Instant Quotes', 'jetcharters')); ?></h2>
-<div class="bottom-20"><?php echo Jetcharters_Public::price_calculator(); ?></div>
+<hr/>
 
 <?php echo Jetcharters_Public::get_destination_table(Charterflights_Meta_Box::jet_get_meta('jet_base_iata')); ?>
 
 
+<h2><?php esc_html_e(__('Instant Quotes', 'jetcharters')); ?></h2>
+<div class="bottom-20">
+	<?php echo Jetcharters_Public::price_calculator(); ?>
+</div>
 
-<?php if ( is_active_sidebar( 'quote-sidebar' ) ) { ?>
-	<ul id="quote-sidebar">
-		<?php dynamic_sidebar( 'quote-sidebar' ); ?>
-	</ul>
-<?php } ?>
+
+
+

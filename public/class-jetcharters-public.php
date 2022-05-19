@@ -235,15 +235,7 @@ class Jetcharters_Public {
 		
 		return $arr;
 	}
-	public static function jetlist($attr, $content = "")
-	{
-		ob_start();
-		$GLOBALS['jet_attr'] = $attr;
-		require_once(dirname( __FILE__ ) . '/partials/jet-archive.php');
-		$content = ob_get_contents();
-		ob_end_clean();	
-		return $content;
-	}
+	
 	public static function price_calculator()
 	{
 		ob_start();
@@ -1184,31 +1176,19 @@ class Jetcharters_Public {
 							{
 								$table_row .= '<td><strong>'.esc_html(__('Commercial Flight', 'jetcharters')).'</strong></td>';
 							}
-							else if(self::ferry())
-							{
-								$table_row .= '<td colspan="2"><strong>'.esc_html(__('Ferry', 'jetcharters')).'</strong></td>';
-							}
-							else if(self::ground())
-							{
-								$table_row .= '<td colspan="2"><strong>'.esc_html(__('Ground Transport', 'jetcharters')).'</strong></td>';
-							}
 							else
 							{
 								$table_row .= '<td><a class="strong" href="'.esc_url($aircraft_url).'/">'.esc_html($post->post_title).'</a> - <small>'.esc_html($jet_type).'</small><br/><i class="fas fa-male" ></i> '.esc_html($seats).' <small>('.$weight_allowed.')</small></td>';
 							}
 						}
 						
-						if(!self::ferry() && !self::ground())
-						{
-							$table_row .= '<td><small class="text-muted">('.esc_html($origin_iata).')</small> <strong>'.esc_html($origin_city.', '.$origin_country_code).'</strong><br/>'.esc_html($origin_airport).'</td>';							
-						}
-
+						$table_row .= '<td><small class="text-muted">('.esc_html($origin_iata).')</small> <strong>'.esc_html($origin_city.', '.$origin_country_code).'</strong><br/>'.esc_html($origin_airport).'</td>';
 						
 						
 
 						$table_row .= '<td><strong>'.esc_html('$'.number_format($table_price[$x][3], 2, '.', ',')).'</strong><br/><span class="text-muted">';
 
-						if(self::is_commercial() || self::ferry() ||self::ground())
+						if(self::is_commercial())
 						{
 							$table_row .= esc_html(__('Per Person', 'jetcharters'));
 						}
@@ -1335,20 +1315,6 @@ class Jetcharters_Public {
 	public static function is_commercial()
 	{
 		if(Charterflights_Meta_Box::jet_get_meta( 'jet_commercial' ) == 1)
-		{
-			return true;
-		}
-	}
-	public static function ferry()
-	{
-		if(Charterflights_Meta_Box::jet_get_meta( 'jet_commercial' ) == 2)
-		{
-			return true;
-		}
-	}
-	public static function ground()
-	{
-		if(Charterflights_Meta_Box::jet_get_meta( 'jet_commercial' ) == 3)
 		{
 			return true;
 		}

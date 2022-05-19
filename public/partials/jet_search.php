@@ -91,7 +91,7 @@ if ($wp_jet_search->have_posts())
 				$duration = $table_price[$x][2];
 				$price = $table_price[$x][3];
 				
-				if(Jetcharters_Public::is_commercial() || Jetcharters_Public::ferry() || Jetcharters_Public::ground())
+				if(Jetcharters_Public::is_commercial())
 				{
 					$price = floatval($price)*floatval(sanitize_text_field($_GET['jet_pax']));
 				}
@@ -125,14 +125,6 @@ if ($wp_jet_search->have_posts())
 					if(Jetcharters_Public::is_commercial())
 					{
 						$flight_desc .= '<strong>'.esc_html(__('Commercial Flight', 'jetcharters')).'</strong>';
-					}
-					else if(Jetcharters_Public::ferry())
-					{
-						$flight_desc .= '<strong>'.esc_html(__('Ferry', 'jetcharters')).'</strong>';
-					}
-					else if(Jetcharters_Public::ground())
-					{
-						$flight_desc .= '<strong>'.esc_html(__('Ground Transport', 'jetcharters')).'</strong>';
 					}
 					
 					$price_row = '<td><small class="text-muted">USD</small><br/><strong class="large">'.esc_html('$'.number_format($price, 0, '.', ',')).'</strong><br /><span class="small text-muted">'.esc_html('$'.number_format(($price / floatval(sanitize_text_field($_GET['jet_pax']))), 0, '.', ',')).' '.esc_html(__('Per Person', 'jetcharters')).'</span>';
